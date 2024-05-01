@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/pages/authentication/components/onBoardScreen.dart';
 import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/authentication/register.dart';
@@ -18,8 +19,7 @@ class _AuthPageState extends State<AuthPage> {
     final fullHeight = MediaQuery.of(context).size.height;
     final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
       backgroundColor: Constants.primaryColor,
-      minimumSize: Size(88, 46),
-      // padding: EdgeInsets.symmetric(horizontal: 16),
+      minimumSize: const Size(88, 46),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(24)),
       ),
@@ -32,13 +32,13 @@ class _AuthPageState extends State<AuthPage> {
             children: [
               SizedBox(
                 height: fullHeight / 4,
-                child: const Center(child: Text('Logo')),
+                child: const Center(child: AppLogo()),
               ),
-              const Expanded(
-                child: OnBoard(),
+              Expanded(
+                child: Container(color: Colors.white, child: const OnBoard()),
               ),
               Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
                       SizedBox(
@@ -66,8 +66,9 @@ class _AuthPageState extends State<AuthPage> {
                                 },
                                 child: const Text(
                                   "Register",
-                                  style:
-                                      TextStyle(color: Constants.primaryColor),
+                                  style: TextStyle(
+                                      color: Constants.primaryColor,
+                                      fontWeight: FontWeight.w500),
                                 ))
                           ],
                         ),

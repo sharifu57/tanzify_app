@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/pages/authentication/authPage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ Widget _buildSplashScreen() {
             borderRadius: BorderRadius.circular(30),
           ),
           padding: const EdgeInsets.all(20),
-          child: const Text("Logo Here")),
+          child: const AppLogo()),
     ),
   );
 }
