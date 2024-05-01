@@ -12,12 +12,35 @@ class _IntroPage2State extends State<IntroPage2> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        // color: Colors.blue,
         child: Center(
-      child: Lottie.asset(
-        'assets/img/img2.json',
-        repeat: true,
-        fit: BoxFit.contain,
+      child: Container(
+        padding: EdgeInsets.all(30),
+        child: Column(
+          children: [
+            Lottie.asset(
+              'assets/img/img2.json',
+              repeat: true,
+              fit: BoxFit.contain,
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              child: const Column(
+                children: [
+                  Text(
+                    'Find Opportunities',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                  ),
+                  Column(
+                    children: [
+                      Text('Get notified every time a new project is created'),
+                      Text('and be the first one to apply for it.'),
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     ));
   }

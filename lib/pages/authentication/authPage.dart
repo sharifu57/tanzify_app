@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tanzify_app/pages/authentication/components/onBoardScreen.dart';
+import 'package:tanzify_app/pages/authentication/login.dart';
+import 'package:tanzify_app/pages/authentication/register.dart';
+import 'package:tanzify_app/pages/constants.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -12,6 +16,14 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     final fullHeight = MediaQuery.of(context).size.height;
+    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+      backgroundColor: Constants.primaryColor,
+      minimumSize: Size(88, 46),
+      // padding: EdgeInsets.symmetric(horizontal: 16),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(24)),
+      ),
+    );
     return Scaffold(
         backgroundColor: Colors.white,
         body: SizedBox(
@@ -25,9 +37,55 @@ class _AuthPageState extends State<AuthPage> {
               const Expanded(
                 child: OnBoard(),
               ),
-              Container(child: Text(''))
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: raisedButtonStyle,
+                          onPressed: () {
+                            navigateToPage(pathName: 'login');
+                          },
+                          child: const Text(
+                            'Log In',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Dont have an account?"),
+                            TextButton(
+                                onPressed: () {
+                                  navigateToPage(pathName: 'register');
+                                },
+                                child: const Text(
+                                  "Register",
+                                  style:
+                                      TextStyle(color: Constants.primaryColor),
+                                ))
+                          ],
+                        ),
+                      )
+                    ],
+                  ))
             ],
           ),
         ));
+  }
+
+  navigateToPage({required final String pathName}) {
+    if (pathName == 'login') {
+      Navigator.of(context)
+          .push(CupertinoPageRoute(builder: (context) => const LoginPage()));
+    } else if (pathName == 'register') {
+      Navigator.of(context)
+          .push(CupertinoPageRoute(builder: (context) => const RegisterPage()));
+    }
   }
 }

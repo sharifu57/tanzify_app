@@ -39,9 +39,18 @@ class _OnBoardState extends State<OnBoard> {
                   onTap: () {
                     _pageController.jumpToPage(2);
                   },
-                  child: const Text("Skip"),
+                  child: const Text(""),
+                  // skip
                 ),
-                SmoothPageIndicator(controller: _pageController, count: 3),
+                SmoothPageIndicator(
+                  controller: _pageController,
+                  count: 3,
+                  effect: const WormEffect(
+                    dotHeight: 8,
+                    dotWidth: 8,
+                    type: WormType.thin,
+                  ),
+                ),
                 onLastPage
                     ? GestureDetector(
                         onTap: () {
@@ -49,7 +58,8 @@ class _OnBoardState extends State<OnBoard> {
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.easeIn);
                         },
-                        child: const Text("Done"),
+                        child: const Text(""),
+                        // done
                       )
                     : GestureDetector(
                         onTap: () {
@@ -57,69 +67,13 @@ class _OnBoardState extends State<OnBoard> {
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.easeIn);
                         },
-                        child: const Text("Next"),
+                        child: const Text(""),
+                        // next
                       ),
               ],
             ))
       ],
     ));
-    // return Scaffold(
-    //   body: SizedBox(
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: <Widget>[
-    //         PageView(
-    //           controller: _pageController,
-    //           onPageChanged: (int page) {
-    //             setState(() {
-    //               _currentPage = page;
-    //             });
-    //           },
-    //           children: [
-    //             Container(
-    //               child: Text("Hello"),
-    //             ),
-    //             Container(
-    //               child: Text("Two"),
-    //             )
-    //           ],
-    //         ),
-
-    //         //   children: <Widget>[
-    //         //     buildPage(
-    //         //       icon: Icons.flutter_dash,
-    //         //       text: 'Welcome to Flutter',
-    //         //       detail: 'This is an introduction to Flutter',
-    //         //     ),
-    //         //     buildPage(
-    //         //       icon: Icons.code,
-    //         //       text: 'Start Coding',
-    //         //       detail: 'Learn to build apps',
-    //         //     ),
-    //         //   ],
-    //         // ),
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: List.generate(2, (index) => buildDot(index, context)),
-    //         ),
-    //         ElevatedButton(
-    //           onPressed: () {
-    //             if (_currentPage == 1) {
-    //               Navigator.push(context,
-    //                   MaterialPageRoute(builder: (context) => FirstScreen()));
-    //             } else {
-    //               _pageController.nextPage(
-    //                 duration: const Duration(milliseconds: 400),
-    //                 curve: Curves.easeInOut,
-    //               );
-    //             }
-    //           },
-    //           child: Text(_currentPage == 1 ? 'Get Started' : 'Next'),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   Widget buildPage(
@@ -150,22 +104,6 @@ class _OnBoardState extends State<OnBoard> {
             ? Theme.of(context).primaryColor
             : Colors.grey,
         shape: BoxShape.circle,
-      ),
-    );
-  }
-}
-
-class FirstScreen extends StatelessWidget {
-  const FirstScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('First Screen'),
-      ),
-      body: const Center(
-        child: Text('You are on the first screen!'),
       ),
     );
   }
