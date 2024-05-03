@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class CustomInputForm extends StatelessWidget {
   final String labelText;
+  // final String labelStyle;
   final String hintText;
+  final TextStyle hintStyle;
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
   final TextInputType keyBoardInputType;
@@ -12,6 +14,8 @@ class CustomInputForm extends StatelessWidget {
       {super.key,
       required this.labelText,
       required this.hintText,
+      // required this.labelStyle,
+      required this.hintStyle,
       required this.controller,
       required this.validator,
       required this.keyBoardInputType,

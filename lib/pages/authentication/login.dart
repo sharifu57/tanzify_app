@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:tanzify_app/components/button/elevatedButton.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/data/providers/userProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
@@ -57,6 +58,8 @@ class _LoginPageState extends State<LoginPage> {
                         CustomInputForm(
                           labelText: "Email",
                           hintText: "Enter your email address",
+                          hintStyle:
+                              const TextStyle(color: Constants.primaryColor),
                           controller: emailController,
                           keyBoardInputType: TextInputType.emailAddress,
                           obscureText: false,
@@ -80,7 +83,13 @@ class _LoginPageState extends State<LoginPage> {
                           // child: Consumer<UserProvider>(
                           //     builder: (context, user, _) =>
                           //         Text(user.name))),
-                          child: const Text('login'),
+                          child: ButtonElevated(
+                              text: 'Login',
+                              buttonPressed: () {
+                                print("-----login");
+                              },
+                              color: Colors.white,
+                              textStyle: const TextStyle(fontSize: 13)),
                         )
                       ],
                     ),
