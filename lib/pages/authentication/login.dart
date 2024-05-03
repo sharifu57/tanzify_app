@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
+import 'package:tanzify_app/data/providers/userProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 
 import '../../components/form/customInputForm.dart';
@@ -54,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         CustomInputForm(
                           labelText: "Email",
+                          hintText: "Enter your email address",
                           controller: emailController,
                           keyBoardInputType: TextInputType.emailAddress,
                           obscureText: false,
@@ -68,15 +71,17 @@ class _LoginPageState extends State<LoginPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // Process data here
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text('Processing Data')),
                               );
                             }
                           },
-                          child: const Text('Login'),
-                        ),
+                          // child: Consumer<UserProvider>(
+                          //     builder: (context, user, _) =>
+                          //         Text(user.name))),
+                          child: const Text('login'),
+                        )
                       ],
                     ),
                   )))

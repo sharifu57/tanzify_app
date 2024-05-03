@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tanzify_app/data/providers/userProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/splashScreen.dart';
 
@@ -14,10 +16,17 @@ class TanzifyApp extends StatefulWidget {
 class _TanzifyAppState extends State<TanzifyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: Constants.globalAppKey,
-        debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => UserProvider())
+        ],
+        child: MaterialApp(
+          navigatorKey: Constants.globalAppKey,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const SplashScreen(),
+        ));
   }
 }
