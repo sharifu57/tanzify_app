@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -11,16 +12,18 @@ class IntroPage2 extends StatefulWidget {
 class _IntroPage2State extends State<IntroPage2> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-      child: Container(
-        padding: EdgeInsets.all(30),
+    final fullHeight = MediaQuery.of(context).size.height;
+    return SizedBox(
+      child: SizedBox(
+        height: fullHeight,
         child: Column(
           children: [
-            Lottie.asset(
-              'assets/img/img2.json',
-              repeat: true,
-              fit: BoxFit.contain,
+            Expanded(
+              child: Lottie.asset(
+                'assets/img/img2.json',
+                repeat: true,
+                fit: BoxFit.contain,
+              ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 10),
@@ -42,6 +45,6 @@ class _IntroPage2State extends State<IntroPage2> {
           ],
         ),
       ),
-    ));
+    );
   }
 }

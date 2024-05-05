@@ -11,16 +11,18 @@ class IntroPage1 extends StatefulWidget {
 class _IntroPage1State extends State<IntroPage1> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-      child: Container(
-        padding: EdgeInsets.all(30),
+    final fullHeight = MediaQuery.of(context).size.height;
+    return SizedBox(
+      child: SizedBox(
+        height: fullHeight,
         child: Column(
           children: [
-            Lottie.asset(
-              'assets/img/img1.json',
-              repeat: true,
-              fit: BoxFit.contain,
+            Expanded(
+              child: Lottie.asset(
+                'assets/img/img1.json',
+                repeat: true,
+                fit: BoxFit.contain,
+              ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 10),
@@ -42,6 +44,6 @@ class _IntroPage1State extends State<IntroPage1> {
           ],
         ),
       ),
-    ));
+    );
   }
 }

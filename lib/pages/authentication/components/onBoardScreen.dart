@@ -21,17 +21,20 @@ class _OnBoardState extends State<OnBoard> {
     return Scaffold(
         body: Stack(
       children: [
-        PageView(
-          controller: _pageController,
-          onPageChanged: (index) {
-            setState(() {
-              onLastPage = (index == 2);
-            });
-          },
-          children: const [IntroPage1(), IntroPage2(), IntroPage3()],
+        Container(
+          padding: const EdgeInsets.only(bottom: 35),
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                onLastPage = (index == 2);
+              });
+            },
+            children: const [IntroPage1(), IntroPage2(), IntroPage3()],
+          ),
         ),
         Container(
-            alignment: const Alignment(0, 0.9),
+            alignment: const Alignment(0, 1),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

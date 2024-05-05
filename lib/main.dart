@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/data/providers/userProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/splashScreen.dart';
+import 'package:tanzify_app/services/dataConnection.dart';
 
 void main() => runApp(const TanzifyApp());
 
@@ -18,7 +20,15 @@ class _TanzifyAppState extends State<TanzifyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => UserProvider())
+          ChangeNotifierProvider(
+            create: (context) => UserProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => DataConnection(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => AuthProvider(),
+          )
         ],
         child: MaterialApp(
           navigatorKey: Constants.globalAppKey,

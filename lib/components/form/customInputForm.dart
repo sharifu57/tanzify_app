@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tanzify_app/components/button/formButton.dart';
 
-class CustomInputForm extends StatelessWidget {
+class CustomInputForm extends StatefulWidget {
   final String labelText;
-  // final String labelStyle;
   final String hintText;
   final TextStyle hintStyle;
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
+  final onSaved;
   final TextInputType keyBoardInputType;
   final bool obscureText;
 
@@ -14,49 +15,73 @@ class CustomInputForm extends StatelessWidget {
       {super.key,
       required this.labelText,
       required this.hintText,
-      // required this.labelStyle,
       required this.hintStyle,
       required this.controller,
       required this.validator,
+      required this.onSaved,
       required this.keyBoardInputType,
-      required this.obscureText});
+      this.obscureText = false});
+
+  @override
+  State<CustomInputForm> createState() => _CustomInputFormState();
+}
+
+class _CustomInputFormState extends State<CustomInputForm> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
+      validator: widget.validator,
+      keyboardType: widget.keyBoardInputType,
+      obscureText: _obscureText,
       decoration: InputDecoration(
-        labelText: labelText,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        hintStyle: widget.hintStyle,
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                icon: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility),
+                onPressed: _togglePasswordVisibility,
+              )
+            : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.black,
-          ),
+          borderSide: const BorderSide(color: Colors.black),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.black,
-          ),
+          borderSide: const BorderSide(color: Colors.black),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.red,
-          ),
+          borderSide: const BorderSide(color: Colors.red),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.red,
-          ),
+          borderSide: const BorderSide(color: Colors.red),
         ),
       ),
-      validator: validator,
-      keyboardType: keyBoardInputType,
-      obscureText: obscureText,
     );
   }
 }

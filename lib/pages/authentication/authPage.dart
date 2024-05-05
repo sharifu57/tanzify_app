@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
@@ -14,6 +16,20 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  bool loading = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          loading = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final fullHeight = MediaQuery.of(context).size.height;
@@ -26,58 +42,64 @@ class _AuthPageState extends State<AuthPage> {
     );
     return Scaffold(
         backgroundColor: Colors.white,
-        body: SizedBox(
-          height: fullHeight,
-          child: Column(
-            children: [
-              SizedBox(
-                height: fullHeight / 4,
-                child: const Center(child: AppLogo()),
-              ),
-              Expanded(
-                child: Container(color: Colors.white, child: const OnBoard()),
-              ),
-              Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: raisedButtonStyle,
-                          onPressed: () {
-                            navigateToPage(pathName: 'login');
-                          },
-                          child: const Text(
-                            'Log In',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+        body: loading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SizedBox(
+                height: fullHeight,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: fullHeight / 4,
+                      child: const Center(child: AppLogo()),
+                    ),
+                    Expanded(
+                      child: Container(
+                          color: Colors.white, child: const OnBoard()),
+                    ),
+                    Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
                           children: [
-                            const Text("Dont have an account?"),
-                            TextButton(
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: raisedButtonStyle,
                                 onPressed: () {
-                                  navigateToPage(pathName: 'register');
+                                  navigateToPage(pathName: 'login');
                                 },
                                 child: const Text(
-                                  "Register",
+                                  'Log In',
                                   style: TextStyle(
-                                      color: Constants.primaryColor,
-                                      fontWeight: FontWeight.w500),
-                                ))
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Dont have an account?"),
+                                  TextButton(
+                                      onPressed: () {
+                                        navigateToPage(pathName: 'register');
+                                      },
+                                      child: const Text(
+                                        "Register",
+                                        style: TextStyle(
+                                            color: Constants.primaryColor,
+                                            fontWeight: FontWeight.w500),
+                                      ))
+                                ],
+                              ),
+                            )
                           ],
-                        ),
-                      )
-                    ],
-                  ))
-            ],
-          ),
-        ));
+                        ))
+                  ],
+                ),
+              ));
   }
 
   navigateToPage({required final String pathName}) {
