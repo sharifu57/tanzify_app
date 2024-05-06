@@ -104,23 +104,6 @@ class _LoginPageState extends State<LoginPage> {
                       onSaved: (value) => _password = value!,
                     ),
                     SizedBox(height: 20.h),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     if (_formKey.currentState!.validate()) {
-                    //       ScaffoldMessenger.of(context).showSnackBar(
-                    //         const SnackBar(content: Text('Processing Data')),
-                    //       );
-                    //     }
-                    //   },
-                    //   child: ButtonElevated(
-                    //     text: 'Login',
-                    //     buttonPressed: () {
-                    //       userLogin();
-                    //     },
-                    //     color: Colors.black,
-                    //     textStyle: TextStyle(fontSize: 16.sp),
-                    //   ),
-                    // )
                     authProvider.isLoading
                         ? const CircularProgressIndicator()
                         : FormButton(
@@ -136,10 +119,17 @@ class _LoginPageState extends State<LoginPage> {
                                   if (!success) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
+                                          backgroundColor: Colors.red,
                                           content:
                                               Text(authProvider.errorMessage)),
                                     );
                                   } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          backgroundColor: Colors.green,
+                                          content:
+                                              Text(authProvider.errorMessage)),
+                                    );
                                     // Navigate to another page or do something else
                                   }
                                 });

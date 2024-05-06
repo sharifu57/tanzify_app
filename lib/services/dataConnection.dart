@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 
 class DataConnection with ChangeNotifier {
   late Dio dio;
+  static const httpBase = 'http://172.20.10.3:8005';
+  static const connectionUrl = "$httpBase/API/V1/";
 
-  static const connectionUrl = "http://localhost:8005/api/v1/";
   DataConnection() {
     dio = Dio(BaseOptions(
-        // connectTimeout: 5000,
-        // receiveTimeout: 3000,
-        baseUrl: connectionUrl));
+      baseUrl: connectionUrl,
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
+    ));
 
+    // Adding an interceptor for logging HTTP requests and responses
     dio.interceptors.add(LogInterceptor(responseBody: true));
   }
 
@@ -23,5 +26,4 @@ class DataConnection with ChangeNotifier {
       return null;
     }
   }
-  
 }

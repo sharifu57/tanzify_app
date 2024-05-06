@@ -13,11 +13,11 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     var pages = [
-      HomePage(goToPage: (page) {
-        setState(() {
-          currentPageIndex = page;
-        });
-      })
+      // HomePage(goToPage: (page) {
+      //   setState(() {
+      //     currentPageIndex = page;
+      //   });
+      // })
     ];
     return Scaffold(
       backgroundColor: Colors.red,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
+import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/authPage.dart';
+import 'package:tanzify_app/pages/homePage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void initialStage() async {
     await Future.delayed(const Duration(seconds: 3));
-    openAndNavigate();
+    checkIsLoggInStatus();
   }
 
   void openAndNavigate() {
@@ -31,8 +34,17 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  void checkIsLoggInStatus() {
+    bool isLoggedIn =
+        Provider.of<AuthProvider>(context, listen: false).accessToken != null;
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (builder) => isLoggedIn ? HomePage() : AuthPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
+    // bool isLoggedIn =
+    //     Provider.of<AuthProvider>(context, listen: false).accessToken != null;
     return _buildSplashScreen();
   }
 }
