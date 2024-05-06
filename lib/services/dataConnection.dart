@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class DataConnection with ChangeNotifier {
   late Dio dio;
-  static const httpBase = 'http://172.20.10.3:8005';
+  static const httpBase = 'http://192.168.1.67:8005';
   static const connectionUrl = "$httpBase/API/V1/";
 
   DataConnection() {
@@ -20,6 +20,8 @@ class DataConnection with ChangeNotifier {
   Future<dynamic> fetchData(String endpoint) async {
     try {
       final response = await dio.get(endpoint);
+      print('======response');
+      print(response);
       return response.data;
     } catch (e) {
       print(e.toString());

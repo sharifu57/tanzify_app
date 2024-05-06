@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
+import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/pages/authentication/components/onBoardScreen.dart';
 import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/authentication/register.dart';
@@ -43,9 +44,8 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: loading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
+            ? Center(
+                child: SizedBox(height: fullHeight, child: const WaveSpinKit()))
             : SizedBox(
                 height: fullHeight,
                 child: Column(
@@ -108,7 +108,7 @@ class _AuthPageState extends State<AuthPage> {
           .push(CupertinoPageRoute(builder: (context) => const LoginPage()));
     } else if (pathName == 'register') {
       Navigator.of(context)
-          .push(CupertinoPageRoute(builder: (context) => const RegisterPage()));
+          .push(CupertinoPageRoute(builder: (context) => RegisterPage()));
     }
   }
 }

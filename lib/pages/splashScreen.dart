@@ -38,13 +38,12 @@ class _SplashScreenState extends State<SplashScreen> {
     bool isLoggedIn =
         Provider.of<AuthProvider>(context, listen: false).accessToken != null;
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (builder) => isLoggedIn ? HomePage() : AuthPage()));
+        builder: (builder) =>
+            isLoggedIn ? const HomePage() : const AuthPage()));
   }
 
   @override
   Widget build(BuildContext context) {
-    // bool isLoggedIn =
-    //     Provider.of<AuthProvider>(context, listen: false).accessToken != null;
     return _buildSplashScreen();
   }
 }

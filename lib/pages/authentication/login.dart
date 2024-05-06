@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
+import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
+import 'package:tanzify_app/pages/authentication/register.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import '../../components/form/customInputForm.dart';
 
@@ -14,7 +18,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   final _formKey = GlobalKey<FormState>();
@@ -104,8 +108,34 @@ class _LoginPageState extends State<LoginPage> {
                       onSaved: (value) => _password = value!,
                     ),
                     SizedBox(height: 20.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            navigateToPage(pathName: 'forgot-password');
+                          },
+                          child: Text(
+                            "Forgot Password",
+                            style: TextStyle(
+                                color: Constants.primaryColor, fontSize: 12.sp),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            navigateToPage(pathName: 'register');
+                          },
+                          child: Text(
+                            "Create an account",
+                            style: TextStyle(
+                                color: Constants.primaryColor, fontSize: 12.sp),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
                     authProvider.isLoading
-                        ? const CircularProgressIndicator()
+                        ? const WaveSpinKit()
                         : FormButton(
                             fullWidth: true,
                             text: "Log In",
@@ -150,5 +180,15 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  navigateToPage({required final String pathName}) {
+    if (pathName == 'forgot-password') {
+      Navigator.of(context)
+          .push(CupertinoPageRoute(builder: (context) => const LoginPage()));
+    } else if (pathName == 'register') {
+      Navigator.of(context)
+          .push(CupertinoPageRoute(builder: (context) => RegisterPage()));
+    }
   }
 }

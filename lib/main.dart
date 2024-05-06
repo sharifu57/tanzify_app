@@ -36,6 +36,7 @@ class _TanzifyAppState extends State<TanzifyApp> {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
+          // theme: ThemeData(brightness: Brightness.dark),
           home: const SplashScreen(),
         ));
   }

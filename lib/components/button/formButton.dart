@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tanzify_app/pages/constants.dart';
 
 enum FormButtonVariant { filled, flat, outlined }
 
@@ -46,7 +47,8 @@ class FormButton extends StatelessWidget {
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.disabled)) return Colors.grey;
               if (variant == FormButtonVariant.filled)
-                return theme.primaryColor;
+                return Constants.primaryColor;
+              // return theme.primaryColor;
               return Colors.transparent; // Default for flat and outlined
             },
           ),

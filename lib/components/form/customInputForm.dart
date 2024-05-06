@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
+import 'package:tanzify_app/pages/constants.dart';
 
 class CustomInputForm extends StatefulWidget {
   final String labelText;
@@ -49,6 +50,9 @@ class _CustomInputFormState extends State<CustomInputForm> {
       keyboardType: widget.keyBoardInputType,
       obscureText: _obscureText,
       decoration: InputDecoration(
+        // fillColor: Constants.fillColor,
+        // filled: true,
+
         contentPadding:
             const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         labelText: widget.labelText,
@@ -61,10 +65,11 @@ class _CustomInputFormState extends State<CustomInputForm> {
                 onPressed: _togglePasswordVisibility,
               )
             : null,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
+        border: InputBorder.none,
+        // border: OutlineInputBorder(
+        //   borderRadius: BorderRadius.circular(10),
+        //   borderSide: const BorderSide(color: Colors.grey),
+        // ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.black),
