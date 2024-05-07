@@ -23,10 +23,13 @@
 //   //   );
 //   // }
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/containers/bazierContainer.dart';
+import 'package:tanzify_app/components/form/checkBoxInputForm.dart';
 import 'package:tanzify_app/components/form/customInputForm.dart';
 import 'package:tanzify_app/components/form/selectInputForm.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
@@ -57,6 +60,13 @@ class _RegisterPageState extends State<RegisterPage> {
   String _phoneNumber = "";
 
   CategoryModel? selectedCategory;
+  String _selectedItem = "1";
+
+  void handleSelectedItemChange(String? value) {
+    setState(() {
+      _selectedItem = value ?? "1"; // Assuming "1" is a safe default
+    });
+  }
 
   @override
   void initState() {
@@ -245,6 +255,23 @@ class _RegisterPageState extends State<RegisterPage> {
                 });
               },
             ),
+          SizedBox(height: 0.h),
+          Column(
+            children: [
+              CustomCheckFormInput(
+                onSelectedItemChanged: handleSelectedItemChange,
+                title: 'Freelancer',
+                groupValue: _selectedItem,
+                value: '1',
+              ),
+              CustomCheckFormInput(
+                onSelectedItemChanged: handleSelectedItemChange,
+                title: 'Employer',
+                groupValue: _selectedItem,
+                value: '2',
+              ),
+            ],
+          )
         ],
       ),
     );
