@@ -17,7 +17,7 @@ class ButtonElevated extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+    ElevatedButton.styleFrom(
       backgroundColor: Constants.primaryColor,
       minimumSize: const Size(88, 46),
       shape: const RoundedRectangleBorder(

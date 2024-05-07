@@ -72,7 +72,7 @@ class _AuthPageState extends State<AuthPage> {
                                 child: const Text(
                                   'Log In',
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
+                                      color: Colors.white, fontSize: 14),
                                 ),
                               ),
                             ),
@@ -108,7 +108,7 @@ class _AuthPageState extends State<AuthPage> {
           .push(CupertinoPageRoute(builder: (context) => const LoginPage()));
     } else if (pathName == 'register') {
       Navigator.of(context)
-          .push(CupertinoPageRoute(builder: (context) => RegisterPage()));
+          .push(CupertinoPageRoute(builder: (context) => const RegisterPage()));
     }
   }
 }

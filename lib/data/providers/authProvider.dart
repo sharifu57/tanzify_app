@@ -40,7 +40,10 @@ class AuthProvider with ChangeNotifier {
           "${DataConnection.connectionUrl}login/",
           data: {'email': email, 'password': password});
 
-      if (response.data['status'] == 200) {
+      print("=========response");
+      print(response.data);
+      print("============end response");
+      if (response.data['status'] == '200') {
         var data = response.data;
         _userData = data['data'];
         _accessToken = data['access_token'];

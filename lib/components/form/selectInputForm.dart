@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomSelectForm extends StatelessWidget {
-  final List<String> categories;
-  final String selectedCategory;
+  final List<String> categories; // Accept List of String
+  final String selectedCategory; // Accept String
   final Function(String?) onChanged;
 
-  const CustomSelectForm(
-      {super.key,
-      required this.categories,
-      required this.selectedCategory,
-      required this.onChanged});
+  const CustomSelectForm({
+    super.key,
+    required this.categories,
+    required this.selectedCategory,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +18,37 @@ class CustomSelectForm extends StatelessWidget {
       value: selectedCategory,
       isExpanded: true,
       decoration: InputDecoration(
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        // enabledBorder: OutlineInputBorder(
+        //   borderSide: const BorderSide(color: Colors.grey, width: 1),
+        //   borderRadius: BorderRadius.circular(12),
+        // ),
+        border: InputBorder.none,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.black),
+        ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey, width: 1),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.black),
         ),
-        border: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey, width: 1),
-          borderRadius: BorderRadius.circular(12),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.red),
         ),
-        filled: true,
-        fillColor: Colors.white,
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.red),
+        ),
+        // filled: true,
+        // fillColor: Colors.white,
       ),
       onChanged: onChanged,
-      items: categories.map<DropdownMenuItem<String>>((String value) {
+      items: categories.map((String category) {
         return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
+          value: category,
+          child: Text(category),
         );
       }).toList(),
     );
