@@ -6,12 +6,14 @@ class CustomCheckFormInput extends StatefulWidget {
   final String title;
   final String value;
   final String groupValue;
+  final Function(String?) onSaved;
   const CustomCheckFormInput(
       {super.key,
       required this.onSelectedItemChanged,
       required this.title,
       required this.value,
-      required this.groupValue});
+      required this.groupValue,
+      required this.onSaved});
 
   @override
   State<CustomCheckFormInput> createState() => _CustomCheckFormInputState();
@@ -23,9 +25,10 @@ class _CustomCheckFormInputState extends State<CustomCheckFormInput> {
     setState(() {
       selectedItem = value;
     });
-    if (widget.onSelectedItemChanged != null) {
-      widget.onSelectedItemChanged(selectedItem);
-    }
+    // if (widget.onSelectedItemChanged != null) {
+    //   widget.onSelectedItemChanged(selectedItem);
+    // }
+    widget.onSelectedItemChanged(selectedItem);
   }
 
   @override

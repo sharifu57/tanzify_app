@@ -21,16 +21,11 @@ class CategoryProvider with ChangeNotifier {
     notifyListeners();
     try {
       var response = await _dataConnection.fetchData('categories/');
-      print("===========response");
-      print(response);
-      print("==========end response");
+
       if (response != null) {
         categories =
             (response as List).map((e) => CategoryModel.fromJson(e)).toList();
 
-        print("=========cat");
-        print(categories);
-        print("========end cat");
       }
       _isLoading = false;
       notifyListeners();

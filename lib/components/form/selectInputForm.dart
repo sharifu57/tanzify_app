@@ -4,12 +4,14 @@ class CustomSelectForm extends StatelessWidget {
   final List<String> categories; // Accept List of String
   final String selectedCategory; // Accept String
   final Function(String?) onChanged;
+  final Function(String?) onSaved;
 
   const CustomSelectForm({
     super.key,
     required this.categories,
     required this.selectedCategory,
     required this.onChanged,
+    required this.onSaved,
   });
 
   @override

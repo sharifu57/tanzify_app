@@ -9,6 +9,7 @@ class AuthProvider with ChangeNotifier {
   Dio dio = Dio();
   String _errorMessage = "";
   bool _isLoading = false;
+  late DataConnection _dataConnection;
 
   String get errorMessage => _errorMessage;
   bool get isLoading => _isLoading;
@@ -22,6 +23,10 @@ class AuthProvider with ChangeNotifier {
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
   String? get expiresAt => _expiresAt;
+
+  AuthProvider() {
+    _dataConnection = DataConnection();
+  }
 
   void startLoading() {
     _isLoading = true;
@@ -40,9 +45,6 @@ class AuthProvider with ChangeNotifier {
           "${DataConnection.connectionUrl}login/",
           data: {'email': email, 'password': password});
 
-      print("=========response");
-      print(response.data);
-      print("============end response");
       if (response.data['status'] == '200') {
         var data = response.data;
         _userData = data['data'];
@@ -61,6 +63,26 @@ class AuthProvider with ChangeNotifier {
     } on DioError catch (e) {
       _errorMessage = "Error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
+      return false;
+    }
+  }
+
+  Future<bool> register(Map<String, dynamic> payload) async {
+    startLoading();
+
+    print("=======payload");
+    print(payload);
+    print("======end payload");
+
+    try {
+      var response = await _dataConnection.postData('register/', payload);
+
+      print("=======register response + $response =====");
+      stopLoading();
+      return true;
+    } catch (e) {
+      stopLoading();
+      print(e);
       return false;
     }
   }
