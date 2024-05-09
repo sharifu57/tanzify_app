@@ -69,20 +69,23 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> register(Map<String, dynamic> payload) async {
     startLoading();
-
-    print("=======payload");
-    print(payload);
-    print("======end payload");
-
+    
     try {
       var response = await _dataConnection.postData('register/', payload);
 
-      print("=======register response + $response =====");
+      if (response.statusCode == 201) {
+        stopLoading();
+        return true;
+      } else {
+        _errorMessage =
+            "Failed to register: ${response.data['message'] ?? 'Unknown error'}";
+        stopLoading();
+        return false;
+      }
+    } on DioError catch (e) {
+      _errorMessage =
+          "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
-      return true;
-    } catch (e) {
-      stopLoading();
-      print(e);
       return false;
     }
   }

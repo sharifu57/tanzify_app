@@ -264,10 +264,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 .firstWhere((cat) => cat.name == newValue);
                             _category = selectedCategory!.id.toString();
                           });
-                          print("======start selected category======");
-                          print(selectedCategory);
-                          print(
-                              "Selected Category ID: ${selectedCategory!.id}");
                         },
                         onSaved: (value) => _category = value!,
                       ),
@@ -322,21 +318,30 @@ class _RegisterPageState extends State<RegisterPage> {
                   _formKey.currentState!.save();
 
                   var payload = {
-                    'first_name': firstNameController.text.trim(),
-                    'last_name': lastNameController.text.trim(),
+                    'firstName': firstNameController.text.trim(),
+                    'lastName': lastNameController.text.trim(),
                     'email': emailController.text.trim(),
-                    'phone_number': phoneNumberController.text.trim(),
+                    'phoneNumber': phoneNumberController.text.trim(),
                     'password': passwordController.text.trim(),
-                    'category': _category,
-                    'user_type': _selectedItem,
+                    'category': selectedCategory?.id,
+                    'userType': _selectedItem,
                   };
 
-                  print("===this is my payload");
                   authProvider.register(payload).then((success) => {
                         if (success)
-                          {print("=======success")}
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text(authProvider.errorMessage)),
+                          )
                         else
-                          {print("========failed")}
+                          {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text(authProvider.errorMessage)),
+                            )
+                          }
                       });
                 }
               },
