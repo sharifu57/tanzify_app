@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class DataConnection with ChangeNotifier {
   late Dio dio;
-  static const String httpBase = 'http://192.168.1.147:8005';
+  static const String httpBase = 'http://109.199.108.165';
   static const String connectionUrl = "$httpBase/API/V1/";
 
   DataConnection() {

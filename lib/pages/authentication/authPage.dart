@@ -9,6 +9,7 @@ import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/authentication/register.dart';
 import 'package:tanzify_app/pages/authentication/verification.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/pages/mainApp.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -109,7 +110,7 @@ class _AuthPageState extends State<AuthPage> {
           .push(CupertinoPageRoute(builder: (context) => const LoginPage()));
     } else if (pathName == 'register') {
       Navigator.of(context)
-          .push(CupertinoPageRoute(builder: (context) => const RegisterPage()));
+          .push(CupertinoPageRoute(builder: (context) => const MainApp()));
     }
   }
 }

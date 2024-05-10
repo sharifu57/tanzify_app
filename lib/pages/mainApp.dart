@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tanzify_app/pages/homePage.dart';
+import 'package:tanzify_app/pages/navigation/alertPage.dart';
+import 'package:tanzify_app/pages/navigation/application.dart';
+import 'package:tanzify_app/pages/navigation/homePage.dart';
+import 'package:tanzify_app/pages/navigation/post.dart';
+import 'package:tanzify_app/pages/navigation/profile.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -13,11 +17,15 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     var pages = [
-      // HomePage(goToPage: (page) {
-      //   setState(() {
-      //     currentPageIndex = page;
-      //   });
-      // })
+      HomePage(goToPage: (page) {
+        setState(() {
+          currentPageIndex = page;
+        });
+      }),
+      const ApplicationPage(),
+      const JobPosting(),
+      const AlertPage(),
+      const Profile()
     ];
     return Scaffold(
       backgroundColor: Colors.red,

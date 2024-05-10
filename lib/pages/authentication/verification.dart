@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,8 @@ import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/pages/mainApp.dart';
+import 'package:tanzify_app/pages/navigation/homePage.dart';
 
 class VerificationPage extends StatefulWidget {
   final String email;
@@ -206,12 +209,9 @@ class _VerificationPageState extends State<VerificationPage> {
                         }
                       else
                         {
-                          print("=======success")
-                          // ScaffoldMessenger.of(context).showSnackBar((SnackBar(
-                          //   content: Text(authProvider.successMessage),
-                          //   backgroundColor: Colors.green,
-                          //   duration: const Duration(seconds: 2),
-                          // )))
+                          print("=======success"),
+                          Navigator.of(context).push(CupertinoPageRoute(
+                              builder: (context) => const MainApp()))
                         }
                     });
               }

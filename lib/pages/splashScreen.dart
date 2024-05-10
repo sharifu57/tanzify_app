@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/authPage.dart';
-import 'package:tanzify_app/pages/homePage.dart';
+import 'package:tanzify_app/pages/navigation/homePage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -38,8 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
     bool isLoggedIn =
         Provider.of<AuthProvider>(context, listen: false).accessToken != null;
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (builder) =>
-            isLoggedIn ? const HomePage() : const AuthPage()));
+        builder: (builder) => isLoggedIn ? HomePage() : AuthPage()));
   }
 
   @override
