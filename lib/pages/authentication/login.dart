@@ -8,6 +8,7 @@ import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/register.dart';
+import 'package:tanzify_app/pages/authentication/verification.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import '../../components/form/customInputForm.dart';
 
@@ -160,7 +161,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           content:
                                               Text(authProvider.errorMessage)),
                                     );
-                                    // Navigate to another page or do something else
                                   }
                                 });
                               }

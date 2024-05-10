@@ -38,7 +38,7 @@ class FormButton extends StatelessWidget {
         : Text(text, style: textStyle);
 
     return SizedBox(
-      width: fullWidth ? double.infinity : null, // Set width based on fullWidth
+      width: fullWidth ? double.infinity : null,
       // height: 100,
       child: ElevatedButton(
         onPressed: disabled ? null : onClick,
@@ -46,8 +46,11 @@ class FormButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.resolveWith<Color?>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.disabled)) return Colors.grey;
-              if (variant == FormButtonVariant.filled)
+              if (variant == FormButtonVariant.filled) {
+                // const c
                 return Constants.primaryColor;
+              }
+
               // return theme.primaryColor;
               return Colors.transparent; // Default for flat and outlined
             },

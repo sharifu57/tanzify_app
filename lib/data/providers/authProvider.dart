@@ -8,11 +8,15 @@ import 'package:tanzify_app/services/dataConnection.dart';
 class AuthProvider with ChangeNotifier {
   Dio dio = Dio();
   String _errorMessage = "";
+  String _successMessage = "";
   bool _isLoading = false;
+  bool _smallLoading = false;
   late DataConnection _dataConnection;
 
   String get errorMessage => _errorMessage;
+  String get successMessage => _successMessage;
   bool get isLoading => _isLoading;
+  bool get smallLoading => _smallLoading;
 
   Map<String, dynamic>? _userData;
   String? _accessToken;
@@ -35,6 +39,16 @@ class AuthProvider with ChangeNotifier {
 
   void stopLoading() {
     _isLoading = false;
+    notifyListeners();
+  }
+
+  void startSmallLoading() {
+    _smallLoading = true;
+    notifyListeners();
+  }
+
+  void stopSmallLoading() {
+    _smallLoading = false;
     notifyListeners();
   }
 
@@ -69,7 +83,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> register(Map<String, dynamic> payload) async {
     startLoading();
-    
+
     try {
       var response = await _dataConnection.postData('register/', payload);
 
@@ -109,5 +123,53 @@ class AuthProvider with ChangeNotifier {
     _refreshToken = null;
     _expiresAt = null;
     notifyListeners();
+  }
+
+  Future<bool> verifyUser(String email, String otp) async {
+    startLoading();
+    try {
+      Response response = await dio.post(
+          "${DataConnection.connectionUrl}verify/",
+          data: {'email': email, 'otp': otp});
+
+      if (response.data['status'] == 200) {
+        stopLoading();
+        return true;
+      } else {
+        _errorMessage = "Error: ${response.data['message'] ?? 'Unkown Error'}";
+        stopLoading();
+        return false;
+      }
+    } on DioError catch (e) {
+      _errorMessage =
+          "Network error: ${e.response?.data['message'] ?? e.message}";
+      stopLoading();
+      return false;
+    }
+  }
+
+  Future<bool> resendVerificationCode(String email) async {
+    startSmallLoading();
+    try {
+      Response response = await dio.put(
+          "${DataConnection.connectionUrl}regenerate_otp/",
+          data: {'email': email});
+
+      if (response.data['status'] == 200) {
+        _successMessage =
+            "Success: ${response.data['message'] ?? 'Successfully resent code'}";
+        stopSmallLoading();
+        return true;
+      } else {
+        _errorMessage = "Error: ${response.data['message'] ?? "Unknown error"}";
+        stopSmallLoading();
+        return false;
+      }
+    } on DioError catch (e) {
+      stopSmallLoading();
+      _errorMessage = "Network error: ${e.message}";
+      stopLoading();
+      return false;
+    }
   }
 }

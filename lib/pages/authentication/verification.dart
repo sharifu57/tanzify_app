@@ -1,0 +1,241 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:tanzify_app/components/button/formButton.dart';
+import 'package:tanzify_app/components/containers/bazierContainer.dart';
+import 'package:tanzify_app/components/logo/logo.dart';
+import 'package:tanzify_app/components/spinners/spinkit.dart';
+import 'package:tanzify_app/data/providers/authProvider.dart';
+import 'package:tanzify_app/pages/constants.dart';
+
+class VerificationPage extends StatefulWidget {
+  final String email;
+  const VerificationPage({super.key, required this.email});
+
+  @override
+  State<VerificationPage> createState() => _VerificationPageState();
+}
+
+class _VerificationPageState extends State<VerificationPage> {
+  final _formKey = GlobalKey<FormState>();
+  String _otp = "";
+  @override
+  Widget build(BuildContext context) {
+    final fullHeight = MediaQuery.of(context).size.height;
+    final authProvider = Provider.of<AuthProvider>(context);
+    final errorMessage = authProvider.errorMessage;
+    ScreenUtil.init(context,
+        designSize: const Size(360, 690), minTextAdapt: true);
+    return Scaffold(
+      body: SizedBox(
+          height: fullHeight,
+          child: Stack(children: <Widget>[
+            Positioned(
+              top: -MediaQuery.of(context).size.height * .17,
+              right: -MediaQuery.of(context).size.width * .4,
+              child: const BezierContainer(),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: buildForm(errorMessage, authProvider),
+            ),
+            Positioned(top: 30, left: 0, child: _backButton()),
+          ])),
+    );
+  }
+
+  Widget buildForm(String errorMessage, AuthProvider authProvider) {
+    Color accentPurpleColor = Color(0xFF6A53A1);
+    Color primaryColor = Color(0xFF121212);
+    Color accentPinkColor = Color(0xFFF99BBD);
+    Color accentDarkGreenColor = Color(0xFF115C49);
+    Color accentYellowColor = Color(0xFFFFB612);
+    Color accentOrangeColor = Color(0xFFEA7A3B);
+
+    // otpTextStyles = [
+    //   createStyle(accentPurpleColor),
+    //   createStyle(accentYellowColor),
+    //   createStyle(accentDarkGreenColor),
+    //   createStyle(accentOrangeColor),
+    //   createStyle(accentPinkColor),
+    //   createStyle(accentPurpleColor),
+    // ];
+
+    TextStyle? createStyle(Color color) {
+      ThemeData theme = Theme.of(context);
+      return theme.textTheme.headline3?.copyWith(color: color);
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(height: MediaQuery.of(context).size.height * .2),
+          const AppLogo(),
+          SizedBox(
+            height: 40.h,
+          ),
+          // RichText(
+          //   text: const TextSpan(text: 'Hello'),
+          //   selectionRegistrar: SelectionContainer.maybeOf(context),
+          //   selectionColor: const Color(0xAF6694e8),
+          // ),
+
+          SizedBox(
+            height: 50.h,
+            child: const Text(
+              "Verification Code",
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(
+              height: 30.h,
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: const TextStyle(
+                        // Default text style for the entire RichText
+                        color: Colors.black, // You can adjust the color
+                        fontSize: 14, // And the font size
+                      ),
+                      children: <TextSpan>[
+                        const TextSpan(
+                          text:
+                              'A verification code has been sent to\n', // Notice the newline character
+                        ),
+                        TextSpan(
+                          text: widget.email,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold, // Makes the email bold
+                            color: Colors
+                                .blue, // Changes the color of the email text
+                          ),
+                        ),
+                      ],
+                    ),
+                  ))),
+          SizedBox(
+            height: 70.h,
+            child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    OtpTextField(
+                      numberOfFields: 4,
+                      borderColor: accentPurpleColor,
+                      focusedBorderColor: Constants.primaryColor,
+                      // styles: otpTextStyles,
+                      showFieldAsBox: false,
+                      borderWidth: 4.0,
+
+                      //runs when a code is typed in
+                      onCodeChanged: (String code) {
+                        //handle validation or checks here if necessary
+                      },
+                      //runs when every textfield is filled
+                      onSubmit: (String verificationCode) {
+                        setState(() {
+                          _otp = verificationCode;
+                        });
+                      },
+                    ),
+                  ],
+                )),
+          ),
+          SizedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Did not get the code?'),
+                TextButton(
+                    onPressed: () {
+                      authProvider
+                          .resendVerificationCode(widget.email)
+                          .then((success) {
+                        if (!success) {
+                          ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+                            content: Text(authProvider.errorMessage),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(seconds: 2),
+                          )));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+                            content: Text(authProvider.successMessage),
+                            backgroundColor: Colors.green,
+                            duration: const Duration(seconds: 2),
+                          )));
+                        }
+                      });
+                    },
+                    child: authProvider.smallLoading
+                        ? const WaveSpinKit()
+                        : const Text('Resend'))
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 40.h,
+            child: _submitButton(authProvider),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _submitButton(AuthProvider authProvider) {
+    return authProvider.isLoading
+        ? const WaveSpinKit()
+        : FormButton(
+            variant: FormButtonVariant.filled,
+            text: 'Confirm',
+            onClick: () {
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                authProvider.verifyUser(widget.email, _otp).then((success) => {
+                      if (!success)
+                        {
+                          ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+                            content: Text(authProvider.errorMessage),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(seconds: 2),
+                          )))
+                        }
+                      else
+                        {
+                          print("=======success")
+                          // ScaffoldMessenger.of(context).showSnackBar((SnackBar(
+                          //   content: Text(authProvider.successMessage),
+                          //   backgroundColor: Colors.green,
+                          //   duration: const Duration(seconds: 2),
+                          // )))
+                        }
+                    });
+              }
+            });
+  }
+
+  Widget _backButton() {
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
+              child: const Icon(Icons.keyboard_arrow_left, color: Colors.black),
+            ),
+            const Text('Back',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
+          ],
+        ),
+      ),
+    );
+  }
+}

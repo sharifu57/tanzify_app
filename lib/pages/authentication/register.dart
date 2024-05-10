@@ -22,10 +22,7 @@
 //   //     ),
 //   //   );
 //   // }
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
@@ -39,6 +36,8 @@ import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/data/providers/categoryProvider.dart';
 import 'package:tanzify_app/models/categoryModal.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/pages/authentication/verification.dart';
+import 'package:flutter/cupertino.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key, this.title});
@@ -329,11 +328,16 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   authProvider.register(payload).then((success) => {
                         if (success)
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text(authProvider.errorMessage)),
-                          )
+                          {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text(authProvider.errorMessage)),
+                            ),
+                            Navigator.of(context).push(CupertinoPageRoute(
+                                builder: (context) => VerificationPage(
+                                    email: emailController.text.trim())))
+                          }
                         else
                           {
                             ScaffoldMessenger.of(context).showSnackBar(

@@ -7,6 +7,7 @@ import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/pages/authentication/components/onBoardScreen.dart';
 import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/authentication/register.dart';
+import 'package:tanzify_app/pages/authentication/verification.dart';
 import 'package:tanzify_app/pages/constants.dart';
 
 class AuthPage extends StatefulWidget {
