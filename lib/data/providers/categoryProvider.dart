@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tanzify_app/models/categoryModal.dart';
+import 'package:tanzify_app/models/category/categoryModal.dart';
 import 'package:tanzify_app/services/dataConnection.dart';
 
 class CategoryProvider with ChangeNotifier {
