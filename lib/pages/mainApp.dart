@@ -28,7 +28,6 @@ class _MainAppState extends State<MainApp> {
       const Profile()
     ];
     return Scaffold(
-      backgroundColor: Colors.red,
       body: pages[currentPageIndex],
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
@@ -54,22 +53,22 @@ class _MainAppState extends State<MainApp> {
             ),
             NavigationDestination(
               selectedIcon: Icon(Icons.shopping_cart),
-              icon: Icon(Icons.shopping_cart_checkout_outlined),
-              label: 'Bima',
+              icon: Icon(Icons.work_history_outlined),
+              label: 'Projects',
             ),
             NavigationDestination(
               selectedIcon: Icon(Icons.tips_and_updates),
-              icon: Icon(Icons.tips_and_updates_outlined),
-              label: 'Utilities',
+              icon: Icon(Icons.document_scanner_outlined),
+              label: 'Add New',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.history_sharp),
+              label: 'Alert',
             ),
             NavigationDestination(
               selectedIcon: Icon(Icons.person_2),
               icon: Icon(Icons.person_2_outlined),
               label: 'Profile',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.menu),
-              label: 'More',
             ),
           ],
         ),
