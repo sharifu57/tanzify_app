@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -175,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.symmetric(vertical: 6),
                           child: const SearchScreen()),
                       const Divider(color: Constants.borderColor),
-                      Expanded(
+                      Flexible(
                           child: ListView.builder(
                               itemCount: projects.length,
                               itemBuilder: (context, index) {
@@ -183,11 +184,7 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        // print(projects[index].created);
-                                        // if (projects[index].created != null) {
-                                        //   timeago.format(DateTime.parse(
-                                        //       projects[index].created!));
-                                        // }
+                                        print(projects[index].created);
                                       },
                                       child: SizedBox(
                                         child: Container(
@@ -195,24 +192,58 @@ class _HomePageState extends State<HomePage> {
                                           child: Column(
                                             children: <Widget>[
                                               Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  const Text(
-                                                    "Posted ",
-                                                    style:
-                                                        TextStyle(fontSize: 10),
+                                                  Row(
+                                                    children: [
+                                                      const Text(
+                                                        "Posted ",
+                                                        style: TextStyle(
+                                                            fontSize: 10),
+                                                      ),
+                                                      Text(
+                                                        projects[index]
+                                                                    .created !=
+                                                                null
+                                                            ? timeago.format(
+                                                                DateTime.parse(
+                                                                    projects[
+                                                                            index]
+                                                                        .created!))
+                                                            : "Date not available",
+                                                        style: const TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 10),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  Text(
-                                                    projects[index].created !=
-                                                            null
-                                                        ? timeago.format(
-                                                            DateTime.parse(
-                                                                projects[index]
-                                                                    .created!))
-                                                        : "Date not available",
-                                                    style: const TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 10),
-                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        projects[index]
+                                                            .budget!
+                                                            .price_from,
+                                                        style: const TextStyle(
+                                                            fontSize: 11,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      const Text("-"),
+                                                      Text(
+                                                        projects[index]
+                                                            .budget!
+                                                            .price_to,
+                                                        style: const TextStyle(
+                                                            fontSize: 11,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                    ],
+                                                  )
                                                 ],
                                               ),
                                               Container(
@@ -226,7 +257,7 @@ class _HomePageState extends State<HomePage> {
                                                       projects[index].title ??
                                                           "No title",
                                                       style: const TextStyle(
-                                                          fontSize: 11,
+                                                          fontSize: 13,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
@@ -234,13 +265,57 @@ class _HomePageState extends State<HomePage> {
                                                   ],
                                                 ),
                                               ),
-                                              SizedBox(
-                                                child: Text(
-                                                  textAlign: TextAlign.start,
-                                                  projects[index].description ??
-                                                      "",
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: SizedBox(
+                                                  child: Text(
+                                                    textAlign: TextAlign.start,
+                                                    projects[index]
+                                                            .description ??
+                                                        "",
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: Wrap(
+                                                    runAlignment:
+                                                        WrapAlignment.start,
+                                                    spacing: 4.0,
+                                                    runSpacing: 6.0,
+                                                    children: projects[index]
+                                                            .skills
+                                                            ?.map((skill) =>
+                                                                ChoiceChip(
+                                                                  label: Text(
+                                                                      skill
+                                                                          .name),
+                                                                  selected:
+                                                                      true,
+                                                                ))
+                                                            .toList() ??
+                                                        [
+                                                          const Chip(
+                                                            label: Text(""),
+                                                          )
+                                                        ]),
+                                              ),
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                padding: const EdgeInsets.only(
+                                                    top: 10),
+                                                child: Image.asset(
+                                                  'assets/img/flag1.png',
+                                                  fit: BoxFit.contain,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      6,
                                                 ),
                                               )
                                             ],
