@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:tanzify_app/models/budgetModal.dart';
 import 'package:tanzify_app/models/category/categoryModal.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';
 import 'package:tanzify_app/models/user/userModal.dart';
@@ -15,8 +16,10 @@ class ProjectModel with _$ProjectModel {
     CategoryModel? category,
     List<SkillModel>? skills,
     String? duration,
+    String? created,
     // ignore: non_constant_identifier_names
     UserModel? created_by,
+    BudgetModal? budget,
   }) = _ProjectModel;
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
@@ -32,6 +35,10 @@ class ProjectModel with _$ProjectModel {
                 .toList()
             : [],
         duration: json['duration'] as String?,
+        created: json['created'] as String?,
+        budget: json['budget'] != null
+            ? BudgetModal.fromJson(json['budget'])
+            : null,
         created_by: json['created_by'] != null
             ? UserModel.fromJson(json['created_by'] as Map<String, dynamic>)
             : null,

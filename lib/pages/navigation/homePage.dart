@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/searchScreen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class HomePage extends StatefulWidget {
   // final Function(int)? goToPage;
@@ -18,6 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int notificationCount = 1;
+  late ScrollController _scrollController;
   void handlePageChange(int page) {
     if (widget.goToPage != null) {
       widget.goToPage!(page);
@@ -26,9 +29,33 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Provider.of<ProjectProvider>(context, listen: false).getProjects();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+    // Provider.of<ProjectProvider>(context, listen: false).getProjects();
+
+    fetchProjects();
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      // Provider.of<ProjectProvider>(context, listen: false).getProjects();
+      fetchProjects();
+    }
+  }
+
+  Future<void> fetchProjects() async {
+    await Provider.of<ProjectProvider>(context, listen: false).getProjects();
   }
 
   @override
@@ -38,68 +65,31 @@ class _HomePageState extends State<HomePage> {
     final double fullHeight = MediaQuery.of(context).size.height;
     final projects = projectProvider.projectsList;
 
-    print("==========projects");
-    print(projects);
-    print("=========end this my projects");
     return Scaffold(
-      appBar: AppBar(
-        elevation: 1,
-        automaticallyImplyLeading: false,
-        leading: Container(
-          padding: const EdgeInsets.only(left: 17),
-          child: Container(
-            width: 10,
-            height: 10,
-            padding: const EdgeInsets.all(1),
-            child: CircleAvatar(
-              backgroundColor: Colors.brown.shade800,
-              child: const Text('AH'),
+        appBar: AppBar(
+          elevation: 1,
+          automaticallyImplyLeading: false,
+          leading: Container(
+            padding: const EdgeInsets.only(left: 17),
+            child: Container(
+              width: 10,
+              height: 10,
+              padding: const EdgeInsets.all(1),
+              child: CircleAvatar(
+                backgroundColor: Colors.brown.shade800,
+                child: const Text('AH'),
+              ),
             ),
           ),
-        ),
-        // Example count of notifications
+          // Example count of notifications
 
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.notifications,
-                ),
-                iconSize: 22,
-                onPressed: () {},
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  constraints: const BoxConstraints(
-                    minWidth: 20,
-                    minHeight: 20,
-                  ),
-                  child: Text(
-                    '$notificationCount',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              )
-            ],
-          ),
-          Container(
-            padding: const EdgeInsets.only(right: 14),
-            child: Stack(
+          actions: [
+            Stack(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.message_outlined),
+                  icon: const Icon(
+                    Icons.notifications,
+                  ),
                   iconSize: 22,
                   onPressed: () {},
                 ),
@@ -128,45 +118,160 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-          ),
-        ],
-      ),
-      body: isLoading
-          ? const Center(child: WaveSpinKit())
-          : Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: SizedBox(
-                height: fullHeight,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(top: 10),
-                      child: const Text(
-                        "Projects",
-                        style: TextStyle(
-                            fontSize: 23, fontWeight: FontWeight.w700),
+            Container(
+              padding: const EdgeInsets.only(right: 14),
+              child: Stack(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.message_outlined),
+                    iconSize: 22,
+                    onPressed: () {},
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 20,
+                        minHeight: 20,
+                      ),
+                      child: Text(
+                        '$notificationCount',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                    const Divider(color: Constants.borderColor),
-                    Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: const SearchScreen()),
-                    const Divider(color: Constants.borderColor),
-                    Expanded(
-                        child: ListView.builder(
-                            itemCount: projects.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title:
-                                    Text(projects[index].title ?? "No title"),
-                              );
-                            }))
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
-    );
+          ],
+        ),
+        body: isLoading
+            ? const Center(child: WaveSpinKit())
+            : RefreshIndicator(
+                onRefresh: _handleRefresh,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(top: 10),
+                        child: const Text("Projects",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w700)),
+                      ),
+                      const Divider(color: Constants.borderColor),
+                      Container(
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          child: const SearchScreen()),
+                      const Divider(color: Constants.borderColor),
+                      Expanded(
+                          child: ListView.builder(
+                              itemCount: projects.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // print(projects[index].created);
+                                        // if (projects[index].created != null) {
+                                        //   timeago.format(DateTime.parse(
+                                        //       projects[index].created!));
+                                        // }
+                                      },
+                                      child: SizedBox(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(5),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Posted ",
+                                                    style:
+                                                        TextStyle(fontSize: 10),
+                                                  ),
+                                                  Text(
+                                                    projects[index].created !=
+                                                            null
+                                                        ? timeago.format(
+                                                            DateTime.parse(
+                                                                projects[index]
+                                                                    .created!))
+                                                        : "Date not available",
+                                                    style: const TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 10),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      projects[index].title ??
+                                                          "No title",
+                                                      style: const TextStyle(
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    const Text("")
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                child: Text(
+                                                  textAlign: TextAlign.start,
+                                                  projects[index].description ??
+                                                      "",
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const Divider(
+                                      color: Constants.borderColor,
+                                    )
+                                  ],
+                                );
+                              }))
+                    ],
+                  ),
+                ),
+              ));
+  }
+
+  Future<void> _handleRefresh() async {
+    // await Future.delayed(const Duration(seconds: 2));
+    try {
+      await fetchProjects();
+    } catch (error) {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to refresh: $error'),
+        ),
+      );
+    }
   }
 
   Widget _backButton() {

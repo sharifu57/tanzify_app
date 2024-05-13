@@ -25,9 +25,11 @@ mixin _$ProjectModel {
   String? get description => throw _privateConstructorUsedError;
   CategoryModel? get category => throw _privateConstructorUsedError;
   List<SkillModel>? get skills => throw _privateConstructorUsedError;
-  String? get duration =>
+  String? get duration => throw _privateConstructorUsedError;
+  String? get created =>
       throw _privateConstructorUsedError; // ignore: non_constant_identifier_names
   UserModel? get created_by => throw _privateConstructorUsedError;
+  BudgetModal? get budget => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,10 +50,13 @@ abstract class $ProjectModelCopyWith<$Res> {
       CategoryModel? category,
       List<SkillModel>? skills,
       String? duration,
-      UserModel? created_by});
+      String? created,
+      UserModel? created_by,
+      BudgetModal? budget});
 
   $CategoryModelCopyWith<$Res>? get category;
   $UserModelCopyWith<$Res>? get created_by;
+  $BudgetModalCopyWith<$Res>? get budget;
 }
 
 /// @nodoc
@@ -73,7 +78,9 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
     Object? category = freezed,
     Object? skills = freezed,
     Object? duration = freezed,
+    Object? created = freezed,
     Object? created_by = freezed,
+    Object? budget = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -100,10 +107,18 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String?,
+      created: freezed == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as String?,
       created_by: freezed == created_by
           ? _value.created_by
           : created_by // ignore: cast_nullable_to_non_nullable
               as UserModel?,
+      budget: freezed == budget
+          ? _value.budget
+          : budget // ignore: cast_nullable_to_non_nullable
+              as BudgetModal?,
     ) as $Val);
   }
 
@@ -130,6 +145,18 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
       return _then(_value.copyWith(created_by: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BudgetModalCopyWith<$Res>? get budget {
+    if (_value.budget == null) {
+      return null;
+    }
+
+    return $BudgetModalCopyWith<$Res>(_value.budget!, (value) {
+      return _then(_value.copyWith(budget: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -147,12 +174,16 @@ abstract class _$$ProjectModelImplCopyWith<$Res>
       CategoryModel? category,
       List<SkillModel>? skills,
       String? duration,
-      UserModel? created_by});
+      String? created,
+      UserModel? created_by,
+      BudgetModal? budget});
 
   @override
   $CategoryModelCopyWith<$Res>? get category;
   @override
   $UserModelCopyWith<$Res>? get created_by;
+  @override
+  $BudgetModalCopyWith<$Res>? get budget;
 }
 
 /// @nodoc
@@ -172,7 +203,9 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
     Object? category = freezed,
     Object? skills = freezed,
     Object? duration = freezed,
+    Object? created = freezed,
     Object? created_by = freezed,
+    Object? budget = freezed,
   }) {
     return _then(_$ProjectModelImpl(
       id: null == id
@@ -199,10 +232,18 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String?,
+      created: freezed == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as String?,
       created_by: freezed == created_by
           ? _value.created_by
           : created_by // ignore: cast_nullable_to_non_nullable
               as UserModel?,
+      budget: freezed == budget
+          ? _value.budget
+          : budget // ignore: cast_nullable_to_non_nullable
+              as BudgetModal?,
     ));
   }
 }
@@ -217,7 +258,9 @@ class _$ProjectModelImpl implements _ProjectModel {
       this.category,
       final List<SkillModel>? skills,
       this.duration,
-      this.created_by})
+      this.created,
+      this.created_by,
+      this.budget})
       : _skills = skills;
 
   factory _$ProjectModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -243,13 +286,17 @@ class _$ProjectModelImpl implements _ProjectModel {
 
   @override
   final String? duration;
+  @override
+  final String? created;
 // ignore: non_constant_identifier_names
   @override
   final UserModel? created_by;
+  @override
+  final BudgetModal? budget;
 
   @override
   String toString() {
-    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created_by: $created_by)';
+    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created: $created, created_by: $created_by, budget: $budget)';
   }
 
   @override
@@ -266,14 +313,25 @@ class _$ProjectModelImpl implements _ProjectModel {
             const DeepCollectionEquality().equals(other._skills, _skills) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
+            (identical(other.created, created) || other.created == created) &&
             (identical(other.created_by, created_by) ||
-                other.created_by == created_by));
+                other.created_by == created_by) &&
+            (identical(other.budget, budget) || other.budget == budget));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, description, category,
-      const DeepCollectionEquality().hash(_skills), duration, created_by);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      description,
+      category,
+      const DeepCollectionEquality().hash(_skills),
+      duration,
+      created,
+      created_by,
+      budget);
 
   @JsonKey(ignore: true)
   @override
@@ -297,7 +355,9 @@ abstract class _ProjectModel implements ProjectModel {
       final CategoryModel? category,
       final List<SkillModel>? skills,
       final String? duration,
-      final UserModel? created_by}) = _$ProjectModelImpl;
+      final String? created,
+      final UserModel? created_by,
+      final BudgetModal? budget}) = _$ProjectModelImpl;
 
   factory _ProjectModel.fromJson(Map<String, dynamic> json) =
       _$ProjectModelImpl.fromJson;
@@ -314,8 +374,12 @@ abstract class _ProjectModel implements ProjectModel {
   List<SkillModel>? get skills;
   @override
   String? get duration;
+  @override
+  String? get created;
   @override // ignore: non_constant_identifier_names
   UserModel? get created_by;
+  @override
+  BudgetModal? get budget;
   @override
   @JsonKey(ignore: true)
   _$$ProjectModelImplCopyWith<_$ProjectModelImpl> get copyWith =>

@@ -13,7 +13,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return const TextField(
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
         hintMaxLines: 3,
         labelText: 'Search',
         border: OutlineInputBorder(
