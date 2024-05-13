@@ -38,9 +38,9 @@ class _HomePageState extends State<HomePage> {
     final double fullHeight = MediaQuery.of(context).size.height;
     final projects = projectProvider.projectsList;
 
-    // print("==========projects");
-    // print(projects);
-    // print("=========end this my projects");
+    print("==========projects");
+    print(projects);
+    print("=========end this my projects");
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -157,13 +157,9 @@ class _HomePageState extends State<HomePage> {
                         child: ListView.builder(
                             itemCount: projects.length,
                             itemBuilder: (context, index) {
-                              // return ListTile(
-                              //   title:
-                              //       Text(projects[index].title ?? "No title"),
-                              // );
-
-                              return const Card(
-                                child: Text("One Card Here"),
+                              return ListTile(
+                                title:
+                                    Text(projects[index].title ?? "No title"),
                               );
                             }))
                   ],

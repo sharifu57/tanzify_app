@@ -9,8 +9,8 @@ part 'userModal.g.dart';
 class UserModel with _$UserModel {
   const factory UserModel({
     required int id,
-    // String? first_name,
-    // String? last_name,
+    String? first_name,
+    String? last_name,
     required String email,
   }) = _UserModel;
 
