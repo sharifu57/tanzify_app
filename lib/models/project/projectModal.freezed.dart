@@ -21,12 +21,13 @@ ProjectModel _$ProjectModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ProjectModel {
   int get id => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  CategoryModel get category => throw _privateConstructorUsedError;
-  SkillModel get skills => throw _privateConstructorUsedError;
-  String get duration => throw _privateConstructorUsedError;
-  UserModel get createdBy => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  CategoryModel? get category => throw _privateConstructorUsedError;
+  List<SkillModel>? get skills => throw _privateConstructorUsedError;
+  String? get duration =>
+      throw _privateConstructorUsedError; // ignore: non_constant_identifier_names
+  UserModel? get created_by => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,16 +43,15 @@ abstract class $ProjectModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String title,
-      String description,
-      CategoryModel category,
-      SkillModel skills,
-      String duration,
-      UserModel createdBy});
+      String? title,
+      String? description,
+      CategoryModel? category,
+      List<SkillModel>? skills,
+      String? duration,
+      UserModel? created_by});
 
-  $CategoryModelCopyWith<$Res> get category;
-  $SkillModelCopyWith<$Res> get skills;
-  $UserModelCopyWith<$Res> get createdBy;
+  $CategoryModelCopyWith<$Res>? get category;
+  $UserModelCopyWith<$Res>? get created_by;
 }
 
 /// @nodoc
@@ -68,66 +68,66 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
-    Object? description = null,
-    Object? category = null,
-    Object? skills = null,
-    Object? duration = null,
-    Object? createdBy = null,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? category = freezed,
+    Object? skills = freezed,
+    Object? duration = freezed,
+    Object? created_by = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      category: null == category
+              as String?,
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as CategoryModel,
-      skills: null == skills
+              as CategoryModel?,
+      skills: freezed == skills
           ? _value.skills
           : skills // ignore: cast_nullable_to_non_nullable
-              as SkillModel,
-      duration: null == duration
+              as List<SkillModel>?,
+      duration: freezed == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdBy: null == createdBy
-          ? _value.createdBy
-          : createdBy // ignore: cast_nullable_to_non_nullable
-              as UserModel,
+              as String?,
+      created_by: freezed == created_by
+          ? _value.created_by
+          : created_by // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $CategoryModelCopyWith<$Res> get category {
-    return $CategoryModelCopyWith<$Res>(_value.category, (value) {
+  $CategoryModelCopyWith<$Res>? get category {
+    if (_value.category == null) {
+      return null;
+    }
+
+    return $CategoryModelCopyWith<$Res>(_value.category!, (value) {
       return _then(_value.copyWith(category: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $SkillModelCopyWith<$Res> get skills {
-    return $SkillModelCopyWith<$Res>(_value.skills, (value) {
-      return _then(_value.copyWith(skills: value) as $Val);
-    });
-  }
+  $UserModelCopyWith<$Res>? get created_by {
+    if (_value.created_by == null) {
+      return null;
+    }
 
-  @override
-  @pragma('vm:prefer-inline')
-  $UserModelCopyWith<$Res> get createdBy {
-    return $UserModelCopyWith<$Res>(_value.createdBy, (value) {
-      return _then(_value.copyWith(createdBy: value) as $Val);
+    return $UserModelCopyWith<$Res>(_value.created_by!, (value) {
+      return _then(_value.copyWith(created_by: value) as $Val);
     });
   }
 }
@@ -142,19 +142,17 @@ abstract class _$$ProjectModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      String title,
-      String description,
-      CategoryModel category,
-      SkillModel skills,
-      String duration,
-      UserModel createdBy});
+      String? title,
+      String? description,
+      CategoryModel? category,
+      List<SkillModel>? skills,
+      String? duration,
+      UserModel? created_by});
 
   @override
-  $CategoryModelCopyWith<$Res> get category;
+  $CategoryModelCopyWith<$Res>? get category;
   @override
-  $SkillModelCopyWith<$Res> get skills;
-  @override
-  $UserModelCopyWith<$Res> get createdBy;
+  $UserModelCopyWith<$Res>? get created_by;
 }
 
 /// @nodoc
@@ -169,42 +167,42 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
-    Object? description = null,
-    Object? category = null,
-    Object? skills = null,
-    Object? duration = null,
-    Object? createdBy = null,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? category = freezed,
+    Object? skills = freezed,
+    Object? duration = freezed,
+    Object? created_by = freezed,
   }) {
     return _then(_$ProjectModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      category: null == category
+              as String?,
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as CategoryModel,
-      skills: null == skills
-          ? _value.skills
+              as CategoryModel?,
+      skills: freezed == skills
+          ? _value._skills
           : skills // ignore: cast_nullable_to_non_nullable
-              as SkillModel,
-      duration: null == duration
+              as List<SkillModel>?,
+      duration: freezed == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdBy: null == createdBy
-          ? _value.createdBy
-          : createdBy // ignore: cast_nullable_to_non_nullable
-              as UserModel,
+              as String?,
+      created_by: freezed == created_by
+          ? _value.created_by
+          : created_by // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
     ));
   }
 }
@@ -214,12 +212,13 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
 class _$ProjectModelImpl implements _ProjectModel {
   const _$ProjectModelImpl(
       {required this.id,
-      required this.title,
-      required this.description,
-      required this.category,
-      required this.skills,
-      required this.duration,
-      required this.createdBy});
+      this.title,
+      this.description,
+      this.category,
+      final List<SkillModel>? skills,
+      this.duration,
+      this.created_by})
+      : _skills = skills;
 
   factory _$ProjectModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProjectModelImplFromJson(json);
@@ -227,21 +226,30 @@ class _$ProjectModelImpl implements _ProjectModel {
   @override
   final int id;
   @override
-  final String title;
+  final String? title;
   @override
-  final String description;
+  final String? description;
   @override
-  final CategoryModel category;
+  final CategoryModel? category;
+  final List<SkillModel>? _skills;
   @override
-  final SkillModel skills;
+  List<SkillModel>? get skills {
+    final value = _skills;
+    if (value == null) return null;
+    if (_skills is EqualUnmodifiableListView) return _skills;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
-  final String duration;
+  final String? duration;
+// ignore: non_constant_identifier_names
   @override
-  final UserModel createdBy;
+  final UserModel? created_by;
 
   @override
   String toString() {
-    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, createdBy: $createdBy)';
+    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created_by: $created_by)';
   }
 
   @override
@@ -255,17 +263,17 @@ class _$ProjectModelImpl implements _ProjectModel {
                 other.description == description) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.skills, skills) || other.skills == skills) &&
+            const DeepCollectionEquality().equals(other._skills, _skills) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
-            (identical(other.createdBy, createdBy) ||
-                other.createdBy == createdBy));
+            (identical(other.created_by, created_by) ||
+                other.created_by == created_by));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, description, category,
-      skills, duration, createdBy);
+      const DeepCollectionEquality().hash(_skills), duration, created_by);
 
   @JsonKey(ignore: true)
   @override
@@ -284,12 +292,12 @@ class _$ProjectModelImpl implements _ProjectModel {
 abstract class _ProjectModel implements ProjectModel {
   const factory _ProjectModel(
       {required final int id,
-      required final String title,
-      required final String description,
-      required final CategoryModel category,
-      required final SkillModel skills,
-      required final String duration,
-      required final UserModel createdBy}) = _$ProjectModelImpl;
+      final String? title,
+      final String? description,
+      final CategoryModel? category,
+      final List<SkillModel>? skills,
+      final String? duration,
+      final UserModel? created_by}) = _$ProjectModelImpl;
 
   factory _ProjectModel.fromJson(Map<String, dynamic> json) =
       _$ProjectModelImpl.fromJson;
@@ -297,17 +305,17 @@ abstract class _ProjectModel implements ProjectModel {
   @override
   int get id;
   @override
-  String get title;
+  String? get title;
   @override
-  String get description;
+  String? get description;
   @override
-  CategoryModel get category;
+  CategoryModel? get category;
   @override
-  SkillModel get skills;
+  List<SkillModel>? get skills;
   @override
-  String get duration;
-  @override
-  UserModel get createdBy;
+  String? get duration;
+  @override // ignore: non_constant_identifier_names
+  UserModel? get created_by;
   @override
   @JsonKey(ignore: true)
   _$$ProjectModelImplCopyWith<_$ProjectModelImpl> get copyWith =>

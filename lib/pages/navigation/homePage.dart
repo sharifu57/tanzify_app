@@ -25,10 +25,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    Provider.of<ProjectProvider>(context, listen: false).getProjects();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final projectProvider = Provider.of<ProjectProvider>(context);
     final isLoading = projectProvider.isLoading;
     final double fullHeight = MediaQuery.of(context).size.height;
+    final projects = projectProvider.projectsList;
+
+    // print("==========projects");
+    // print(projects);
+    // print("=========end this my projects");
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -141,6 +153,19 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: const SearchScreen()),
                     const Divider(color: Constants.borderColor),
+                    Expanded(
+                        child: ListView.builder(
+                            itemCount: projects.length,
+                            itemBuilder: (context, index) {
+                              // return ListTile(
+                              //   title:
+                              //       Text(projects[index].title ?? "No title"),
+                              // );
+
+                              return const Card(
+                                child: Text("One Card Here"),
+                              );
+                            }))
                   ],
                 ),
               ),

@@ -9,11 +9,11 @@ part 'userModal.g.dart';
 class UserModel with _$UserModel {
   const factory UserModel({
     required int id,
-    required String firstName,
-    required String lastName,
+    // String? first_name,
+    // String? last_name,
     required String email,
-    
   }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      UserModel(id: json['id'] as int, email: json['email'] as String);
 }
