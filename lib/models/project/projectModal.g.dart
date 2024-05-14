@@ -25,6 +25,12 @@ _$ProjectModelImpl _$$ProjectModelImplFromJson(Map<String, dynamic> json) =>
       budget: json['budget'] == null
           ? null
           : BudgetModal.fromJson(json['budget'] as Map<String, dynamic>),
+      location: json['location'] == null
+          ? null
+          : LocationModal.fromJson(json['location'] as Map<String, dynamic>),
+      bids: (json['bids'] as List<dynamic>?)
+          ?.map((e) => BidModal.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$ProjectModelImplToJson(_$ProjectModelImpl instance) =>
@@ -38,4 +44,6 @@ Map<String, dynamic> _$$ProjectModelImplToJson(_$ProjectModelImpl instance) =>
       'created': instance.created,
       'created_by': instance.created_by,
       'budget': instance.budget,
+      'location': instance.location,
+      'bids': instance.bids,
     };

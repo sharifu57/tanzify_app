@@ -30,6 +30,8 @@ mixin _$ProjectModel {
       throw _privateConstructorUsedError; // ignore: non_constant_identifier_names
   UserModel? get created_by => throw _privateConstructorUsedError;
   BudgetModal? get budget => throw _privateConstructorUsedError;
+  LocationModal? get location => throw _privateConstructorUsedError;
+  List<BidModal>? get bids => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,11 +54,14 @@ abstract class $ProjectModelCopyWith<$Res> {
       String? duration,
       String? created,
       UserModel? created_by,
-      BudgetModal? budget});
+      BudgetModal? budget,
+      LocationModal? location,
+      List<BidModal>? bids});
 
   $CategoryModelCopyWith<$Res>? get category;
   $UserModelCopyWith<$Res>? get created_by;
   $BudgetModalCopyWith<$Res>? get budget;
+  $LocationModalCopyWith<$Res>? get location;
 }
 
 /// @nodoc
@@ -81,6 +86,8 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
     Object? created = freezed,
     Object? created_by = freezed,
     Object? budget = freezed,
+    Object? location = freezed,
+    Object? bids = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -119,6 +126,14 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.budget
           : budget // ignore: cast_nullable_to_non_nullable
               as BudgetModal?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as LocationModal?,
+      bids: freezed == bids
+          ? _value.bids
+          : bids // ignore: cast_nullable_to_non_nullable
+              as List<BidModal>?,
     ) as $Val);
   }
 
@@ -157,6 +172,18 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
       return _then(_value.copyWith(budget: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocationModalCopyWith<$Res>? get location {
+    if (_value.location == null) {
+      return null;
+    }
+
+    return $LocationModalCopyWith<$Res>(_value.location!, (value) {
+      return _then(_value.copyWith(location: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -176,7 +203,9 @@ abstract class _$$ProjectModelImplCopyWith<$Res>
       String? duration,
       String? created,
       UserModel? created_by,
-      BudgetModal? budget});
+      BudgetModal? budget,
+      LocationModal? location,
+      List<BidModal>? bids});
 
   @override
   $CategoryModelCopyWith<$Res>? get category;
@@ -184,6 +213,8 @@ abstract class _$$ProjectModelImplCopyWith<$Res>
   $UserModelCopyWith<$Res>? get created_by;
   @override
   $BudgetModalCopyWith<$Res>? get budget;
+  @override
+  $LocationModalCopyWith<$Res>? get location;
 }
 
 /// @nodoc
@@ -206,6 +237,8 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
     Object? created = freezed,
     Object? created_by = freezed,
     Object? budget = freezed,
+    Object? location = freezed,
+    Object? bids = freezed,
   }) {
     return _then(_$ProjectModelImpl(
       id: null == id
@@ -244,6 +277,14 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
           ? _value.budget
           : budget // ignore: cast_nullable_to_non_nullable
               as BudgetModal?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as LocationModal?,
+      bids: freezed == bids
+          ? _value._bids
+          : bids // ignore: cast_nullable_to_non_nullable
+              as List<BidModal>?,
     ));
   }
 }
@@ -260,8 +301,11 @@ class _$ProjectModelImpl implements _ProjectModel {
       this.duration,
       this.created,
       this.created_by,
-      this.budget})
-      : _skills = skills;
+      this.budget,
+      this.location,
+      final List<BidModal>? bids})
+      : _skills = skills,
+        _bids = bids;
 
   factory _$ProjectModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProjectModelImplFromJson(json);
@@ -293,10 +337,21 @@ class _$ProjectModelImpl implements _ProjectModel {
   final UserModel? created_by;
   @override
   final BudgetModal? budget;
+  @override
+  final LocationModal? location;
+  final List<BidModal>? _bids;
+  @override
+  List<BidModal>? get bids {
+    final value = _bids;
+    if (value == null) return null;
+    if (_bids is EqualUnmodifiableListView) return _bids;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created: $created, created_by: $created_by, budget: $budget)';
+    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created: $created, created_by: $created_by, budget: $budget, location: $location, bids: $bids)';
   }
 
   @override
@@ -316,7 +371,10 @@ class _$ProjectModelImpl implements _ProjectModel {
             (identical(other.created, created) || other.created == created) &&
             (identical(other.created_by, created_by) ||
                 other.created_by == created_by) &&
-            (identical(other.budget, budget) || other.budget == budget));
+            (identical(other.budget, budget) || other.budget == budget) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            const DeepCollectionEquality().equals(other._bids, _bids));
   }
 
   @JsonKey(ignore: true)
@@ -331,7 +389,9 @@ class _$ProjectModelImpl implements _ProjectModel {
       duration,
       created,
       created_by,
-      budget);
+      budget,
+      location,
+      const DeepCollectionEquality().hash(_bids));
 
   @JsonKey(ignore: true)
   @override
@@ -357,7 +417,9 @@ abstract class _ProjectModel implements ProjectModel {
       final String? duration,
       final String? created,
       final UserModel? created_by,
-      final BudgetModal? budget}) = _$ProjectModelImpl;
+      final BudgetModal? budget,
+      final LocationModal? location,
+      final List<BidModal>? bids}) = _$ProjectModelImpl;
 
   factory _ProjectModel.fromJson(Map<String, dynamic> json) =
       _$ProjectModelImpl.fromJson;
@@ -380,6 +442,10 @@ abstract class _ProjectModel implements ProjectModel {
   UserModel? get created_by;
   @override
   BudgetModal? get budget;
+  @override
+  LocationModal? get location;
+  @override
+  List<BidModal>? get bids;
   @override
   @JsonKey(ignore: true)
   _$$ProjectModelImplCopyWith<_$ProjectModelImpl> get copyWith =>

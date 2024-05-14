@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tanzify_app/models/budgetModal.dart';
+import 'package:tanzify_app/models/Bid/bidModal.dart';
+import 'package:tanzify_app/models/budget/budgetModal.dart';
 import 'package:tanzify_app/models/category/categoryModal.dart';
+import 'package:tanzify_app/models/location/locationModal.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';
 import 'package:tanzify_app/models/user/userModal.dart';
 
@@ -9,18 +11,19 @@ part 'projectModal.g.dart';
 
 @freezed
 class ProjectModel with _$ProjectModel {
-  const factory ProjectModel({
-    required int id,
-    String? title,
-    String? description,
-    CategoryModel? category,
-    List<SkillModel>? skills,
-    String? duration,
-    String? created,
-    // ignore: non_constant_identifier_names
-    UserModel? created_by,
-    BudgetModal? budget,
-  }) = _ProjectModel;
+  const factory ProjectModel(
+      {required int id,
+      String? title,
+      String? description,
+      CategoryModel? category,
+      List<SkillModel>? skills,
+      String? duration,
+      String? created,
+      // ignore: non_constant_identifier_names
+      UserModel? created_by,
+      BudgetModal? budget,
+      LocationModal? location,
+      List<BidModal>? bids}) = _ProjectModel;
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
         id: json['id'] as int,
@@ -42,5 +45,13 @@ class ProjectModel with _$ProjectModel {
         created_by: json['created_by'] != null
             ? UserModel.fromJson(json['created_by'] as Map<String, dynamic>)
             : null,
+        location: json['location'] != null
+            ? LocationModal.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
+        bids: json['bids'] != null
+            ? (json['bids'] as List)
+                .map((e) => BidModal.fromJson(e as Map<String, dynamic>))
+                .toList()
+            : [],
       );
 }
