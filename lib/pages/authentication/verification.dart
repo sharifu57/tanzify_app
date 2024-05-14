@@ -80,12 +80,6 @@ class _VerificationPageState extends State<VerificationPage> {
           SizedBox(
             height: 40.h,
           ),
-          // RichText(
-          //   text: const TextSpan(text: 'Hello'),
-          //   selectionRegistrar: SelectionContainer.maybeOf(context),
-          //   selectionColor: const Color(0xAF6694e8),
-          // ),
-
           SizedBox(
             height: 50.h,
             child: const Text(
@@ -101,21 +95,18 @@ class _VerificationPageState extends State<VerificationPage> {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       style: const TextStyle(
-                        // Default text style for the entire RichText
-                        color: Colors.black, // You can adjust the color
-                        fontSize: 14, // And the font size
+                        color: Colors.black,
+                        fontSize: 14,
                       ),
                       children: <TextSpan>[
                         const TextSpan(
-                          text:
-                              'A verification code has been sent to\n', // Notice the newline character
+                          text: 'A verification code has been sent to\n',
                         ),
                         TextSpan(
                           text: widget.email,
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold, // Makes the email bold
-                            color: Colors
-                                .blue, // Changes the color of the email text
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
                           ),
                         ),
                       ],
@@ -131,11 +122,8 @@ class _VerificationPageState extends State<VerificationPage> {
                       numberOfFields: 4,
                       borderColor: accentPurpleColor,
                       focusedBorderColor: Constants.primaryColor,
-                      // styles: otpTextStyles,
                       showFieldAsBox: false,
                       borderWidth: 4.0,
-
-                      //runs when a code is typed in
                       onCodeChanged: (String code) {
                         //handle validation or checks here if necessary
                       },
@@ -181,7 +169,7 @@ class _VerificationPageState extends State<VerificationPage> {
             ),
           ),
           SizedBox(
-            height: 40.h,
+            // height: 40.h,
             child: _submitButton(authProvider),
           )
         ],

@@ -221,12 +221,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: phoneNumberController,
                       keyBoardInputType: TextInputType.phone,
                       obscureText: false,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Phone number is required";
-                        }
-                        return null;
-                      },
+                      validator: validatePhoneNumber,
                       onSaved: (value) => _phoneNumber = value!,
                     ),
                     SizedBox(height: 30.h),
@@ -238,12 +233,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: passwordController,
                       keyBoardInputType: TextInputType.visiblePassword,
                       obscureText: true,
-                      validator: (value) {
-                        if (value!.isEmpty || value.length < 6) {
-                          return "Password must be at least 6 characters";
-                        }
-                        return null;
-                      },
+                      validator: validatePassword,
                       onSaved: (value) => _password = value!,
                     ),
                     SizedBox(height: 30.h),
@@ -302,6 +292,43 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     );
+  }
+
+  String? validatePhoneNumber(String? phoneNumber) {
+    if (phoneNumber == null || phoneNumber.isEmpty) {
+      return "Phone number cannot be empty";
+    }
+    // Regex pattern to match Tanzanian phone numbers
+    String pattern = r'^(\+255)\d{9}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(phoneNumber)) {
+      return "Enter a valid phone number starting with +255";
+    }
+    return null;
+  }
+
+  String? validatePassword(String? password) {
+    if (password == null || password.isEmpty) {
+      return "Password cannot be empty";
+    }
+    List<String> errors = [];
+    if (password.length < 6) {
+      errors.add('Password must be longer than 6 characters.');
+    }
+    if (!RegExp(r'[A-Z]').hasMatch(password)) {
+      errors.add('Uppercase letter is missing.');
+    }
+    if (!RegExp(r'[a-z]').hasMatch(password)) {
+      errors.add('Lowercase letter is missing.');
+    }
+    if (!RegExp(r'[0-9]').hasMatch(password)) {
+      errors.add('Digit is missing.');
+    }
+    if (!RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(password)) {
+      errors.add('Special character is missing.');
+    }
+
+    return errors.isEmpty ? null : errors.join('\n');
   }
 
   Widget _submitButton(AuthProvider authProvider) {

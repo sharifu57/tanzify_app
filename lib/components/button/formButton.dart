@@ -47,12 +47,9 @@ class FormButton extends StatelessWidget {
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.disabled)) return Colors.grey;
               if (variant == FormButtonVariant.filled) {
-                // const c
                 return Constants.primaryColor;
               }
-
-              // return theme.primaryColor;
-              return Colors.transparent; // Default for flat and outlined
+              return Colors.transparent;
             },
           ),
           foregroundColor: MaterialStateProperty.resolveWith<Color?>(
