@@ -53,23 +53,26 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> login(String email, String password) async {
+    print(DataConnection.connectionUrl);
     startLoading();
     try {
       Response response = await dio.post(
           "${DataConnection.connectionUrl}login/",
           data: {'email': email, 'password': password});
 
-      if (response.data['status'] == '200') {
+      if (response.data['status'] == 200) {
         var data = response.data;
         _userData = data['data'];
         _accessToken = data['access_token'];
         _refreshToken = data['refresh_token'];
         // _expiresAt = DateTime.now()
         //     .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
+        print("=========success");
         saveUserData();
         stopLoading();
         return true;
       } else {
+        print("==========failed");
         _errorMessage = "Error: ${response.data['message']}";
         stopLoading();
         return false;

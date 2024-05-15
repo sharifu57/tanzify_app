@@ -10,6 +10,7 @@ import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/register.dart';
 import 'package:tanzify_app/pages/authentication/verification.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/pages/mainApp.dart';
 import '../../components/form/customInputForm.dart';
 
 class LoginPage extends StatefulWidget {
@@ -190,9 +191,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         variant: FormButtonVariant.filled,
                         onClick: () {
                           if (_formKey.currentState!.validate()) {
+                            print("======data");
+                            print(emailController.text);
+                            print(_password);
+                            print("------end here");
                             _formKey.currentState!.save();
                             authProvider
-                                .login(_email, _password)
+                                .login(emailController.text,
+                                    passwordController.text)
                                 .then((success) {
                               if (!success) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -201,11 +207,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       content: Text(authProvider.errorMessage)),
                                 );
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      backgroundColor: Colors.green,
-                                      content: Text(authProvider.errorMessage)),
-                                );
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //   SnackBar(
+                                //       backgroundColor: Colors.green,
+                                //       content: Text(authProvider.errorMessage)),
+                                // );
+                                Navigator.of(context).push(CupertinoPageRoute(
+                                    builder: (context) => const MainApp()));
                               }
                             });
                           }

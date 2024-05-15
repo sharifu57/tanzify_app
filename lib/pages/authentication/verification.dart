@@ -8,6 +8,7 @@ import 'package:tanzify_app/components/containers/bazierContainer.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
+import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/mainApp.dart';
 import 'package:tanzify_app/pages/navigation/homePage.dart';
@@ -199,7 +200,7 @@ class _VerificationPageState extends State<VerificationPage> {
                         {
                           print("=======success"),
                           Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) => const MainApp()))
+                              builder: (context) => const LoginPage()))
                         }
                     });
               }
