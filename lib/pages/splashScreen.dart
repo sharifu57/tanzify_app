@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
-import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/authPage.dart';
 import 'package:tanzify_app/pages/mainApp.dart';
-import 'package:tanzify_app/pages/navigation/homePage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -35,10 +33,15 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void checkIsLoggInStatus() {
-    bool isLoggedIn =
-        Provider.of<AuthProvider>(context, listen: false).accessToken != null;
+  void checkIsLoggInStatus() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString("accessToken");
+
+    bool isLoggedIn = accessToken != null && accessToken.isNotEmpty;
+
     print("=================auth data");
+    print(isLoggedIn);
+    print("======end auth data");
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (builder) => isLoggedIn ? const MainApp() : const AuthPage()));
   }

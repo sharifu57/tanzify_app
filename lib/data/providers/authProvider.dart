@@ -63,7 +63,13 @@ class AuthProvider with ChangeNotifier {
       if (response.data['status'] == 200) {
         var data = response.data;
         _userData = data['data'];
-        _accessToken = data['access_token'];
+        _accessToken = data['data']['profile']['user_access_token'];
+
+        print("--------------access token");
+        print(data);
+        print(_accessToken);
+        print("--------------end access token");
+
         _refreshToken = data['refresh_token'];
         // _expiresAt = DateTime.now()
         //     .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
