@@ -288,8 +288,11 @@ class _HomePageState extends State<HomePage> {
                                                       'Show more',
                                                   trimExpandedText: 'Show less',
                                                   moreStyle: const TextStyle(
-                                                    fontSize: 12,
-                                                  ),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Constants
+                                                          .primaryColor),
                                                 )),
                                               ),
                                               Container(
