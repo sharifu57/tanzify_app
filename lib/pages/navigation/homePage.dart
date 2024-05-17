@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/pages/projects/viewProject.dart';
 import 'package:tanzify_app/pages/searchScreen.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:readmore/readmore.dart';
 
 class HomePage extends StatefulWidget {
   // final Function(int)? goToPage;
@@ -91,14 +93,14 @@ class _HomePageState extends State<HomePage> {
                   icon: const Icon(
                     Icons.notifications,
                   ),
-                  iconSize: 22,
+                  iconSize: 20,
                   onPressed: () {},
                 ),
                 Positioned(
-                  right: 0,
-                  top: 0,
+                  right: 4,
+                  top: 3,
                   child: Container(
-                    padding: const EdgeInsets.all(2),
+                    // padding: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(10),
@@ -111,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                       '$notificationCount',
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 12,
+                        fontSize: 11,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -125,11 +127,11 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.message_outlined),
-                    iconSize: 22,
+                    iconSize: 20,
                     onPressed: () {},
                   ),
                   Positioned(
-                    right: 0,
+                    right: 4,
                     top: 0,
                     child: Container(
                       padding: const EdgeInsets.all(2),
@@ -139,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       constraints: const BoxConstraints(
                         minWidth: 20,
-                        minHeight: 20,
+                        minHeight: 10,
                       ),
                       child: Text(
                         '$notificationCount',
@@ -184,7 +186,12 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        print(projects[index].created);
+                                        Navigator.of(context).push(
+                                            CupertinoPageRoute(
+                                                builder: (context) =>
+                                                    ViewProject(
+                                                        project:
+                                                            projects[index])));
                                       },
                                       child: SizedBox(
                                         child: Container(
@@ -269,15 +276,21 @@ class _HomePageState extends State<HomePage> {
                                                 padding: const EdgeInsets.only(
                                                     top: 5),
                                                 child: SizedBox(
-                                                  child: Text(
-                                                    textAlign: TextAlign.start,
-                                                    projects[index]
-                                                            .description ??
-                                                        "",
-                                                    style: const TextStyle(
-                                                        fontSize: 12),
+                                                    child: ReadMoreText(
+                                                  textAlign: TextAlign.start,
+                                                  projects[index].description ??
+                                                      "",
+                                                  trimMode: TrimMode.Line,
+                                                  trimLines: 4,
+                                                  colorClickableText:
+                                                      Colors.pink,
+                                                  trimCollapsedText:
+                                                      'Show more',
+                                                  trimExpandedText: 'Show less',
+                                                  moreStyle: const TextStyle(
+                                                    fontSize: 12,
                                                   ),
-                                                ),
+                                                )),
                                               ),
                                               Container(
                                                 alignment: Alignment.centerLeft,

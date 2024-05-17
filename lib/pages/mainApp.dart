@@ -29,6 +29,9 @@ class _MainAppState extends State<MainApp> {
     ];
     return Scaffold(
       body: pages[currentPageIndex],
+      floatingActionButton:
+          FloatingActionButton(child: const Icon(Icons.add), onPressed: () {}),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(
@@ -47,26 +50,42 @@ class _MainAppState extends State<MainApp> {
           },
           destinations: const <Widget>[
             NavigationDestination(
-              selectedIcon: Icon(Icons.home),
+              selectedIcon: Icon(
+                Icons.home,
+                size: 20,
+              ),
               icon: Icon(Icons.home_outlined),
               label: 'Home',
             ),
             NavigationDestination(
-              selectedIcon: Icon(Icons.shopping_cart),
+              selectedIcon: Icon(
+                Icons.work_history,
+                size: 20,
+              ),
               icon: Icon(Icons.work_history_outlined),
               label: 'Projects',
             ),
+            // NavigationDestination(
+            //   selectedIcon: Icon(Icons.tips_and_updates),
+            //   icon: Icon(Icons.document_scanner_outlined),
+            //   label: 'Add New',
+            // ),
+
             NavigationDestination(
-              selectedIcon: Icon(Icons.tips_and_updates),
-              icon: Icon(Icons.document_scanner_outlined),
-              label: 'Add New',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.history_sharp),
+              selectedIcon: Icon(
+                Icons.history,
+                size: 20,
+              ),
+              icon: Icon(
+                Icons.history_sharp,
+              ),
               label: 'Alert',
             ),
             NavigationDestination(
-              selectedIcon: Icon(Icons.person_2),
+              selectedIcon: Icon(
+                Icons.person_2,
+                size: 20,
+              ),
               icon: Icon(Icons.person_2_outlined),
               label: 'Profile',
             ),
