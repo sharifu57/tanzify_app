@@ -321,50 +321,48 @@ class _HomePageState extends State<HomePage> {
                                                           )
                                                         ]),
                                               ),
-                                              Container(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Image.asset(
-                                                            'assets/img/flag.png',
-                                                            fit: BoxFit.contain,
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                6,
-                                                          ),
-                                                          Text(projects[index]
-                                                              .location!
-                                                              .name)
-                                                        ],
-                                                      ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/img/flag.png',
+                                                          fit: BoxFit.contain,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              6,
+                                                        ),
+                                                        Text(projects[index]
+                                                            .location!
+                                                            .name)
+                                                      ],
                                                     ),
-                                                    Container(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 5),
-                                                      child: Text(
-                                                        "${projects[index].bids?.length ?? 0} Proposals",
-                                                        style: const TextStyle(
-                                                            fontSize: 11),
-                                                      ),
+                                                  ),
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5),
+                                                    child: Text(
+                                                      "${projects[index].bids?.length ?? 0} Proposals",
+                                                      style: const TextStyle(
+                                                          fontSize: 11),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               )
                                             ],
                                           ),

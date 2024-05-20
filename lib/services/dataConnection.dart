@@ -5,8 +5,8 @@ class DataConnection with ChangeNotifier {
   late Dio dio;
   bool isProduction = false;
 
-  static const String httpBase = 'http://109.199.108.165';
-  // static const String httpBase = 'http://172.20.10.3:8005';
+  // static const String httpBase = 'http://109.199.108.165';
+  static const String httpBase = 'http://192.168.1.111:8005';
 
   static const String connectionUrl = "$httpBase/API/V1/";
 
@@ -14,7 +14,7 @@ class DataConnection with ChangeNotifier {
     dio = Dio(BaseOptions(
       baseUrl: connectionUrl,
       connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
     ));
   }
 

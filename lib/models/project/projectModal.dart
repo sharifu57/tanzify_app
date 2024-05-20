@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tanzify_app/models/Bid/bidModal.dart';
 import 'package:tanzify_app/models/budget/budgetModal.dart';
 import 'package:tanzify_app/models/category/categoryModal.dart';
+import 'package:tanzify_app/models/experience/experienceModal.dart';
 import 'package:tanzify_app/models/location/locationModal.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';
 import 'package:tanzify_app/models/user/userModal.dart';
@@ -23,6 +24,7 @@ class ProjectModel with _$ProjectModel {
       UserModel? created_by,
       BudgetModal? budget,
       LocationModal? location,
+      ExperienceModal? experience,
       List<BidModal>? bids}) = _ProjectModel;
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
@@ -47,6 +49,10 @@ class ProjectModel with _$ProjectModel {
             : null,
         location: json['location'] != null
             ? LocationModal.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
+        experience: json['experience'] != null
+            ? ExperienceModal.fromJson(
+                json['experience'] as Map<String, dynamic>)
             : null,
         bids: json['bids'] != null
             ? (json['bids'] as List)

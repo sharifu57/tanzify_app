@@ -31,6 +31,7 @@ mixin _$ProjectModel {
   UserModel? get created_by => throw _privateConstructorUsedError;
   BudgetModal? get budget => throw _privateConstructorUsedError;
   LocationModal? get location => throw _privateConstructorUsedError;
+  ExperienceModal? get experience => throw _privateConstructorUsedError;
   List<BidModal>? get bids => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,12 +57,14 @@ abstract class $ProjectModelCopyWith<$Res> {
       UserModel? created_by,
       BudgetModal? budget,
       LocationModal? location,
+      ExperienceModal? experience,
       List<BidModal>? bids});
 
   $CategoryModelCopyWith<$Res>? get category;
   $UserModelCopyWith<$Res>? get created_by;
   $BudgetModalCopyWith<$Res>? get budget;
   $LocationModalCopyWith<$Res>? get location;
+  $ExperienceModalCopyWith<$Res>? get experience;
 }
 
 /// @nodoc
@@ -87,6 +90,7 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
     Object? created_by = freezed,
     Object? budget = freezed,
     Object? location = freezed,
+    Object? experience = freezed,
     Object? bids = freezed,
   }) {
     return _then(_value.copyWith(
@@ -130,6 +134,10 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as LocationModal?,
+      experience: freezed == experience
+          ? _value.experience
+          : experience // ignore: cast_nullable_to_non_nullable
+              as ExperienceModal?,
       bids: freezed == bids
           ? _value.bids
           : bids // ignore: cast_nullable_to_non_nullable
@@ -184,6 +192,18 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
       return _then(_value.copyWith(location: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ExperienceModalCopyWith<$Res>? get experience {
+    if (_value.experience == null) {
+      return null;
+    }
+
+    return $ExperienceModalCopyWith<$Res>(_value.experience!, (value) {
+      return _then(_value.copyWith(experience: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -205,6 +225,7 @@ abstract class _$$ProjectModelImplCopyWith<$Res>
       UserModel? created_by,
       BudgetModal? budget,
       LocationModal? location,
+      ExperienceModal? experience,
       List<BidModal>? bids});
 
   @override
@@ -215,6 +236,8 @@ abstract class _$$ProjectModelImplCopyWith<$Res>
   $BudgetModalCopyWith<$Res>? get budget;
   @override
   $LocationModalCopyWith<$Res>? get location;
+  @override
+  $ExperienceModalCopyWith<$Res>? get experience;
 }
 
 /// @nodoc
@@ -238,6 +261,7 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
     Object? created_by = freezed,
     Object? budget = freezed,
     Object? location = freezed,
+    Object? experience = freezed,
     Object? bids = freezed,
   }) {
     return _then(_$ProjectModelImpl(
@@ -281,6 +305,10 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as LocationModal?,
+      experience: freezed == experience
+          ? _value.experience
+          : experience // ignore: cast_nullable_to_non_nullable
+              as ExperienceModal?,
       bids: freezed == bids
           ? _value._bids
           : bids // ignore: cast_nullable_to_non_nullable
@@ -303,6 +331,7 @@ class _$ProjectModelImpl implements _ProjectModel {
       this.created_by,
       this.budget,
       this.location,
+      this.experience,
       final List<BidModal>? bids})
       : _skills = skills,
         _bids = bids;
@@ -339,6 +368,8 @@ class _$ProjectModelImpl implements _ProjectModel {
   final BudgetModal? budget;
   @override
   final LocationModal? location;
+  @override
+  final ExperienceModal? experience;
   final List<BidModal>? _bids;
   @override
   List<BidModal>? get bids {
@@ -351,7 +382,7 @@ class _$ProjectModelImpl implements _ProjectModel {
 
   @override
   String toString() {
-    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created: $created, created_by: $created_by, budget: $budget, location: $location, bids: $bids)';
+    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created: $created, created_by: $created_by, budget: $budget, location: $location, experience: $experience, bids: $bids)';
   }
 
   @override
@@ -374,6 +405,8 @@ class _$ProjectModelImpl implements _ProjectModel {
             (identical(other.budget, budget) || other.budget == budget) &&
             (identical(other.location, location) ||
                 other.location == location) &&
+            (identical(other.experience, experience) ||
+                other.experience == experience) &&
             const DeepCollectionEquality().equals(other._bids, _bids));
   }
 
@@ -391,6 +424,7 @@ class _$ProjectModelImpl implements _ProjectModel {
       created_by,
       budget,
       location,
+      experience,
       const DeepCollectionEquality().hash(_bids));
 
   @JsonKey(ignore: true)
@@ -419,6 +453,7 @@ abstract class _ProjectModel implements ProjectModel {
       final UserModel? created_by,
       final BudgetModal? budget,
       final LocationModal? location,
+      final ExperienceModal? experience,
       final List<BidModal>? bids}) = _$ProjectModelImpl;
 
   factory _ProjectModel.fromJson(Map<String, dynamic> json) =
@@ -444,6 +479,8 @@ abstract class _ProjectModel implements ProjectModel {
   BudgetModal? get budget;
   @override
   LocationModal? get location;
+  @override
+  ExperienceModal? get experience;
   @override
   List<BidModal>? get bids;
   @override

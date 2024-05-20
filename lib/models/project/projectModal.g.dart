@@ -28,6 +28,10 @@ _$ProjectModelImpl _$$ProjectModelImplFromJson(Map<String, dynamic> json) =>
       location: json['location'] == null
           ? null
           : LocationModal.fromJson(json['location'] as Map<String, dynamic>),
+      experience: json['experience'] == null
+          ? null
+          : ExperienceModal.fromJson(
+              json['experience'] as Map<String, dynamic>),
       bids: (json['bids'] as List<dynamic>?)
           ?.map((e) => BidModal.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -45,5 +49,6 @@ Map<String, dynamic> _$$ProjectModelImplToJson(_$ProjectModelImpl instance) =>
       'created_by': instance.created_by,
       'budget': instance.budget,
       'location': instance.location,
+      'experience': instance.experience,
       'bids': instance.bids,
     };
