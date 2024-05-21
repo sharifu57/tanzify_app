@@ -57,121 +57,188 @@ class _ViewProjectState extends State<ViewProject> {
               )
             : Stack(
                 children: [
-                  Container(
-                    height: fullHeight,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          child: Row(
-                            children: [
-                              const Text(
-                                "Posted ",
-                                style: TextStyle(fontSize: 11),
-                              ),
-                              Text(
-                                widget.project.created != null
-                                    ? timeago.format(
-                                        DateTime.parse(widget.project.created!))
-                                    : "Date not available",
-                                style: const TextStyle(
-                                    color: Colors.grey, fontSize: 11),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: const Icon(
-                                  Icons.share_location_sharp,
-                                  size: 20,
-                                  color: Constants.primaryColor,
+                  SingleChildScrollView(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "Posted ",
+                                  style: TextStyle(fontSize: 11),
                                 ),
-                              ),
-                              Text("${widget.project.location?.name}"),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                            child: Text(
-                                "${widget.project.bids?.length ?? 0} Connected proposals")),
-                        Container(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: const Divider()),
-                        SizedBox(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                padding: const EdgeInsets.only(right: 5),
-                                alignment: Alignment.topLeft,
-                                child: const Icon(
-                                  Icons.campaign_rounded,
-                                  color: Constants.primaryColor,
+                                Text(
+                                  widget.project.created != null
+                                      ? timeago.format(DateTime.parse(
+                                          widget.project.created!))
+                                      : "Date not available",
+                                  style: const TextStyle(
+                                      color: Colors.grey, fontSize: 11),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 9,
-                                // child: Text(widget.project.description ?? ""),
-                                child: ReadMoreText(
-                                  textAlign: TextAlign.start,
-                                  widget.project.description ?? "",
-                                  trimMode: TrimMode.Line,
-                                  trimLines: 7,
-                                  colorClickableText: Colors.pink,
-                                  trimCollapsedText: 'Show more',
-                                  trimExpandedText: 'Show less',
-                                  moreStyle: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Constants.primaryColor),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: const Icon(
+                                    Icons.share_location_sharp,
+                                    size: 20,
+                                    color: Constants.primaryColor,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Text("${widget.project.location?.name}"),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
+                          SizedBox(
+                              child: Text(
+                                  "${widget.project.bids?.length ?? 0} Connected proposals")),
+                          Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Divider()),
+                          SizedBox(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(right: 5),
+                                  alignment: Alignment.topLeft,
+                                  child: const Icon(
+                                    Icons.campaign_rounded,
+                                    color: Constants.primaryColor,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 9,
+                                  child: ReadMoreText(
+                                    textAlign: TextAlign.start,
+                                    widget.project.description ?? "",
+                                    trimMode: TrimMode.Line,
+                                    trimLines: 7,
+                                    colorClickableText: Colors.pink,
+                                    trimCollapsedText: 'Show more',
+                                    trimExpandedText: 'Show less',
+                                    moreStyle: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Constants.primaryColor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Divider()),
+                          Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: const Divider()),
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.price_check_outlined),
-                              Container(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Text(
-                                    "${widget.project.budget?.price_from} - ${widget.project.budget?.price_to}"),
-                              ),
-                            ],
+                            child: Row(
+                              children: [
+                                const Icon(Icons.price_check_outlined),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text(
+                                      "${widget.project.budget?.price_from} - ${widget.project.budget?.price_to}"),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: const Divider()),
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.workspace_premium_outlined),
-                              Container(
-                                padding: const EdgeInsets.only(left: 5),
-                                child:
-                                    Text("${widget.project.experience?.title}"),
-                              ),
-                            ],
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.workspace_premium_outlined),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text(
+                                      "${widget.project.experience?.title}"),
+                                ),
+                              ],
+                            ),
                           ),
-                        )
-                      ],
+                          Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Divider()),
+                          SizedBox(
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: const Text(
+                                    "Skills Required",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Wrap(
+                                    runAlignment: WrapAlignment.start,
+                                    spacing: 4.0,
+                                    runSpacing: 6.0,
+                                    children: widget.project.skills!
+                                        .map((skill) => ChoiceChip(
+                                            label: Text(skill.name),
+                                            selected: true))
+                                        .toList(),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Divider()),
+                          SizedBox(
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: const Text(
+                                    "About the Client",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.verified_rounded,
+                                        color: Constants.primaryColor,
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child:
+                                            const Text("Phone Number Verified"),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Align(
@@ -181,13 +248,14 @@ class _ViewProjectState extends State<ViewProject> {
                       child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            // Define your apply job action here
-                          },
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 Constants.primaryColor, // Button color
                             padding: const EdgeInsets.symmetric(vertical: 15),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0))),
                           ),
                           child: const Text(
                             "Apply Job",

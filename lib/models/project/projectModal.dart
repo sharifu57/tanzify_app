@@ -50,7 +50,7 @@ class ProjectModel with _$ProjectModel {
         location: json['location'] != null
             ? LocationModal.fromJson(json['location'] as Map<String, dynamic>)
             : null,
-        experience: json['experience'] != null
+        experience: json['experience'] is Map<String, dynamic>
             ? ExperienceModal.fromJson(
                 json['experience'] as Map<String, dynamic>)
             : null,
