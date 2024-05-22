@@ -102,9 +102,13 @@ class _HomePageState extends State<HomePage> {
                       backgroundImage: NetworkImage(profileImage!),
                     )
                   : CircleAvatar(
-                      backgroundColor: Constants.secondaryColor,
+                      backgroundColor: Constants.primaryColor,
                       child: email != null
-                          ? Text(email![0])
+                          ? Text(
+                              email![0],
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 12),
+                            )
                           : Text(
                               '${(firstName ?? '').isNotEmpty ? firstName![0] : ''}${(lastName ?? '').isNotEmpty ? lastName![0] : ''}',
                               style: const TextStyle(color: Colors.white),

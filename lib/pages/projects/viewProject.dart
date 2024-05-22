@@ -8,6 +8,7 @@ import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/models/project/projectModal.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/pages/projects/applyProject.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:readmore/readmore.dart';
 import 'package:intl/intl.dart';
@@ -300,7 +301,12 @@ class _ViewProjectState extends State<ViewProject> {
                 SizedBox(
                   width: fullWidth / 2.3,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(CupertinoPageRoute(
+                          builder: (context) => ApplyProject(
+                              projectId: widget.project.id,
+                              projectTitle: widget.project.title)));
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Constants.primaryColor,
                       shape: const RoundedRectangleBorder(
