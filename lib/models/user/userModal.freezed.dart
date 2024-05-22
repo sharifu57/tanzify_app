@@ -24,6 +24,7 @@ mixin _$UserModel {
   String? get first_name => throw _privateConstructorUsedError;
   String? get last_name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  String? get date_joined => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,12 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
-  $Res call({int id, String? first_name, String? last_name, String email});
+  $Res call(
+      {int id,
+      String? first_name,
+      String? last_name,
+      String email,
+      String? date_joined});
 }
 
 /// @nodoc
@@ -56,6 +62,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? first_name = freezed,
     Object? last_name = freezed,
     Object? email = null,
+    Object? date_joined = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -74,6 +81,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      date_joined: freezed == date_joined
+          ? _value.date_joined
+          : date_joined // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -86,7 +97,12 @@ abstract class _$$UserModelImplCopyWith<$Res>
       __$$UserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String? first_name, String? last_name, String email});
+  $Res call(
+      {int id,
+      String? first_name,
+      String? last_name,
+      String email,
+      String? date_joined});
 }
 
 /// @nodoc
@@ -104,6 +120,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? first_name = freezed,
     Object? last_name = freezed,
     Object? email = null,
+    Object? date_joined = freezed,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -122,6 +139,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      date_joined: freezed == date_joined
+          ? _value.date_joined
+          : date_joined // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -130,7 +151,11 @@ class __$$UserModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserModelImpl implements _UserModel {
   const _$UserModelImpl(
-      {required this.id, this.first_name, this.last_name, required this.email});
+      {required this.id,
+      this.first_name,
+      this.last_name,
+      required this.email,
+      this.date_joined});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -143,10 +168,12 @@ class _$UserModelImpl implements _UserModel {
   final String? last_name;
   @override
   final String email;
+  @override
+  final String? date_joined;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, first_name: $first_name, last_name: $last_name, email: $email)';
+    return 'UserModel(id: $id, first_name: $first_name, last_name: $last_name, email: $email, date_joined: $date_joined)';
   }
 
   @override
@@ -159,13 +186,15 @@ class _$UserModelImpl implements _UserModel {
                 other.first_name == first_name) &&
             (identical(other.last_name, last_name) ||
                 other.last_name == last_name) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.date_joined, date_joined) ||
+                other.date_joined == date_joined));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, first_name, last_name, email);
+      Object.hash(runtimeType, id, first_name, last_name, email, date_joined);
 
   @JsonKey(ignore: true)
   @override
@@ -186,7 +215,8 @@ abstract class _UserModel implements UserModel {
       {required final int id,
       final String? first_name,
       final String? last_name,
-      required final String email}) = _$UserModelImpl;
+      required final String email,
+      final String? date_joined}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -199,6 +229,8 @@ abstract class _UserModel implements UserModel {
   String? get last_name;
   @override
   String get email;
+  @override
+  String? get date_joined;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
