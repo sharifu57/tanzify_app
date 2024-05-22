@@ -28,6 +28,8 @@ mixin _$ProjectModel {
   String? get duration => throw _privateConstructorUsedError;
   String? get created =>
       throw _privateConstructorUsedError; // ignore: non_constant_identifier_names
+  String? get application_deadline =>
+      throw _privateConstructorUsedError; // ignore: non_constant_identifier_names
   UserModel? get created_by => throw _privateConstructorUsedError;
   BudgetModal? get budget => throw _privateConstructorUsedError;
   LocationModal? get location => throw _privateConstructorUsedError;
@@ -54,6 +56,7 @@ abstract class $ProjectModelCopyWith<$Res> {
       List<SkillModel>? skills,
       String? duration,
       String? created,
+      String? application_deadline,
       UserModel? created_by,
       BudgetModal? budget,
       LocationModal? location,
@@ -87,6 +90,7 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
     Object? skills = freezed,
     Object? duration = freezed,
     Object? created = freezed,
+    Object? application_deadline = freezed,
     Object? created_by = freezed,
     Object? budget = freezed,
     Object? location = freezed,
@@ -121,6 +125,10 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
       created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
+              as String?,
+      application_deadline: freezed == application_deadline
+          ? _value.application_deadline
+          : application_deadline // ignore: cast_nullable_to_non_nullable
               as String?,
       created_by: freezed == created_by
           ? _value.created_by
@@ -222,6 +230,7 @@ abstract class _$$ProjectModelImplCopyWith<$Res>
       List<SkillModel>? skills,
       String? duration,
       String? created,
+      String? application_deadline,
       UserModel? created_by,
       BudgetModal? budget,
       LocationModal? location,
@@ -258,6 +267,7 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
     Object? skills = freezed,
     Object? duration = freezed,
     Object? created = freezed,
+    Object? application_deadline = freezed,
     Object? created_by = freezed,
     Object? budget = freezed,
     Object? location = freezed,
@@ -292,6 +302,10 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
       created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
+              as String?,
+      application_deadline: freezed == application_deadline
+          ? _value.application_deadline
+          : application_deadline // ignore: cast_nullable_to_non_nullable
               as String?,
       created_by: freezed == created_by
           ? _value.created_by
@@ -328,6 +342,7 @@ class _$ProjectModelImpl implements _ProjectModel {
       final List<SkillModel>? skills,
       this.duration,
       this.created,
+      this.application_deadline,
       this.created_by,
       this.budget,
       this.location,
@@ -363,6 +378,9 @@ class _$ProjectModelImpl implements _ProjectModel {
   final String? created;
 // ignore: non_constant_identifier_names
   @override
+  final String? application_deadline;
+// ignore: non_constant_identifier_names
+  @override
   final UserModel? created_by;
   @override
   final BudgetModal? budget;
@@ -382,7 +400,7 @@ class _$ProjectModelImpl implements _ProjectModel {
 
   @override
   String toString() {
-    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created: $created, created_by: $created_by, budget: $budget, location: $location, experience: $experience, bids: $bids)';
+    return 'ProjectModel(id: $id, title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created: $created, application_deadline: $application_deadline, created_by: $created_by, budget: $budget, location: $location, experience: $experience, bids: $bids)';
   }
 
   @override
@@ -400,6 +418,8 @@ class _$ProjectModelImpl implements _ProjectModel {
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             (identical(other.created, created) || other.created == created) &&
+            (identical(other.application_deadline, application_deadline) ||
+                other.application_deadline == application_deadline) &&
             (identical(other.created_by, created_by) ||
                 other.created_by == created_by) &&
             (identical(other.budget, budget) || other.budget == budget) &&
@@ -421,6 +441,7 @@ class _$ProjectModelImpl implements _ProjectModel {
       const DeepCollectionEquality().hash(_skills),
       duration,
       created,
+      application_deadline,
       created_by,
       budget,
       location,
@@ -450,6 +471,7 @@ abstract class _ProjectModel implements ProjectModel {
       final List<SkillModel>? skills,
       final String? duration,
       final String? created,
+      final String? application_deadline,
       final UserModel? created_by,
       final BudgetModal? budget,
       final LocationModal? location,
@@ -473,6 +495,8 @@ abstract class _ProjectModel implements ProjectModel {
   String? get duration;
   @override
   String? get created;
+  @override // ignore: non_constant_identifier_names
+  String? get application_deadline;
   @override // ignore: non_constant_identifier_names
   UserModel? get created_by;
   @override

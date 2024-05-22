@@ -19,6 +19,7 @@ _$ProjectModelImpl _$$ProjectModelImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       duration: json['duration'] as String?,
       created: json['created'] as String?,
+      application_deadline: json['application_deadline'] as String?,
       created_by: json['created_by'] == null
           ? null
           : UserModel.fromJson(json['created_by'] as Map<String, dynamic>),
@@ -46,6 +47,7 @@ Map<String, dynamic> _$$ProjectModelImplToJson(_$ProjectModelImpl instance) =>
       'skills': instance.skills,
       'duration': instance.duration,
       'created': instance.created,
+      'application_deadline': instance.application_deadline,
       'created_by': instance.created_by,
       'budget': instance.budget,
       'location': instance.location,

@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
@@ -11,8 +14,6 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:readmore/readmore.dart';
 
 class HomePage extends StatefulWidget {
-  // final Function(int)? goToPage;
-  // const HomePage({super.key, required this.goToPage});
   final Function(int)? goToPage;
 
   const HomePage({Key? key, this.goToPage}) : super(key: key);
@@ -23,6 +24,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int notificationCount = 1;
+  String? firstName;
+  String? lastName;
+  String? profileImage;
+  String? email;
   late ScrollController _scrollController;
   void handlePageChange(int page) {
     if (widget.goToPage != null) {
@@ -34,8 +39,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
-    // Provider.of<ProjectProvider>(context, listen: false).getProjects();
-
+    getUserFromStorage();
     fetchProjects();
 
     super.initState();
@@ -61,6 +65,21 @@ class _HomePageState extends State<HomePage> {
     await Provider.of<ProjectProvider>(context, listen: false).getProjects();
   }
 
+  void getUserFromStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? user = prefs.getString('user');
+
+    if (user != null) {
+      final userData = jsonDecode(user);
+      setState(() {
+        firstName = userData["first_name"];
+        lastName = userData["last_name"];
+        profileImage = userData['profile']['profile_image'];
+        email = userData["email"];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final projectProvider = Provider.of<ProjectProvider>(context);
@@ -78,10 +97,19 @@ class _HomePageState extends State<HomePage> {
               width: 10,
               height: 10,
               padding: const EdgeInsets.all(1),
-              child: CircleAvatar(
-                backgroundColor: Colors.brown.shade800,
-                child: const Text('AH'),
-              ),
+              child: profileImage != null
+                  ? CircleAvatar(
+                      backgroundImage: NetworkImage(profileImage!),
+                    )
+                  : CircleAvatar(
+                      backgroundColor: Constants.secondaryColor,
+                      child: email != null
+                          ? Text(email![0])
+                          : Text(
+                              '${(firstName ?? '').isNotEmpty ? firstName![0] : ''}${(lastName ?? '').isNotEmpty ? lastName![0] : ''}',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                    ),
             ),
           ),
           // Example count of notifications

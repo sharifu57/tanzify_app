@@ -39,9 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
     bool isLoggedIn = accessToken != null && accessToken.isNotEmpty;
 
-    print("=================auth data");
-    print(isLoggedIn);
-    print("======end auth data");
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (builder) => isLoggedIn ? const MainApp() : const AuthPage()));
   }

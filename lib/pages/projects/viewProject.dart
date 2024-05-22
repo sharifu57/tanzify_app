@@ -253,36 +253,36 @@ class _ViewProjectState extends State<ViewProject> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              Container(
-                                // padding:
-                                //     const EdgeInsets.symmetric(vertical: 15),
-                                child: Row(
-                                  children: [
-                                    // const Icon(
-                                    //   Icons.verified_rounded,
-                                    //   color: Constants.primaryColor,
-                                    // ),
-                                    Container(
-                                      padding: const EdgeInsets.only(left: 5),
-                                      child: Row(
-                                        children: [
-                                          const Text("Member Since: "),
-                                          // Text(widget.project.created_by
-                                          //         ?.date_joined ??
-                                          //     '')
-                                          Text(formatDate(widget
-                                              .project.created_by?.date_joined))
-                                        ],
-                                      ),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Row(
+                                      children: [
+                                        const Text("Member Since: "),
+                                        Text(formatDate(widget
+                                            .project.created_by?.date_joined))
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                            height: 80), // Spacer for button at bottom
+                        Container(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: const Divider()),
+                        Row(
+                          children: [
+                            const Text("Apply before: "),
+                            Text(
+                              formatDate(widget.project.application_deadline),
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 30),
                       ],
                     ),
                   ),
@@ -293,70 +293,53 @@ class _ViewProjectState extends State<ViewProject> {
           elevation: 8.0,
           color: Colors.white,
           height: 60,
-          child: Container(
-            // color: Colors.white,
-            // padding:
-            //     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-            child: SizedBox(
-              // width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: fullWidth / 2.3,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Constants.primaryColor, // Button color
-                        // padding: const EdgeInsets.symmetric(vertical: 10),
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0))),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                          "Apply Now",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
+          child: SizedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: fullWidth / 2.3,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Constants.primaryColor,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        "Apply Now",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
                       ),
                     ),
                   ),
-
-                  SizedBox(
-                    width: fullWidth / 2.3,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Constants.primaryColor, // Button color
-                        // padding: const EdgeInsets.symmetric(vertical: 10),
-
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0))),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                          "Share Job",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
+                ),
+                SizedBox(
+                  width: fullWidth / 2.3,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Constants.primaryColor,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        "Share Job",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
                       ),
                     ),
                   ),
-
-                  // FormButton(
-                  //     variant: FormButtonVariant.filled,
-                  //     onClick: () {},
-                  //     text: "Apply Now")
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ));

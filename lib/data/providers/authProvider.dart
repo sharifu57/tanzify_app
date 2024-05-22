@@ -65,15 +65,10 @@ class AuthProvider with ChangeNotifier {
         _userData = data['data'];
         _accessToken = data['data']['profile']['user_access_token'];
 
-        print("--------------access token");
-        print(data);
-        print(_accessToken);
-        print("--------------end access token");
-
         _refreshToken = data['refresh_token'];
         // _expiresAt = DateTime.now()
         //     .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
-        print("=========success");
+
         saveUserData();
         stopLoading();
         return true;

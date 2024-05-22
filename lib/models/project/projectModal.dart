@@ -21,6 +21,8 @@ class ProjectModel with _$ProjectModel {
       String? duration,
       String? created,
       // ignore: non_constant_identifier_names
+      String? application_deadline,
+      // ignore: non_constant_identifier_names
       UserModel? created_by,
       BudgetModal? budget,
       LocationModal? location,
@@ -41,6 +43,7 @@ class ProjectModel with _$ProjectModel {
             : [],
         duration: json['duration'] as String?,
         created: json['created'] as String?,
+        application_deadline: json['application_deadline'] as String,
         budget: json['budget'] != null
             ? BudgetModal.fromJson(json['budget'])
             : null,
