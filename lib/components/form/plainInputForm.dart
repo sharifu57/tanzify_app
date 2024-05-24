@@ -6,6 +6,7 @@ class PlainInputForm extends StatefulWidget {
   // final String prefixAmount;
   final String hintText;
   final onSaved;
+  final String maxLines;
   // final VoidCallback onButtonPressed;
   const PlainInputForm({
     super.key,
@@ -14,6 +15,7 @@ class PlainInputForm extends StatefulWidget {
     required this.controller,
     // required this.prefixAmount,
     required this.hintText,
+    required this.maxLines,
     // required this.onButtonPressed
   });
 
@@ -25,6 +27,7 @@ class _PlainInputFormState extends State<PlainInputForm> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        maxLines: int.parse(widget.maxLines),
         decoration: InputDecoration(
           hintText: widget.hintText,
           hintStyle: const TextStyle(fontSize: 12),
