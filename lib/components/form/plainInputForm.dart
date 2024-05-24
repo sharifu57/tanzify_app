@@ -6,13 +6,16 @@ class PlainInputForm extends StatefulWidget {
   // final String prefixAmount;
   final String hintText;
   final onSaved;
-  const PlainInputForm(
-      {super.key,
-      required this.validator,
-      required this.onSaved,
-      required this.controller,
-      // required this.prefixAmount,
-      required this.hintText});
+  // final VoidCallback onButtonPressed;
+  const PlainInputForm({
+    super.key,
+    required this.validator,
+    required this.onSaved,
+    required this.controller,
+    // required this.prefixAmount,
+    required this.hintText,
+    // required this.onButtonPressed
+  });
 
   @override
   State<PlainInputForm> createState() => _PlainInputFormState();
@@ -33,6 +36,7 @@ class _PlainInputFormState extends State<PlainInputForm> {
           ),
           // prefixText: widget.prefixAmount,
         ),
+
         // The validator receives the text that the user has entered.
         validator: widget.validator);
   }

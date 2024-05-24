@@ -17,7 +17,9 @@ _$ProjectModelImpl _$$ProjectModelImplFromJson(Map<String, dynamic> json) =>
       skills: (json['skills'] as List<dynamic>?)
           ?.map((e) => SkillModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      duration: json['duration'] as String?,
+      duration: json['duration'] == null
+          ? null
+          : DurationModal.fromJson(json['duration'] as Map<String, dynamic>),
       created: json['created'] as String?,
       application_deadline: json['application_deadline'] as String?,
       created_by: json['created_by'] == null

@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tanzify_app/models/Bid/bidModal.dart';
 import 'package:tanzify_app/models/budget/budgetModal.dart';
 import 'package:tanzify_app/models/category/categoryModal.dart';
+import 'package:tanzify_app/models/duration/durationModal.dart';
 import 'package:tanzify_app/models/experience/experienceModal.dart';
 import 'package:tanzify_app/models/location/locationModal.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';
@@ -18,7 +19,7 @@ class ProjectModel with _$ProjectModel {
       String? description,
       CategoryModel? category,
       List<SkillModel>? skills,
-      String? duration,
+      DurationModal? duration,
       String? created,
       // ignore: non_constant_identifier_names
       String? application_deadline,
@@ -41,9 +42,11 @@ class ProjectModel with _$ProjectModel {
                 .map((e) => SkillModel.fromJson(e as Map<String, dynamic>))
                 .toList()
             : [],
-        duration: json['duration'] as String?,
         created: json['created'] as String?,
         application_deadline: json['application_deadline'] as String,
+        duration: json['duration'] is Map<String, dynamic>
+            ? DurationModal.fromJson(json['duration'] as Map<String, dynamic>)
+            : null,
         budget: json['budget'] != null
             ? BudgetModal.fromJson(json['budget'])
             : null,

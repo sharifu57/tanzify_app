@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:tanzify_app/components/form/customInputForm.dart';
 import 'package:tanzify_app/components/form/plainInputForm.dart';
+import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/durationProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 
@@ -28,6 +29,7 @@ class ApplyProject extends StatefulWidget {
 class _ApplyProjectState extends State<ApplyProject> {
   late TextEditingController textController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String? selectedDuration;
   @override
   void initState() {
     super.initState();
@@ -149,7 +151,68 @@ class _ApplyProjectState extends State<ApplyProject> {
                       return null;
                     },
                     onSaved: null,
-                  )
+                  ),
+                  SizedBox(height: 20.h),
+                  // PlainInputForm(
+                  //   controller: textController,
+                  //   hintText: "$selectedDuration",
+                  //   validator: validator,
+                  //   onSaved: onSaved,
+                  // )
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     _showDurationBottomSheet(context);
+                  //   },
+                  //   child: const Text('Select Duration'),
+                  // ),
+                  // Card.outlined(
+                  //     elevation: 2,
+                  //     shape: const RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.all(Radius.circular(10)),
+                  //     ),
+                  //     child: Center(
+                  //       child: Text(
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.all(10),
+                  //           child: GestureDetector(
+                  //             onTap: () {},
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     )),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 7.h),
+                    alignment: Alignment.centerLeft,
+                    child: const Text("How long will this Project Take?"),
+                  ),
+
+                  GestureDetector(
+                    onTap: () {
+                      _showDurationBottomSheet(context);
+                    },
+                    child: Card.outlined(
+                      elevation: 0,
+                      child: Container(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 13, horizontal: 15),
+                          child: selectedDuration == null
+                              ? const Text("Selected Duration")
+                              : Text("$selectedDuration"),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // if (selectedDuration != null)
+                  //   Padding(
+                  //     padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  //     child: Text(
+                  //       'Selected Duration: $selectedDuration',
+                  //       style: const TextStyle(
+                  //           fontSize: 16, fontWeight: FontWeight.bold),
+                  //     ),
+                  //   ),
                 ],
               ),
               SizedBox(height: 20.h),
@@ -157,6 +220,58 @@ class _ApplyProjectState extends State<ApplyProject> {
           ),
         ),
       ],
+    );
+  }
+
+  void _showDurationBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height:
+              MediaQuery.of(context).size.height * 0.45, // 40% of screen height
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Select Duration',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: Consumer<DurationProvider>(
+                  builder: (context, durationProvider, child) {
+                    final durations = durationProvider.durations;
+
+                    if (durations.isEmpty) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    return ListView(
+                      children: durations.map((e) {
+                        return RadioListTile<String>(
+                          activeColor: Constants.secondaryColor,
+                          title: Text(e.title),
+                          // value: e.id.toString(),
+                          value: e.title,
+                          groupValue: selectedDuration,
+                          onChanged: (String? value) {
+                            setState(() {
+                              selectedDuration = value;
+                            });
+                            Navigator.pop(context);
+                          },
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

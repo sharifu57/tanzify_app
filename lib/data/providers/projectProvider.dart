@@ -30,7 +30,6 @@ class ProjectProvider extends ChangeNotifier {
       if (response is Map<String, dynamic> && response.containsKey('results')) {
         var results = response['results'];
         if (results is List) {
-         
           // Parsing each project in the results list
 
           projects = results
@@ -40,11 +39,6 @@ class ProjectProvider extends ChangeNotifier {
               .where((e) => e != null)
               .cast<ProjectModel>()
               .toList();
-
-          print("======this is projects");
-          print(projects);
-          print("=======end this projects");
-          print("Projects parsed successfully");
         }
       }
     } catch (e) {

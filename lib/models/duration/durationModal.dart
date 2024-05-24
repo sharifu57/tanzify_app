@@ -9,5 +9,5 @@ class DurationModal with _$DurationModal {
       _DurationModal;
 
   factory DurationModal.fromJson(Map<String, dynamic> json) =>
-      _$DurationModalFromJson(json);
+      DurationModal(id: json["id"] as int, title: json["title"]);
 }

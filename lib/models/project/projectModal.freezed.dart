@@ -25,7 +25,7 @@ mixin _$ProjectModel {
   String? get description => throw _privateConstructorUsedError;
   CategoryModel? get category => throw _privateConstructorUsedError;
   List<SkillModel>? get skills => throw _privateConstructorUsedError;
-  String? get duration => throw _privateConstructorUsedError;
+  DurationModal? get duration => throw _privateConstructorUsedError;
   String? get created =>
       throw _privateConstructorUsedError; // ignore: non_constant_identifier_names
   String? get application_deadline =>
@@ -54,7 +54,7 @@ abstract class $ProjectModelCopyWith<$Res> {
       String? description,
       CategoryModel? category,
       List<SkillModel>? skills,
-      String? duration,
+      DurationModal? duration,
       String? created,
       String? application_deadline,
       UserModel? created_by,
@@ -64,6 +64,7 @@ abstract class $ProjectModelCopyWith<$Res> {
       List<BidModal>? bids});
 
   $CategoryModelCopyWith<$Res>? get category;
+  $DurationModalCopyWith<$Res>? get duration;
   $UserModelCopyWith<$Res>? get created_by;
   $BudgetModalCopyWith<$Res>? get budget;
   $LocationModalCopyWith<$Res>? get location;
@@ -121,7 +122,7 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
       duration: freezed == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DurationModal?,
       created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
@@ -162,6 +163,18 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
 
     return $CategoryModelCopyWith<$Res>(_value.category!, (value) {
       return _then(_value.copyWith(category: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DurationModalCopyWith<$Res>? get duration {
+    if (_value.duration == null) {
+      return null;
+    }
+
+    return $DurationModalCopyWith<$Res>(_value.duration!, (value) {
+      return _then(_value.copyWith(duration: value) as $Val);
     });
   }
 
@@ -228,7 +241,7 @@ abstract class _$$ProjectModelImplCopyWith<$Res>
       String? description,
       CategoryModel? category,
       List<SkillModel>? skills,
-      String? duration,
+      DurationModal? duration,
       String? created,
       String? application_deadline,
       UserModel? created_by,
@@ -239,6 +252,8 @@ abstract class _$$ProjectModelImplCopyWith<$Res>
 
   @override
   $CategoryModelCopyWith<$Res>? get category;
+  @override
+  $DurationModalCopyWith<$Res>? get duration;
   @override
   $UserModelCopyWith<$Res>? get created_by;
   @override
@@ -298,7 +313,7 @@ class __$$ProjectModelImplCopyWithImpl<$Res>
       duration: freezed == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DurationModal?,
       created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
@@ -373,7 +388,7 @@ class _$ProjectModelImpl implements _ProjectModel {
   }
 
   @override
-  final String? duration;
+  final DurationModal? duration;
   @override
   final String? created;
 // ignore: non_constant_identifier_names
@@ -469,7 +484,7 @@ abstract class _ProjectModel implements ProjectModel {
       final String? description,
       final CategoryModel? category,
       final List<SkillModel>? skills,
-      final String? duration,
+      final DurationModal? duration,
       final String? created,
       final String? application_deadline,
       final UserModel? created_by,
@@ -492,7 +507,7 @@ abstract class _ProjectModel implements ProjectModel {
   @override
   List<SkillModel>? get skills;
   @override
-  String? get duration;
+  DurationModal? get duration;
   @override
   String? get created;
   @override // ignore: non_constant_identifier_names

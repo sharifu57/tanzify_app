@@ -20,11 +20,16 @@ class DurationProvider with ChangeNotifier {
     _isLoading = true;
     try {
       var response = await _dataConnection.fetchData('durations/');
-
+      print("==========start response");
       if (response != null) {
         durations = (response as List)
             .map((duration) => DurationModal.fromJson(duration))
             .toList();
+        print("-==========response data====");
+        print(durations);
+        print("=======end response data====");
+        _isLoading = false;
+        notifyListeners();
       }
       _isLoading = false;
       notifyListeners();

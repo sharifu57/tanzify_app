@@ -188,7 +188,8 @@ class _ViewProjectState extends State<ViewProject> {
                               ),
                               Container(
                                 padding: const EdgeInsets.only(left: 5),
-                                child: Text("${widget.project.duration} days"),
+                                child:
+                                    Text("${widget.project.duration?.title}"),
                               ),
                             ],
                           ),
