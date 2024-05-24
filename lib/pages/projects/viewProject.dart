@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
+import 'package:tanzify_app/components/icons/simpleIcon.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/models/project/projectModal.dart';
@@ -43,6 +44,8 @@ class _ViewProjectState extends State<ViewProject> {
       }
     }
 
+    final String projectBudgetAmount =
+        "${widget.project.budget?.price_from} - ${widget.project.budget?.price_to}";
     return Scaffold(
         appBar: AppBar(
           elevation: 2,
@@ -110,9 +113,8 @@ class _ViewProjectState extends State<ViewProject> {
                             children: [
                               Container(
                                 padding: const EdgeInsets.only(right: 10),
-                                child: const Icon(
-                                  Icons.share_location_sharp,
-                                  size: 20,
+                                child: const SimpleIcon(
+                                  icon: Icons.share_location_sharp,
                                   color: Constants.primaryColor,
                                 ),
                               ),
@@ -164,7 +166,10 @@ class _ViewProjectState extends State<ViewProject> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Row(
                             children: [
-                              const Icon(Icons.price_check_outlined),
+                              const SimpleIcon(
+                                icon: Icons.price_check_outlined,
+                                color: Constants.primaryColor,
+                              ),
                               Container(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
@@ -177,7 +182,25 @@ class _ViewProjectState extends State<ViewProject> {
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Row(
                             children: [
-                              const Icon(Icons.workspace_premium_outlined),
+                              const SimpleIcon(
+                                icon: Icons.timer,
+                                color: Constants.primaryColor,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text("${widget.project.duration} days"),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              const SimpleIcon(
+                                icon: Icons.workspace_premium_outlined,
+                                color: Constants.primaryColor,
+                              ),
                               Container(
                                 padding: const EdgeInsets.only(left: 5),
                                 child:
@@ -305,7 +328,9 @@ class _ViewProjectState extends State<ViewProject> {
                       Navigator.of(context).push(CupertinoPageRoute(
                           builder: (context) => ApplyProject(
                               projectId: widget.project.id,
-                              projectTitle: widget.project.title)));
+                              projectTitle: widget.project.title,
+                              projectBudget: projectBudgetAmount,
+                              projectDescription: widget.project.description)));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Constants.primaryColor,

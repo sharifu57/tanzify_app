@@ -29,9 +29,8 @@ class _MainAppState extends State<MainApp> {
     ];
     return Scaffold(
       body: pages[currentPageIndex],
-      floatingActionButton:
-          FloatingActionButton(child: const Icon(Icons.add), onPressed: () {}),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton:
+      //     FloatingActionButton(child: const Icon(Icons.add), onPressed: () {}),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(

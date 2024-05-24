@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/data/providers/categoryProvider.dart';
+import 'package:tanzify_app/data/providers/durationProvider.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/data/providers/userProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
@@ -32,7 +33,8 @@ class _TanzifyAppState extends State<TanzifyApp> {
             create: (context) => AuthProvider(),
           ),
           ChangeNotifierProvider(create: (context) => CategoryProvider()),
-          ChangeNotifierProvider(create: (context) => ProjectProvider())
+          ChangeNotifierProvider(create: (context) => ProjectProvider()),
+          ChangeNotifierProvider(create: (context) => DurationProvider())
         ],
         child: MaterialApp(
           navigatorKey: Constants.globalAppKey,
