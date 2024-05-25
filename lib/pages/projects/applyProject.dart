@@ -311,62 +311,67 @@ class _ApplyProjectState extends State<ApplyProject> {
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  projectProvider.isLoading
-                      ? const WaveSpinKit()
-                      : FormButton(
-                          fullWidth: true,
-                          text: "Submit",
-                          variant: FormButtonVariant.filled,
-                          onClick: () {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
+                  Container(
+                    child: projectProvider.isLoading
+                        ? const WaveSpinKit()
+                        : FormButton(
+                            fullWidth: true,
+                            text: "Submit",
+                            variant: FormButtonVariant.filled,
+                            onClick: () {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
 
-                              print("Amount: ${amountController.text.trim()}");
-                              print("Proposal: ${textController.text.trim()}");
-                              print("duration: $selectedDuration");
+                                print(
+                                    "Amount: ${amountController.text.trim()}");
+                                print(
+                                    "Proposal: ${textController.text.trim()}");
+                                print("duration: $selectedDuration");
 
-                              var bidPayload = {
-                                "project": widget.projectId,
-                                "bidder": userId,
-                                "amount": _amount,
-                                "duration": selectedDuration,
-                                "proposal": _proposal,
-                                "attachment": selectedFile?.name,
-                              };
+                                var bidPayload = {
+                                  "project": widget.projectId,
+                                  "bidder": userId,
+                                  "amount": _amount,
+                                  "duration": selectedDuration,
+                                  "proposal": _proposal,
+                                  "attachment": selectedFile?.name,
+                                };
 
-                              print("==========bid payload");
-                              print(bidPayload);
-                              print("=========end bid payload");
+                                print("==========bid payload");
+                                print(bidPayload);
+                                print("=========end bid payload");
 
-                              projectProvider
-                                  .applyProject(bidPayload)
-                                  .then((success) => {
-                                        if (success)
-                                          {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    backgroundColor:
-                                                        Colors.green,
-                                                    content: Text(
-                                                        projectProvider
-                                                            .errorMessage))),
-                                            Navigator.of(context).push(
-                                                CupertinoPageRoute(
-                                                    builder: (context) =>
-                                                        const MainApp()))
-                                          }
-                                        else
-                                          {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    backgroundColor: Colors.red,
-                                                    content: Text(
-                                                        projectProvider
-                                                            .errorMessage)))
-                                          }
-                                      });
-                            }
-                          }),
+                                projectProvider
+                                    .applyProject(bidPayload)
+                                    .then((success) => {
+                                          if (success)
+                                            {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      backgroundColor:
+                                                          Colors.green,
+                                                      content: Text(
+                                                          projectProvider
+                                                              .errorMessage))),
+                                              Navigator.of(context).push(
+                                                  CupertinoPageRoute(
+                                                      builder: (context) =>
+                                                          const MainApp()))
+                                            }
+                                          else
+                                            {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      content: Text(
+                                                          projectProvider
+                                                              .errorMessage)))
+                                            }
+                                        });
+                              }
+                            }),
+                  )
                 ],
               ),
               SizedBox(height: 20.h),

@@ -19,6 +19,16 @@ class ProjectProvider extends ChangeNotifier {
   String get errorMessage => _errorMessage;
   List<ProjectModel> get projectsList => projects;
 
+  void startLoading() {
+    _isLoading = true;
+    notifyListeners();
+  }
+
+  void stopLoading() {
+    _isLoading = false;
+    notifyListeners();
+  }
+
   Future<void> getProjects() async {
     _isLoading = true;
     // notifyListeners();
@@ -31,9 +41,7 @@ class ProjectProvider extends ChangeNotifier {
         if (response is Map<String, dynamic> &&
             response.containsKey('results')) {
           var results = response['results'];
-          print("---------------here results: ");
-          print(results);
-          print("-----------------end here results: ");
+          
           if (results is List) {
             // Parsing each project in the results list
 
@@ -59,7 +67,7 @@ class ProjectProvider extends ChangeNotifier {
   }
 
   Future<bool> applyProject(Map<String, dynamic> payload) async {
-    _isLoading = true;
+    startLoading();
 
     try {
       var response = await _dataConnection.postData('create_new_bid/', payload);
@@ -69,20 +77,21 @@ class ProjectProvider extends ChangeNotifier {
       print("=================end bid response");
 
       if (response.data['status'] == 201) {
-        print(response.statusCode);
+        stopLoading();
+
         _errorMessage = response.data['message'];
-        this._isLoading = false;
+
         return true;
       } else {
         _errorMessage =
             "Failed to send Bid request: ${response.data['message']}";
-        _isLoading = false;
+        stopLoading();
         return false;
       }
     } on DioError catch (e) {
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";
-      _isLoading = false;
+      stopLoading();
       return false;
     }
   }
