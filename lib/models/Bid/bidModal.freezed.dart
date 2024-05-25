@@ -20,11 +20,9 @@ BidModal _$BidModalFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BidModal {
-// int? id,
-// ProjectModel? project,
-// UserModel? bidder,
-// String? duration,
   String? get amount => throw _privateConstructorUsedError;
+  String? get identity => throw _privateConstructorUsedError;
+  UserModel? get bidder => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +35,9 @@ abstract class $BidModalCopyWith<$Res> {
   factory $BidModalCopyWith(BidModal value, $Res Function(BidModal) then) =
       _$BidModalCopyWithImpl<$Res, BidModal>;
   @useResult
-  $Res call({String? amount});
+  $Res call({String? amount, String? identity, UserModel? bidder});
+
+  $UserModelCopyWith<$Res>? get bidder;
 }
 
 /// @nodoc
@@ -54,13 +54,35 @@ class _$BidModalCopyWithImpl<$Res, $Val extends BidModal>
   @override
   $Res call({
     Object? amount = freezed,
+    Object? identity = freezed,
+    Object? bidder = freezed,
   }) {
     return _then(_value.copyWith(
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String?,
+      identity: freezed == identity
+          ? _value.identity
+          : identity // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bidder: freezed == bidder
+          ? _value.bidder
+          : bidder // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserModelCopyWith<$Res>? get bidder {
+    if (_value.bidder == null) {
+      return null;
+    }
+
+    return $UserModelCopyWith<$Res>(_value.bidder!, (value) {
+      return _then(_value.copyWith(bidder: value) as $Val);
+    });
   }
 }
 
@@ -72,7 +94,10 @@ abstract class _$$BidModalImplCopyWith<$Res>
       __$$BidModalImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? amount});
+  $Res call({String? amount, String? identity, UserModel? bidder});
+
+  @override
+  $UserModelCopyWith<$Res>? get bidder;
 }
 
 /// @nodoc
@@ -87,12 +112,22 @@ class __$$BidModalImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? amount = freezed,
+    Object? identity = freezed,
+    Object? bidder = freezed,
   }) {
     return _then(_$BidModalImpl(
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String?,
+      identity: freezed == identity
+          ? _value.identity
+          : identity // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bidder: freezed == bidder
+          ? _value.bidder
+          : bidder // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
     ));
   }
 }
@@ -100,21 +135,21 @@ class __$$BidModalImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$BidModalImpl implements _BidModal {
-  const _$BidModalImpl({this.amount});
+  const _$BidModalImpl({this.amount, this.identity, this.bidder});
 
   factory _$BidModalImpl.fromJson(Map<String, dynamic> json) =>
       _$$BidModalImplFromJson(json);
 
-// int? id,
-// ProjectModel? project,
-// UserModel? bidder,
-// String? duration,
   @override
   final String? amount;
+  @override
+  final String? identity;
+  @override
+  final UserModel? bidder;
 
   @override
   String toString() {
-    return 'BidModal(amount: $amount)';
+    return 'BidModal(amount: $amount, identity: $identity, bidder: $bidder)';
   }
 
   @override
@@ -122,12 +157,15 @@ class _$BidModalImpl implements _BidModal {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BidModalImpl &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.identity, identity) ||
+                other.identity == identity) &&
+            (identical(other.bidder, bidder) || other.bidder == bidder));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, amount);
+  int get hashCode => Object.hash(runtimeType, amount, identity, bidder);
 
   @JsonKey(ignore: true)
   @override
@@ -144,16 +182,20 @@ class _$BidModalImpl implements _BidModal {
 }
 
 abstract class _BidModal implements BidModal {
-  const factory _BidModal({final String? amount}) = _$BidModalImpl;
+  const factory _BidModal(
+      {final String? amount,
+      final String? identity,
+      final UserModel? bidder}) = _$BidModalImpl;
 
   factory _BidModal.fromJson(Map<String, dynamic> json) =
       _$BidModalImpl.fromJson;
 
-  @override // int? id,
-// ProjectModel? project,
-// UserModel? bidder,
-// String? duration,
+  @override
   String? get amount;
+  @override
+  String? get identity;
+  @override
+  UserModel? get bidder;
   @override
   @JsonKey(ignore: true)
   _$$BidModalImplCopyWith<_$BidModalImpl> get copyWith =>

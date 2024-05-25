@@ -1,14 +1,19 @@
+import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
 import 'package:tanzify_app/components/form/plainInputForm.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/durationProvider.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/pages/mainApp.dart';
 
 class ApplyProject extends StatefulWidget {
   final int? projectId;
@@ -30,14 +35,24 @@ class ApplyProject extends StatefulWidget {
 
 class _ApplyProjectState extends State<ApplyProject> {
   late TextEditingController textController = TextEditingController();
+  late TextEditingController amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  String _amount = "";
+  String _duration = "";
+  String _proposal = "";
+  String _selectedPDF = "";
+  String? userId;
+  String? selectedDurationId;
+
   String? selectedDuration;
+  String? selectedDurationTitle;
   PlatformFile? selectedFile;
 
   @override
   void initState() {
     super.initState();
-
+    getUserFromStorage();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScreenUtil.init(context,
           designSize: const Size(360, 690), minTextAdapt: true);
@@ -62,6 +77,21 @@ class _ApplyProjectState extends State<ApplyProject> {
     setState(() {
       selectedFile = null;
     });
+  }
+
+  void getUserFromStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? user = prefs.getString('user');
+    print("==========this user");
+    print(user);
+    print("===========end this user");
+
+    if (user != null) {
+      final userData = jsonDecode(user);
+      setState(() {
+        userId = userData["id"].toString();
+      });
+    }
   }
 
   @override
@@ -169,14 +199,21 @@ class _ApplyProjectState extends State<ApplyProject> {
                   PlainInputForm(
                     maxLines: "1",
                     hintText: '${widget.projectBudget}',
-                    controller: textController,
+                    controller: amountController,
+                    keyBoardInputType: TextInputType.number,
                     validator: (String? value) {
+                      print("===========value");
+                      print(value);
+                      print("===========end value");
                       if (value!.isEmpty) {
                         return "Please enter a valid amount";
                       }
                       return null;
                     },
-                    onSaved: null,
+                    onSaved: (value) {
+                      _amount = value ?? '';
+                      print("===============onSaved Amount: $_amount");
+                    },
                   ),
                   SizedBox(height: 20.h),
                   Container(
@@ -190,14 +227,14 @@ class _ApplyProjectState extends State<ApplyProject> {
                     },
                     child: Card.outlined(
                       elevation: 0,
-                      child: Container(
+                      child: SizedBox(
                         width: double.infinity,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 13, horizontal: 15),
                           child: selectedDuration == null
                               ? const Text("Select Duration")
-                              : Text("$selectedDuration"),
+                              : Text("$selectedDurationTitle"),
                         ),
                       ),
                     ),
@@ -213,13 +250,16 @@ class _ApplyProjectState extends State<ApplyProject> {
                     maxLines: "5",
                     hintText: '',
                     controller: textController,
+                    keyBoardInputType: TextInputType.text,
                     validator: (String? value) {
                       if (value!.isEmpty) {
                         return "Please enter a valid description";
                       }
                       return null;
                     },
-                    onSaved: null,
+                    onSaved: (value) {
+                      _proposal = value ?? '';
+                    },
                   ),
                   SizedBox(height: 20.h),
                   Container(
@@ -278,25 +318,54 @@ class _ApplyProjectState extends State<ApplyProject> {
                           text: "Submit",
                           variant: FormButtonVariant.filled,
                           onClick: () {
-                            // if (_formKey.currentState!.validate()) {
-                            //   _formKey.currentState!.save();
-                            //   authProvider
-                            //       .login(emailController.text,
-                            //           passwordController.text)
-                            //       .then((success) {
-                            //     if (!success) {
-                            //       ScaffoldMessenger.of(context).showSnackBar(
-                            //         SnackBar(
-                            //             backgroundColor: Colors.red,
-                            //             content:
-                            //                 Text(authProvider.errorMessage)),
-                            //       );
-                            //     } else {
-                            //       Navigator.of(context).push(CupertinoPageRoute(
-                            //           builder: (context) => const MainApp()));
-                            //     }
-                            //   });
-                            // }
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+
+                              print("Amount: ${amountController.text.trim()}");
+                              print("Proposal: ${textController.text.trim()}");
+                              print("duration: $selectedDuration");
+
+                              var bidPayload = {
+                                "project": widget.projectId,
+                                "bidder": userId,
+                                "amount": _amount,
+                                "duration": selectedDuration,
+                                "proposal": _proposal,
+                                "attachment": selectedFile?.name,
+                              };
+
+                              print("==========bid payload");
+                              print(bidPayload);
+                              print("=========end bid payload");
+
+                              projectProvider
+                                  .applyProject(bidPayload)
+                                  .then((success) => {
+                                        if (success)
+                                          {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    content: Text(
+                                                        projectProvider
+                                                            .errorMessage))),
+                                            Navigator.of(context).push(
+                                                CupertinoPageRoute(
+                                                    builder: (context) =>
+                                                        const MainApp()))
+                                          }
+                                        else
+                                          {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    backgroundColor: Colors.red,
+                                                    content: Text(
+                                                        projectProvider
+                                                            .errorMessage)))
+                                          }
+                                      });
+                            }
                           }),
                 ],
               ),
@@ -338,11 +407,13 @@ class _ApplyProjectState extends State<ApplyProject> {
                         return RadioListTile<String>(
                           activeColor: Constants.secondaryColor,
                           title: Text(e.title),
-                          value: e.title,
+                          value: e.id.toString(),
                           groupValue: selectedDuration,
                           onChanged: (String? value) {
+                            print("-===========value duration ${value} =====");
                             setState(() {
-                              selectedDuration = value;
+                              selectedDuration = value!;
+                              selectedDurationTitle = e.title;
                             });
                             Navigator.pop(context);
                           },

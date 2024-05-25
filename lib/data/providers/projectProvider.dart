@@ -27,18 +27,26 @@ class ProjectProvider extends ChangeNotifier {
       print("Raw response data: $response");
 
       // Checking if the response is a Map and contains 'results'
-      if (response is Map<String, dynamic> && response.containsKey('results')) {
-        var results = response['results'];
-        if (results is List) {
-          // Parsing each project in the results list
+      if (response != null) {
+        if (response is Map<String, dynamic> &&
+            response.containsKey('results')) {
+          var results = response['results'];
+          print("---------------here results: ");
+          print(results);
+          print("-----------------end here results: ");
+          if (results is List) {
+            // Parsing each project in the results list
 
-          projects = results
-              .map((e) => e != null
-                  ? ProjectModel.fromJson(e as Map<String, dynamic>)
-                  : null)
-              .where((e) => e != null)
-              .cast<ProjectModel>()
-              .toList();
+            projects = results
+                .map((e) => e != null
+                    ? ProjectModel.fromJson(e as Map<String, dynamic>)
+                    : null)
+                .where((e) => e != null)
+                .cast<ProjectModel>()
+                .toList();
+          }
+        } else {
+          print("=============response is null");
         }
       }
     } catch (e) {
@@ -47,6 +55,35 @@ class ProjectProvider extends ChangeNotifier {
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  Future<bool> applyProject(Map<String, dynamic> payload) async {
+    _isLoading = true;
+
+    try {
+      var response = await _dataConnection.postData('create_new_bid/', payload);
+
+      print("====================bid response");
+      print(response.data['status']);
+      print("=================end bid response");
+
+      if (response.data['status'] == 201) {
+        print(response.statusCode);
+        _errorMessage = response.data['message'];
+        this._isLoading = false;
+        return true;
+      } else {
+        _errorMessage =
+            "Failed to send Bid request: ${response.data['message']}";
+        _isLoading = false;
+        return false;
+      }
+    } on DioError catch (e) {
+      _errorMessage =
+          "Network error: ${e.response?.data['message'] ?? e.message}";
+      _isLoading = false;
+      return false;
     }
   }
 }

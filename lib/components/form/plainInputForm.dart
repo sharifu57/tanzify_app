@@ -7,6 +7,7 @@ class PlainInputForm extends StatefulWidget {
   final String hintText;
   final onSaved;
   final String maxLines;
+  final TextInputType keyBoardInputType;
   // final VoidCallback onButtonPressed;
   const PlainInputForm({
     super.key,
@@ -16,6 +17,7 @@ class PlainInputForm extends StatefulWidget {
     // required this.prefixAmount,
     required this.hintText,
     required this.maxLines,
+    required this.keyBoardInputType,
     // required this.onButtonPressed
   });
 
@@ -39,7 +41,8 @@ class _PlainInputFormState extends State<PlainInputForm> {
           ),
           // prefixText: widget.prefixAmount,
         ),
-
+        keyboardType: widget.keyBoardInputType,
+        onSaved: widget.onSaved,
         // The validator receives the text that the user has entered.
         validator: widget.validator);
   }

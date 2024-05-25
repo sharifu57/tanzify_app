@@ -21,8 +21,8 @@ BudgetModal _$BudgetModalFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BudgetModal {
   int get id => throw _privateConstructorUsedError;
-  String get price_from => throw _privateConstructorUsedError;
-  String get price_to => throw _privateConstructorUsedError;
+  String? get price_from => throw _privateConstructorUsedError;
+  String? get price_to => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +36,7 @@ abstract class $BudgetModalCopyWith<$Res> {
           BudgetModal value, $Res Function(BudgetModal) then) =
       _$BudgetModalCopyWithImpl<$Res, BudgetModal>;
   @useResult
-  $Res call({int id, String price_from, String price_to});
+  $Res call({int id, String? price_from, String? price_to});
 }
 
 /// @nodoc
@@ -53,22 +53,22 @@ class _$BudgetModalCopyWithImpl<$Res, $Val extends BudgetModal>
   @override
   $Res call({
     Object? id = null,
-    Object? price_from = null,
-    Object? price_to = null,
+    Object? price_from = freezed,
+    Object? price_to = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      price_from: null == price_from
+      price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
-              as String,
-      price_to: null == price_to
+              as String?,
+      price_to: freezed == price_to
           ? _value.price_to
           : price_to // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -81,7 +81,7 @@ abstract class _$$BudgetModalImplCopyWith<$Res>
       __$$BudgetModalImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String price_from, String price_to});
+  $Res call({int id, String? price_from, String? price_to});
 }
 
 /// @nodoc
@@ -96,22 +96,22 @@ class __$$BudgetModalImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? price_from = null,
-    Object? price_to = null,
+    Object? price_from = freezed,
+    Object? price_to = freezed,
   }) {
     return _then(_$BudgetModalImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      price_from: null == price_from
+      price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
-              as String,
-      price_to: null == price_to
+              as String?,
+      price_to: freezed == price_to
           ? _value.price_to
           : price_to // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -119,8 +119,7 @@ class __$$BudgetModalImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$BudgetModalImpl implements _BudgetModal {
-  const _$BudgetModalImpl(
-      {required this.id, required this.price_from, required this.price_to});
+  const _$BudgetModalImpl({required this.id, this.price_from, this.price_to});
 
   factory _$BudgetModalImpl.fromJson(Map<String, dynamic> json) =>
       _$$BudgetModalImplFromJson(json);
@@ -128,9 +127,9 @@ class _$BudgetModalImpl implements _BudgetModal {
   @override
   final int id;
   @override
-  final String price_from;
+  final String? price_from;
   @override
-  final String price_to;
+  final String? price_to;
 
   @override
   String toString() {
@@ -170,8 +169,8 @@ class _$BudgetModalImpl implements _BudgetModal {
 abstract class _BudgetModal implements BudgetModal {
   const factory _BudgetModal(
       {required final int id,
-      required final String price_from,
-      required final String price_to}) = _$BudgetModalImpl;
+      final String? price_from,
+      final String? price_to}) = _$BudgetModalImpl;
 
   factory _BudgetModal.fromJson(Map<String, dynamic> json) =
       _$BudgetModalImpl.fromJson;
@@ -179,9 +178,9 @@ abstract class _BudgetModal implements BudgetModal {
   @override
   int get id;
   @override
-  String get price_from;
+  String? get price_from;
   @override
-  String get price_to;
+  String? get price_to;
   @override
   @JsonKey(ignore: true)
   _$$BudgetModalImplCopyWith<_$BudgetModalImpl> get copyWith =>

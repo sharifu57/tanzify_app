@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   String? lastName;
   String? profileImage;
   String? email;
+  int? userId;
   late ScrollController _scrollController;
   void handlePageChange(int page) {
     if (widget.goToPage != null) {
@@ -71,12 +72,20 @@ class _HomePageState extends State<HomePage> {
 
     if (user != null) {
       final userData = jsonDecode(user);
-      setState(() {
-        firstName = userData["first_name"];
-        lastName = userData["last_name"];
-        profileImage = userData['profile']['profile_image'];
-        email = userData["email"];
-      });
+      final dynamic userIdData = userData["id"];
+      if (userIdData != null) {
+        setState(() {
+          firstName = userData["first_name"];
+          lastName = userData["last_name"];
+          profileImage = userData['profile']['profile_image'];
+          email = userData["email"];
+          userId = int.tryParse(userIdData.toString());
+        });
+      }
+
+      print("===========user id");
+      print(userId);
+      print("=======end user id========");
     }
   }
 
@@ -86,6 +95,16 @@ class _HomePageState extends State<HomePage> {
     final isLoading = projectProvider.isLoading;
     final double fullHeight = MediaQuery.of(context).size.height;
     final projects = projectProvider.projectsList;
+
+    print("================get user id ${userId}");
+
+    // if (userId == null) {
+    //   return Scaffold(
+    //     body: Center(
+    //       child: CircularProgressIndicator(), // or any other loading widget
+    //     ),
+    //   );
+    // }
 
     return Scaffold(
         appBar: AppBar(
@@ -258,30 +277,50 @@ class _HomePageState extends State<HomePage> {
                                                       ),
                                                     ],
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        projects[index]
-                                                            .budget!
-                                                            .price_from,
-                                                        style: const TextStyle(
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                      const Text("-"),
-                                                      Text(
-                                                        projects[index]
-                                                            .budget!
-                                                            .price_to,
-                                                        style: const TextStyle(
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                    ],
+                                                  Container(
+                                                    child: projects[index]
+                                                                    .bids !=
+                                                                null &&
+                                                            projects[index]
+                                                                .bids!
+                                                                .isNotEmpty &&
+                                                            projects[index]
+                                                                    .bids![0]
+                                                                    .identity ==
+                                                                userId
+                                                        ? Container(
+                                                            child:
+                                                                Text("Applied"),
+                                                          )
+                                                        : Row(
+                                                            children: [
+                                                              Text(
+                                                                projects[index]
+                                                                        .budget!
+                                                                        .price_from ??
+                                                                    "",
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                              ),
+                                                              const Text("-"),
+                                                              Text(
+                                                                projects[index]
+                                                                        .budget!
+                                                                        .price_to ??
+                                                                    "",
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                              ),
+                                                            ],
+                                                          ),
                                                   )
                                                 ],
                                               ),
@@ -331,27 +370,32 @@ class _HomePageState extends State<HomePage> {
                                                 alignment: Alignment.centerLeft,
                                                 padding: const EdgeInsets.only(
                                                     top: 5),
-                                                child: Wrap(
-                                                    runAlignment:
-                                                        WrapAlignment.start,
-                                                    spacing: 4.0,
-                                                    runSpacing: 6.0,
+                                                child: SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
                                                     children: projects[index]
                                                             .skills
-                                                            ?.map((skill) =>
-                                                                ChoiceChip(
-                                                                  label: Text(
-                                                                      skill
-                                                                          .name),
-                                                                  selected:
-                                                                      true,
-                                                                ))
-                                                            .toList() ??
+                                                            ?.map((skill) {
+                                                          return Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    right:
+                                                                        4.0), // Add some spacing
+                                                            child: ChoiceChip(
+                                                              label: Text(
+                                                                  skill.name),
+                                                              selected: true,
+                                                            ),
+                                                          );
+                                                        }).toList() ??
                                                         [
                                                           const Chip(
-                                                            label: Text(""),
-                                                          )
-                                                        ]),
+                                                              label: Text(""))
+                                                        ],
+                                                  ),
+                                                ),
                                               ),
                                               Row(
                                                 mainAxisAlignment:

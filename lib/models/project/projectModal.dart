@@ -34,36 +34,35 @@ class ProjectModel with _$ProjectModel {
         id: json['id'] as int,
         title: json['title'] as String?,
         description: json['description'] as String?,
+        // Use the null-aware operator (?.) to handle nullable fields
+        application_deadline: json['application_deadline'] as String?,
+        // Handle nullable fields using conditional logic
         category: json['category'] != null
             ? CategoryModel.fromJson(json['category'] as Map<String, dynamic>)
             : null,
-        skills: json['skills'] != null
-            ? (json['skills'] as List)
-                .map((e) => SkillModel.fromJson(e as Map<String, dynamic>))
-                .toList()
-            : [],
-        created: json['created'] as String?,
-        application_deadline: json['application_deadline'] as String,
-        duration: json['duration'] is Map<String, dynamic>
-            ? DurationModal.fromJson(json['duration'] as Map<String, dynamic>)
+        // Use null-aware operators to safely access nested properties
+        location: json['location'] != null
+            ? LocationModal.fromJson(json['location'] as Map<String, dynamic>)
             : null,
+
+        // check for budget
         budget: json['budget'] != null
-            ? BudgetModal.fromJson(json['budget'])
+            ? BudgetModal.fromJson(json['budget'] as Map<String, dynamic>)
             : null,
         created_by: json['created_by'] != null
             ? UserModel.fromJson(json['created_by'] as Map<String, dynamic>)
             : null,
-        location: json['location'] != null
-            ? LocationModal.fromJson(json['location'] as Map<String, dynamic>)
-            : null,
-        experience: json['experience'] is Map<String, dynamic>
+        // Handle nullable lists by checking if the value is a list and using conditional logic
+        skills: (json['skills'] as List?)
+            ?.map((e) => SkillModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        // Handle other fields similarly to ensure proper handling of null values
+        experience: json['experience'] != null
             ? ExperienceModal.fromJson(
                 json['experience'] as Map<String, dynamic>)
             : null,
-        bids: json['bids'] != null
-            ? (json['bids'] as List)
-                .map((e) => BidModal.fromJson(e as Map<String, dynamic>))
-                .toList()
-            : [],
+        bids: (json['bids'] as List<dynamic>?)
+            ?.map((e) => BidModal.fromJson(e as Map<String, dynamic>))
+            .toList(),
       );
 }

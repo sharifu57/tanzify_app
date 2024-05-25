@@ -8,16 +8,16 @@ part 'bidModal.g.dart';
 @freezed
 class BidModal with _$BidModal {
   const factory BidModal({
-    // int? id,
-    // ProjectModel? project,
-    // UserModel? bidder,
-    // String? duration,
     String? amount,
-    // String? proposal,
-    // String? message
+    String? identity,
+    UserModel? bidder,
   }) = _BidModal;
 
   factory BidModal.fromJson(Map<String, dynamic> json) => BidModal(
-        amount: json["amount"] as String,
+        amount: json["amount"] as String?, // Nullable String
+        identity: json["identity"] as String?,
+        // bidder: json['bidder'] != null
+        //     ? UserModel.fromJson(json['bidder'] as Map<String, dynamic>)
+        //     : null,
       );
 }
