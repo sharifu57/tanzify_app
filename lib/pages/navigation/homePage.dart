@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tanzify_app/components/icons/simpleIcon.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   String? profileImage;
   String? email;
   int? userId;
+  String? userIdString;
   late ScrollController _scrollController;
   void handlePageChange(int page) {
     if (widget.goToPage != null) {
@@ -80,12 +82,9 @@ class _HomePageState extends State<HomePage> {
           profileImage = userData['profile']['profile_image'];
           email = userData["email"];
           userId = int.tryParse(userIdData.toString());
+          userIdString = userId != null ? userId.toString() : '';
         });
       }
-
-      print("===========user id");
-      print(userId);
-      print("=======end user id========");
     }
   }
 
@@ -95,16 +94,6 @@ class _HomePageState extends State<HomePage> {
     final isLoading = projectProvider.isLoading;
     final double fullHeight = MediaQuery.of(context).size.height;
     final projects = projectProvider.projectsList;
-
-    print("================get user id ${userId}");
-
-    // if (userId == null) {
-    //   return Scaffold(
-    //     body: Center(
-    //       child: CircularProgressIndicator(), // or any other loading widget
-    //     ),
-    //   );
-    // }
 
     return Scaffold(
         appBar: AppBar(
@@ -283,28 +272,67 @@ class _HomePageState extends State<HomePage> {
                                                                 null &&
                                                             projects[index]
                                                                 .bids!
-                                                                .isNotEmpty &&
-                                                            projects[index]
+                                                                .isNotEmpty
+                                                        ? projects[index]
                                                                     .bids![0]
                                                                     .identity ==
-                                                                userId
-                                                        ? Container(
-                                                            child:
-                                                                Text("Applied"),
-                                                          )
+                                                                userIdString
+                                                            ? Card(
+                                                                elevation:
+                                                                    0, // Set the elevation to 0 to remove the shadow
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                  side: const BorderSide(
+                                                                      color: Constants
+                                                                          .successColor),
+                                                                ),
+                                                                child:
+                                                                    const Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5.0),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      SimpleIcon(
+                                                                          size:
+                                                                              11,
+                                                                          color: Constants
+                                                                              .successColor,
+                                                                          icon:
+                                                                              Icons.verified_user_outlined),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              8),
+                                                                      Text(
+                                                                        "Applied",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Constants.successColor,
+                                                                            fontSize: 11),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : Container()
                                                         : Row(
                                                             children: [
                                                               Text(
                                                                 projects[index]
-                                                                        .budget!
-                                                                        .price_from ??
-                                                                    "",
-                                                                style: const TextStyle(
-                                                                    fontSize:
-                                                                        11,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
+                                                                    .budget!
+                                                                    .price_from,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 11,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
                                                               ),
                                                               const Text("-"),
                                                               Text(
@@ -312,15 +340,16 @@ class _HomePageState extends State<HomePage> {
                                                                         .budget!
                                                                         .price_to ??
                                                                     "",
-                                                                style: const TextStyle(
-                                                                    fontSize:
-                                                                        11,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 11,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
                                                               ),
                                                             ],
-                                                          ),
+                                                          ), // Handle the case when bids list is null or empty
                                                   )
                                                 ],
                                               ),
