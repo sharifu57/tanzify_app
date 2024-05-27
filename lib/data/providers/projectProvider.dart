@@ -34,14 +34,14 @@ class ProjectProvider extends ChangeNotifier {
     // notifyListeners();
     try {
       var response = await _dataConnection.fetchData('projects/');
-      print("Raw response data: $response");
+      // print("Raw response data: $response");
 
       // Checking if the response is a Map and contains 'results'
       if (response != null) {
         if (response is Map<String, dynamic> &&
             response.containsKey('results')) {
           var results = response['results'];
-          
+
           if (results is List) {
             // Parsing each project in the results list
 
@@ -72,9 +72,9 @@ class ProjectProvider extends ChangeNotifier {
     try {
       var response = await _dataConnection.postData('create_new_bid/', payload);
 
-      print("====================bid response");
-      print(response.data['status']);
-      print("=================end bid response");
+      // print("====================bid response");
+      // print(response.data['status']);
+      // print("=================end bid response");
 
       if (response.data['status'] == 201) {
         stopLoading();

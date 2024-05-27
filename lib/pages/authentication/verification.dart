@@ -68,7 +68,8 @@ class _VerificationPageState extends State<VerificationPage> {
 
     TextStyle? createStyle(Color color) {
       ThemeData theme = Theme.of(context);
-      return theme.textTheme.headline3?.copyWith(color: color);
+
+      // return theme.textTheme.headline3?.copyWith(color: color);
     }
 
     return SingleChildScrollView(

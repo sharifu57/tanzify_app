@@ -26,9 +26,12 @@ class FormButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle textStyle = theme.textTheme.button!.copyWith(
+    final TextStyle textStyle = theme.textTheme.labelLarge!.copyWith(
       color: disabled ? Colors.grey : Colors.white,
     );
+    // final TextStyle textStyle = theme.textTheme.button!.copyWith(
+    //   color: disabled ? Colors.grey : Colors.white,
+    // );
 
     Widget buttonChild = loading
         ? const CircularProgressIndicator(
