@@ -31,7 +31,10 @@ class _HomePageState extends State<HomePage> {
   String? profileImage;
   String? email;
   int? userId;
+  int? categoryId;
   String? userIdString;
+  String? categoryIdString;
+  String? userCategory;
   late ScrollController _scrollController;
   void handlePageChange(int page) {
     if (widget.goToPage != null) {
@@ -44,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     getUserFromStorage();
-    fetchProjects();
+    // fetchProjects();
 
     super.initState();
   }
@@ -66,7 +69,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchProjects() async {
-    await Provider.of<ProjectProvider>(context, listen: false).getProjects();
+
+    if (categoryId != null) {
+      await Provider.of<ProjectProvider>(context, listen: false)
+          .getProjects(categoryId!);
+    } else {
+      print("=============category is null");
+    }
   }
 
   void getUserFromStorage() async {
@@ -76,6 +85,12 @@ class _HomePageState extends State<HomePage> {
     if (user != null) {
       final userData = jsonDecode(user);
       final dynamic userIdData = userData["id"];
+      final dynamic categoryIdData = userData['profile']['category']['id'];
+
+      print("=======hello category");
+      print(categoryIdData);
+      print("========end category data");
+
       if (userIdData != null) {
         setState(() {
           firstName = userData["first_name"];
@@ -84,7 +99,13 @@ class _HomePageState extends State<HomePage> {
           email = userData["email"];
           userId = int.tryParse(userIdData.toString());
           userIdString = userId != null ? userId.toString() : '';
+          categoryId = int.tryParse(categoryIdData.toString());
+          categoryIdString = categoryId != null ? categoryId.toString() : '';
         });
+
+        print("=======category ID: $categoryId");
+
+        fetchProjects();
       }
     }
   }
@@ -226,14 +247,34 @@ class _HomePageState extends State<HomePage> {
                                 return Column(
                                   children: [
                                     InkWell(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            CupertinoPageRoute(
-                                                builder: (context) =>
-                                                    ViewProject(
-                                                        project:
-                                                            projects[index])));
-                                      },
+                                      onTap: projects[index].bids != null &&
+                                              projects[index]
+                                                  .bids!
+                                                  .isNotEmpty &&
+                                              projects[index]
+                                                      .bids![0]
+                                                      .identity ==
+                                                  userIdString
+                                          ? () {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  duration: Duration(
+                                                      milliseconds: 1000),
+                                                  backgroundColor: Colors.red,
+                                                  content: Text(
+                                                      "You have already bid on this project"),
+                                                ),
+                                              );
+                                            }
+                                          : () {
+                                              Navigator.of(context).push(
+                                                  CupertinoPageRoute(
+                                                      builder: (context) =>
+                                                          ViewProject(
+                                                              project: projects[
+                                                                  index])));
+                                            },
                                       child: SizedBox(
                                         child: Container(
                                           padding: const EdgeInsets.all(10),
@@ -279,8 +320,7 @@ class _HomePageState extends State<HomePage> {
                                                                     .identity ==
                                                                 userIdString
                                                             ? Card(
-                                                                elevation:
-                                                                    0, // Set the elevation to 0 to remove the shadow
+                                                                elevation: 0,
                                                                 shape:
                                                                     RoundedRectangleBorder(
                                                                   borderRadius:
@@ -349,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                                                                 ),
                                                               ),
                                                             ],
-                                                          ), // Handle the case when bids list is null or empty
+                                                          ),
                                                   )
                                                 ],
                                               ),

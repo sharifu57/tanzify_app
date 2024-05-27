@@ -191,7 +191,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         variant: FormButtonVariant.filled,
                         onClick: () {
                           if (_formKey.currentState!.validate()) {
-                           
                             _formKey.currentState!.save();
                             authProvider
                                 .login(emailController.text,

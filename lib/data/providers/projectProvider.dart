@@ -29,12 +29,17 @@ class ProjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getProjects() async {
+  Future<void> getProjects(int userCategory) async {
     _isLoading = true;
+    print("-------category Id");
+    print(userCategory);
+    print("=======end category id");
+
     // notifyListeners();
     try {
-      var response = await _dataConnection.fetchData('projects/');
-      // print("Raw response data: $response");
+      var response =
+          await _dataConnection.fetchData('get_match_projects/$userCategory/');
+      print("Raw response data: $response");
 
       // Checking if the response is a Map and contains 'results'
       if (response != null) {

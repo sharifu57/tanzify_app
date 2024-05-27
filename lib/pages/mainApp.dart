@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tanzify_app/components/icons/simpleIcon.dart';
 import 'package:tanzify_app/pages/navigation/alertPage.dart';
 import 'package:tanzify_app/pages/navigation/application.dart';
 import 'package:tanzify_app/pages/navigation/homePage.dart';
 import 'package:tanzify_app/pages/navigation/post.dart';
 import 'package:tanzify_app/pages/navigation/profile.dart';
+import 'package:tanzify_app/pages/navigation/proposal.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -23,7 +25,7 @@ class _MainAppState extends State<MainApp> {
         });
       }),
       const ApplicationPage(),
-      const JobPosting(),
+      const Proposal(),
       const AlertPage(),
       const Profile()
     ];
@@ -40,7 +42,7 @@ class _MainAppState extends State<MainApp> {
           ),
         ),
         child: NavigationBar(
-          height: 60,
+          height: 55,
           selectedIndex: currentPageIndex,
           onDestinationSelected: (int index) {
             setState(() {
@@ -51,29 +53,23 @@ class _MainAppState extends State<MainApp> {
             NavigationDestination(
               selectedIcon: Icon(
                 Icons.home,
-                size: 20,
+                size: 18,
               ),
               icon: Icon(Icons.home_outlined),
               label: 'Home',
             ),
             NavigationDestination(
               selectedIcon: Icon(
-                Icons.work_history,
-                size: 20,
+                Icons.document_scanner_rounded,
+                size: 18,
               ),
-              icon: Icon(Icons.work_history_outlined),
-              label: 'Projects',
+              icon: SimpleIcon(icon: Icons.document_scanner_outlined),
+              label: 'Proposals',
             ),
-            // NavigationDestination(
-            //   selectedIcon: Icon(Icons.tips_and_updates),
-            //   icon: Icon(Icons.document_scanner_outlined),
-            //   label: 'Add New',
-            // ),
-
             NavigationDestination(
               selectedIcon: Icon(
                 Icons.history,
-                size: 20,
+                size: 18,
               ),
               icon: Icon(
                 Icons.history_sharp,
@@ -83,7 +79,7 @@ class _MainAppState extends State<MainApp> {
             NavigationDestination(
               selectedIcon: Icon(
                 Icons.person_2,
-                size: 20,
+                size: 18,
               ),
               icon: Icon(Icons.person_2_outlined),
               label: 'Profile',

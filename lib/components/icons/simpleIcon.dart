@@ -9,7 +9,7 @@ class SimpleIcon extends StatelessWidget {
       {super.key,
       required this.icon,
       this.color = Colors.black,
-      this.size = 22});
+      this.size = 20});
 
   @override
   Widget build(BuildContext context) {
