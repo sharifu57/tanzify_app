@@ -69,7 +69,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchProjects() async {
-
     if (categoryId != null) {
       await Provider.of<ProjectProvider>(context, listen: false)
           .getProjects(categoryId!);
@@ -87,10 +86,6 @@ class _HomePageState extends State<HomePage> {
       final dynamic userIdData = userData["id"];
       final dynamic categoryIdData = userData['profile']['category']['id'];
 
-      print("=======hello category");
-      print(categoryIdData);
-      print("========end category data");
-
       if (userIdData != null) {
         setState(() {
           firstName = userData["first_name"];
@@ -102,8 +97,6 @@ class _HomePageState extends State<HomePage> {
           categoryId = int.tryParse(categoryIdData.toString());
           categoryIdString = categoryId != null ? categoryId.toString() : '';
         });
-
-        print("=======category ID: $categoryId");
 
         fetchProjects();
       }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tanzify_app/models/Bid/bidModal.dart';
 import 'package:tanzify_app/models/project/projectModal.dart';
 import 'package:tanzify_app/services/dataConnection.dart';
 
@@ -10,6 +11,7 @@ class ProjectProvider extends ChangeNotifier {
   String _errorMessage = "";
   late DataConnection _dataConnection = DataConnection();
   List<ProjectModel> projects = [];
+  List<BidModal> myBids = [];
 
   ProjectProvider() {
     _dataConnection = DataConnection();
@@ -18,6 +20,7 @@ class ProjectProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
   List<ProjectModel> get projectsList => projects;
+  List<BidModal> get bidsList => myBids;
 
   void startLoading() {
     _isLoading = true;
@@ -29,13 +32,33 @@ class ProjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getMyBids(int bidderId) async {
+    _isLoading = true;
+    try {
+      var response = await _dataConnection.fetchData('my_bids/$bidderId/');
+
+      if (response != null && response is List) {
+        print("===========my response bid");
+        print(response);
+        print("=========end my response bid");
+
+        myBids = response
+            .where((e) =>
+                e is Map<String, dynamic>) // Ensure each element is a map
+            .map((e) => BidModal.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+    } catch (e) {
+      print("Error during parsing: $e");
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> getProjects(int userCategory) async {
     _isLoading = true;
-    print("-------category Id");
-    print(userCategory);
-    print("=======end category id");
-
-    // notifyListeners();
     try {
       var response =
           await _dataConnection.fetchData('get_match_projects/$userCategory/');
@@ -58,8 +81,6 @@ class ProjectProvider extends ChangeNotifier {
                 .cast<ProjectModel>()
                 .toList();
           }
-        } else {
-          print("=============response is null");
         }
       }
     } catch (e) {
@@ -76,10 +97,6 @@ class ProjectProvider extends ChangeNotifier {
 
     try {
       var response = await _dataConnection.postData('create_new_bid/', payload);
-
-      // print("====================bid response");
-      // print(response.data['status']);
-      // print("=================end bid response");
 
       if (response.data['status'] == 201) {
         stopLoading();

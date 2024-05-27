@@ -11,13 +11,14 @@ class BidModal with _$BidModal {
     String? amount,
     String? identity,
     UserModel? bidder,
+    ProjectModel? project,
   }) = _BidModal;
 
   factory BidModal.fromJson(Map<String, dynamic> json) => BidModal(
-        amount: json["amount"] as String?, // Nullable String
-        identity: json["identity"] as String?,
-        // bidder: json['bidder'] != null
-        //     ? UserModel.fromJson(json['bidder'] as Map<String, dynamic>)
-        //     : null,
-      );
+      amount: json["amount"] as String?,
+      identity: json["identity"] as String?,
+      // project: json['project'] != null
+      //     ? ProjectModel.fromJson(json['project'] as Map<String, dynamic>)
+      //     : null
+          );
 }

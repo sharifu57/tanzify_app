@@ -24,8 +24,8 @@ class _MainAppState extends State<MainApp> {
           currentPageIndex = page;
         });
       }),
-      const ApplicationPage(),
       const Proposal(),
+      const JobPosting(),
       const AlertPage(),
       const Profile()
     ];
