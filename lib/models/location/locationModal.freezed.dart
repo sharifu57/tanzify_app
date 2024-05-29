@@ -21,7 +21,12 @@ LocationModal _$LocationModalFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$LocationModal {
   int get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  bool get isActive => throw _privateConstructorUsedError;
+  bool get isDeleted => throw _privateConstructorUsedError;
+  DateTime? get created => throw _privateConstructorUsedError;
+  DateTime? get updated => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get code => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +40,14 @@ abstract class $LocationModalCopyWith<$Res> {
           LocationModal value, $Res Function(LocationModal) then) =
       _$LocationModalCopyWithImpl<$Res, LocationModal>;
   @useResult
-  $Res call({int id, String name});
+  $Res call(
+      {int id,
+      bool isActive,
+      bool isDeleted,
+      DateTime? created,
+      DateTime? updated,
+      String? name,
+      String? code});
 }
 
 /// @nodoc
@@ -52,17 +64,42 @@ class _$LocationModalCopyWithImpl<$Res, $Val extends LocationModal>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
+    Object? isActive = null,
+    Object? isDeleted = null,
+    Object? created = freezed,
+    Object? updated = freezed,
+    Object? name = freezed,
+    Object? code = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      created: freezed == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updated: freezed == updated
+          ? _value.updated
+          : updated // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -75,7 +112,14 @@ abstract class _$$LocationModalImplCopyWith<$Res>
       __$$LocationModalImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name});
+  $Res call(
+      {int id,
+      bool isActive,
+      bool isDeleted,
+      DateTime? created,
+      DateTime? updated,
+      String? name,
+      String? code});
 }
 
 /// @nodoc
@@ -90,17 +134,42 @@ class __$$LocationModalImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
+    Object? isActive = null,
+    Object? isDeleted = null,
+    Object? created = freezed,
+    Object? updated = freezed,
+    Object? name = freezed,
+    Object? code = freezed,
   }) {
     return _then(_$LocationModalImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      created: freezed == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updated: freezed == updated
+          ? _value.updated
+          : updated // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -108,7 +177,14 @@ class __$$LocationModalImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LocationModalImpl implements _LocationModal {
-  const _$LocationModalImpl({required this.id, required this.name});
+  const _$LocationModalImpl(
+      {required this.id,
+      required this.isActive,
+      required this.isDeleted,
+      this.created,
+      this.updated,
+      this.name,
+      this.code});
 
   factory _$LocationModalImpl.fromJson(Map<String, dynamic> json) =>
       _$$LocationModalImplFromJson(json);
@@ -116,11 +192,21 @@ class _$LocationModalImpl implements _LocationModal {
   @override
   final int id;
   @override
-  final String name;
+  final bool isActive;
+  @override
+  final bool isDeleted;
+  @override
+  final DateTime? created;
+  @override
+  final DateTime? updated;
+  @override
+  final String? name;
+  @override
+  final String? code;
 
   @override
   String toString() {
-    return 'LocationModal(id: $id, name: $name)';
+    return 'LocationModal(id: $id, isActive: $isActive, isDeleted: $isDeleted, created: $created, updated: $updated, name: $name, code: $code)';
   }
 
   @override
@@ -129,12 +215,20 @@ class _$LocationModalImpl implements _LocationModal {
         (other.runtimeType == runtimeType &&
             other is _$LocationModalImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
+            (identical(other.isDeleted, isDeleted) ||
+                other.isDeleted == isDeleted) &&
+            (identical(other.created, created) || other.created == created) &&
+            (identical(other.updated, updated) || other.updated == updated) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.code, code) || other.code == code));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name);
+  int get hashCode => Object.hash(
+      runtimeType, id, isActive, isDeleted, created, updated, name, code);
 
   @JsonKey(ignore: true)
   @override
@@ -153,7 +247,12 @@ class _$LocationModalImpl implements _LocationModal {
 abstract class _LocationModal implements LocationModal {
   const factory _LocationModal(
       {required final int id,
-      required final String name}) = _$LocationModalImpl;
+      required final bool isActive,
+      required final bool isDeleted,
+      final DateTime? created,
+      final DateTime? updated,
+      final String? name,
+      final String? code}) = _$LocationModalImpl;
 
   factory _LocationModal.fromJson(Map<String, dynamic> json) =
       _$LocationModalImpl.fromJson;
@@ -161,7 +260,17 @@ abstract class _LocationModal implements LocationModal {
   @override
   int get id;
   @override
-  String get name;
+  bool get isActive;
+  @override
+  bool get isDeleted;
+  @override
+  DateTime? get created;
+  @override
+  DateTime? get updated;
+  @override
+  String? get name;
+  @override
+  String? get code;
   @override
   @JsonKey(ignore: true)
   _$$LocationModalImplCopyWith<_$LocationModalImpl> get copyWith =>

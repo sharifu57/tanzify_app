@@ -24,6 +24,11 @@ mixin _$BidModal {
   String? get identity => throw _privateConstructorUsedError;
   UserModel? get bidder => throw _privateConstructorUsedError;
   ProjectModel? get project => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+  bool get isActive => throw _privateConstructorUsedError;
+  bool get isDeleted => throw _privateConstructorUsedError;
+  DateTime? get created => throw _privateConstructorUsedError;
+  DateTime? get updated => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +45,12 @@ abstract class $BidModalCopyWith<$Res> {
       {String? amount,
       String? identity,
       UserModel? bidder,
-      ProjectModel? project});
+      ProjectModel? project,
+      int id,
+      bool isActive,
+      bool isDeleted,
+      DateTime? created,
+      DateTime? updated});
 
   $UserModelCopyWith<$Res>? get bidder;
   $ProjectModelCopyWith<$Res>? get project;
@@ -63,6 +73,11 @@ class _$BidModalCopyWithImpl<$Res, $Val extends BidModal>
     Object? identity = freezed,
     Object? bidder = freezed,
     Object? project = freezed,
+    Object? id = null,
+    Object? isActive = null,
+    Object? isDeleted = null,
+    Object? created = freezed,
+    Object? updated = freezed,
   }) {
     return _then(_value.copyWith(
       amount: freezed == amount
@@ -81,6 +96,26 @@ class _$BidModalCopyWithImpl<$Res, $Val extends BidModal>
           ? _value.project
           : project // ignore: cast_nullable_to_non_nullable
               as ProjectModel?,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      created: freezed == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updated: freezed == updated
+          ? _value.updated
+          : updated // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -121,7 +156,12 @@ abstract class _$$BidModalImplCopyWith<$Res>
       {String? amount,
       String? identity,
       UserModel? bidder,
-      ProjectModel? project});
+      ProjectModel? project,
+      int id,
+      bool isActive,
+      bool isDeleted,
+      DateTime? created,
+      DateTime? updated});
 
   @override
   $UserModelCopyWith<$Res>? get bidder;
@@ -144,6 +184,11 @@ class __$$BidModalImplCopyWithImpl<$Res>
     Object? identity = freezed,
     Object? bidder = freezed,
     Object? project = freezed,
+    Object? id = null,
+    Object? isActive = null,
+    Object? isDeleted = null,
+    Object? created = freezed,
+    Object? updated = freezed,
   }) {
     return _then(_$BidModalImpl(
       amount: freezed == amount
@@ -162,6 +207,26 @@ class __$$BidModalImplCopyWithImpl<$Res>
           ? _value.project
           : project // ignore: cast_nullable_to_non_nullable
               as ProjectModel?,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      created: freezed == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updated: freezed == updated
+          ? _value.updated
+          : updated // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -169,7 +234,16 @@ class __$$BidModalImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$BidModalImpl implements _BidModal {
-  const _$BidModalImpl({this.amount, this.identity, this.bidder, this.project});
+  const _$BidModalImpl(
+      {this.amount,
+      this.identity,
+      this.bidder,
+      this.project,
+      required this.id,
+      required this.isActive,
+      required this.isDeleted,
+      this.created,
+      this.updated});
 
   factory _$BidModalImpl.fromJson(Map<String, dynamic> json) =>
       _$$BidModalImplFromJson(json);
@@ -182,10 +256,20 @@ class _$BidModalImpl implements _BidModal {
   final UserModel? bidder;
   @override
   final ProjectModel? project;
+  @override
+  final int id;
+  @override
+  final bool isActive;
+  @override
+  final bool isDeleted;
+  @override
+  final DateTime? created;
+  @override
+  final DateTime? updated;
 
   @override
   String toString() {
-    return 'BidModal(amount: $amount, identity: $identity, bidder: $bidder, project: $project)';
+    return 'BidModal(amount: $amount, identity: $identity, bidder: $bidder, project: $project, id: $id, isActive: $isActive, isDeleted: $isDeleted, created: $created, updated: $updated)';
   }
 
   @override
@@ -197,13 +281,20 @@ class _$BidModalImpl implements _BidModal {
             (identical(other.identity, identity) ||
                 other.identity == identity) &&
             (identical(other.bidder, bidder) || other.bidder == bidder) &&
-            (identical(other.project, project) || other.project == project));
+            (identical(other.project, project) || other.project == project) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
+            (identical(other.isDeleted, isDeleted) ||
+                other.isDeleted == isDeleted) &&
+            (identical(other.created, created) || other.created == created) &&
+            (identical(other.updated, updated) || other.updated == updated));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, amount, identity, bidder, project);
+  int get hashCode => Object.hash(runtimeType, amount, identity, bidder,
+      project, id, isActive, isDeleted, created, updated);
 
   @JsonKey(ignore: true)
   @override
@@ -224,7 +315,12 @@ abstract class _BidModal implements BidModal {
       {final String? amount,
       final String? identity,
       final UserModel? bidder,
-      final ProjectModel? project}) = _$BidModalImpl;
+      final ProjectModel? project,
+      required final int id,
+      required final bool isActive,
+      required final bool isDeleted,
+      final DateTime? created,
+      final DateTime? updated}) = _$BidModalImpl;
 
   factory _BidModal.fromJson(Map<String, dynamic> json) =
       _$BidModalImpl.fromJson;
@@ -237,6 +333,16 @@ abstract class _BidModal implements BidModal {
   UserModel? get bidder;
   @override
   ProjectModel? get project;
+  @override
+  int get id;
+  @override
+  bool get isActive;
+  @override
+  bool get isDeleted;
+  @override
+  DateTime? get created;
+  @override
+  DateTime? get updated;
   @override
   @JsonKey(ignore: true)
   _$$BidModalImplCopyWith<_$BidModalImpl> get copyWith =>

@@ -2,13 +2,19 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'locationModal.freezed.dart';
 part 'locationModal.g.dart';
-@freezed
 
+@freezed
 class LocationModal with _$LocationModal {
-  const factory LocationModal ({
+  const factory LocationModal({
     required int id,
-    required String name
+    required bool isActive,
+    required bool isDeleted,
+    DateTime? created,
+    DateTime? updated,
+    String? name,
+    String? code,
   }) = _LocationModal;
 
-  factory LocationModal.fromJson(Map<String, dynamic> json) => _$LocationModalFromJson(json);
+  factory LocationModal.fromJson(Map<String, dynamic> json) =>
+      _$LocationModalFromJson(json);
 }

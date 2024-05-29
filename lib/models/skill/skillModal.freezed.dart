@@ -22,6 +22,7 @@ SkillModel _$SkillModelFromJson(Map<String, dynamic> json) {
 mixin _$SkillModel {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  CategoryModel? get category => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,9 @@ abstract class $SkillModelCopyWith<$Res> {
           SkillModel value, $Res Function(SkillModel) then) =
       _$SkillModelCopyWithImpl<$Res, SkillModel>;
   @useResult
-  $Res call({int id, String name});
+  $Res call({int id, String name, CategoryModel? category});
+
+  $CategoryModelCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -53,6 +56,7 @@ class _$SkillModelCopyWithImpl<$Res, $Val extends SkillModel>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? category = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -63,7 +67,23 @@ class _$SkillModelCopyWithImpl<$Res, $Val extends SkillModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as CategoryModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CategoryModelCopyWith<$Res>? get category {
+    if (_value.category == null) {
+      return null;
+    }
+
+    return $CategoryModelCopyWith<$Res>(_value.category!, (value) {
+      return _then(_value.copyWith(category: value) as $Val);
+    });
   }
 }
 
@@ -75,7 +95,10 @@ abstract class _$$SkillModelImplCopyWith<$Res>
       __$$SkillModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name});
+  $Res call({int id, String name, CategoryModel? category});
+
+  @override
+  $CategoryModelCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -91,6 +114,7 @@ class __$$SkillModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? category = freezed,
   }) {
     return _then(_$SkillModelImpl(
       id: null == id
@@ -101,6 +125,10 @@ class __$$SkillModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as CategoryModel?,
     ));
   }
 }
@@ -108,7 +136,8 @@ class __$$SkillModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$SkillModelImpl implements _SkillModel {
-  const _$SkillModelImpl({required this.id, required this.name});
+  const _$SkillModelImpl(
+      {required this.id, required this.name, required this.category});
 
   factory _$SkillModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$SkillModelImplFromJson(json);
@@ -117,10 +146,12 @@ class _$SkillModelImpl implements _SkillModel {
   final int id;
   @override
   final String name;
+  @override
+  final CategoryModel? category;
 
   @override
   String toString() {
-    return 'SkillModel(id: $id, name: $name)';
+    return 'SkillModel(id: $id, name: $name, category: $category)';
   }
 
   @override
@@ -129,12 +160,14 @@ class _$SkillModelImpl implements _SkillModel {
         (other.runtimeType == runtimeType &&
             other is _$SkillModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name);
+  int get hashCode => Object.hash(runtimeType, id, name, category);
 
   @JsonKey(ignore: true)
   @override
@@ -152,7 +185,9 @@ class _$SkillModelImpl implements _SkillModel {
 
 abstract class _SkillModel implements SkillModel {
   const factory _SkillModel(
-      {required final int id, required final String name}) = _$SkillModelImpl;
+      {required final int id,
+      required final String name,
+      required final CategoryModel? category}) = _$SkillModelImpl;
 
   factory _SkillModel.fromJson(Map<String, dynamic> json) =
       _$SkillModelImpl.fromJson;
@@ -161,6 +196,8 @@ abstract class _SkillModel implements SkillModel {
   int get id;
   @override
   String get name;
+  @override
+  CategoryModel? get category;
   @override
   @JsonKey(ignore: true)
   _$$SkillModelImplCopyWith<_$SkillModelImpl> get copyWith =>

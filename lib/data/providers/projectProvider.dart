@@ -32,58 +32,34 @@ class ProjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getMyBids(int bidderId) async {
-    _isLoading = true;
-    try {
-      var response = await _dataConnection.fetchData('my_bids/$bidderId/');
-
-      if (response != null && response is List) {
-        print("===========my response bid");
-        print(response);
-        print("=========end my response bid");
-
-        myBids = response
-            .where((e) =>
-                e is Map<String, dynamic>) // Ensure each element is a map
-            .map((e) => BidModal.fromJson(e as Map<String, dynamic>))
-            .toList();
-      }
-    } catch (e) {
-      print("Error during parsing: $e");
-      _errorMessage = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
   Future<void> getProjects(int userCategory) async {
     _isLoading = true;
     try {
       var response =
           await _dataConnection.fetchData('get_match_projects/$userCategory/');
 
+      // Print the response to debug its structure
+      print(response);
+
       // Checking if the response is a Map and contains 'results'
-      if (response != null) {
-        if (response is Map<String, dynamic> &&
-            response.containsKey('results')) {
-          var results = response['results'];
+      if (response != null && response is Map<String, dynamic>) {
+        var results = response['results'];
 
-          if (results is List) {
-            // Parsing each project in the results list
-
-            projects = results
-                .map((e) => e != null
-                    ? ProjectModel.fromJson(e as Map<String, dynamic>)
-                    : null)
-                .where((e) => e != null)
-                .cast<ProjectModel>()
-                .toList();
-          }
+        if (results is List) {
+          // Parsing each project in the results list
+          projects = results
+              .where((e) =>
+                  e is Map<String, dynamic>) // Ensure each element is a map
+              .map((e) => ProjectModel.fromJson(e as Map<String, dynamic>))
+              .toList();
+        } else {
+          print("Results is not a list");
         }
+      } else {
+        print("Response is not a map or does not contain 'results'");
       }
     } catch (e) {
-      print("Error during parsing: $e");
+      print("Error during parsing projects: $e");
       _errorMessage = e.toString();
     } finally {
       _isLoading = false;
@@ -114,6 +90,31 @@ class ProjectProvider extends ChangeNotifier {
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
       return false;
+    }
+  }
+
+  Future<void> getMyBids(int bidderId) async {
+    _isLoading = true;
+    try {
+      var response = await _dataConnection.fetchData('my_bids/$bidderId/');
+
+      if (response != null && response is List) {
+        print("===========my response bid");
+        print(response);
+        print("=========end my response bid");
+
+        myBids = response
+            .where((e) =>
+                e is Map<String, dynamic>) // Ensure each element is a map
+            .map((e) => BidModal.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+    } catch (e) {
+      print("Error during parsing my bids: $e");
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }

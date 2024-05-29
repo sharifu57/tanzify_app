@@ -488,7 +488,7 @@ class _HomePageState extends State<HomePage> {
                                                         ),
                                                         Text(projects[index]
                                                             .location!
-                                                            .name)
+                                                            .name?? '')
                                                       ],
                                                     ),
                                                   ),

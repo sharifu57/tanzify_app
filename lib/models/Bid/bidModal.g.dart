@@ -16,6 +16,15 @@ _$BidModalImpl _$$BidModalImplFromJson(Map<String, dynamic> json) =>
       project: json['project'] == null
           ? null
           : ProjectModel.fromJson(json['project'] as Map<String, dynamic>),
+      id: (json['id'] as num).toInt(),
+      isActive: json['isActive'] as bool,
+      isDeleted: json['isDeleted'] as bool,
+      created: json['created'] == null
+          ? null
+          : DateTime.parse(json['created'] as String),
+      updated: json['updated'] == null
+          ? null
+          : DateTime.parse(json['updated'] as String),
     );
 
 Map<String, dynamic> _$$BidModalImplToJson(_$BidModalImpl instance) =>
@@ -24,4 +33,9 @@ Map<String, dynamic> _$$BidModalImplToJson(_$BidModalImpl instance) =>
       'identity': instance.identity,
       'bidder': instance.bidder,
       'project': instance.project,
+      'id': instance.id,
+      'isActive': instance.isActive,
+      'isDeleted': instance.isDeleted,
+      'created': instance.created?.toIso8601String(),
+      'updated': instance.updated?.toIso8601String(),
     };

@@ -71,7 +71,7 @@ class _AppliedBidState extends State<AppliedBid> {
                             return Card(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("One"),
+                                child: Text(bids[index].project!.title ?? ''),
                               ),
                             );
                           })
