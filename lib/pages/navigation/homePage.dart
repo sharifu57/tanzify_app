@@ -99,6 +99,8 @@ class _HomePageState extends State<HomePage> {
         });
 
         fetchProjects();
+
+        print("========categoryId: $categoryId");
       }
     }
   }

@@ -6,6 +6,7 @@ import 'package:tanzify_app/components/icons/simpleIcon.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/projects/appliedBid.dart';
+import 'package:tanzify_app/pages/projects/myProjects.dart';
 
 class Proposal extends StatefulWidget {
   const Proposal({super.key});
@@ -57,16 +58,9 @@ class _ProposalState extends State<Proposal> {
                         ),
                       ],
                     ),
-                    Expanded(
+                    const Expanded(
                       child: TabBarView(
-                        children: [
-                          const AppliedBid(),
-                          Container(
-                            child: Center(
-                              child: Text("Content for Created by Me tab"),
-                            ),
-                          ),
-                        ],
+                        children: [AppliedBid(), MyProjects()],
                       ),
                     ),
                   ],

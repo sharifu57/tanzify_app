@@ -20,5 +20,5 @@ class BidModal with _$BidModal {
       // project: json['project'] != null
       //     ? ProjectModel.fromJson(json['project'] as Map<String, dynamic>)
       //     : null
-          );
+  );
 }

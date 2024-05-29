@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
@@ -54,7 +55,8 @@ class _AppliedBidState extends State<AppliedBid> {
     final projectProvider = Provider.of<ProjectProvider>(context);
     final bids = projectProvider.bidsList;
     final isLoading = projectProvider.isLoading;
-    return Container(
+    return Scaffold(
+        body: SizedBox(
       child: isLoading
           ? const Center(
               child: WaveSpinKit(),
@@ -62,14 +64,26 @@ class _AppliedBidState extends State<AppliedBid> {
           : RefreshIndicator(
               onRefresh: _handleRefresh,
               child: Flexible(
-                  child: ListView.builder(
-                      itemCount: bids.isEmpty ? 0 : bids.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: Text("One"),
-                        );
-                      }))),
-    );
+                  child: bids.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: bids.isEmpty ? 0 : bids.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("One"),
+                              ),
+                            );
+                          })
+                      : Center(
+                          child: Lottie.asset(
+                            'assets/img/empty.json',
+                            repeat: true,
+                            fit: BoxFit.contain,
+                          ),
+                        ))),
+    ));
+    // return
   }
 
   Future<void> _handleRefresh() async {

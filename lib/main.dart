@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/data/providers/categoryProvider.dart';
@@ -40,6 +41,7 @@ class _TanzifyAppState extends State<TanzifyApp> {
           navigatorKey: Constants.globalAppKey,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            fontFamily: GoogleFonts.poppins().fontFamily,
             primarySwatch: Colors.blue,
           ),
           // theme: ThemeData(brightness: Brightness.dark),
