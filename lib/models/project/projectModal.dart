@@ -13,26 +13,38 @@ part 'projectModal.g.dart';
 
 @freezed
 class ProjectModel with _$ProjectModel {
-  const factory ProjectModel(
-      {required int id,
-      String? title,
-      String? description,
-      CategoryModel? category,
-      List<SkillModel>? skills,
-      DurationModal? duration,
-      String? created,
-      // ignore: non_constant_identifier_names
-      String? application_deadline,
-      // ignore: non_constant_identifier_names
-      UserModel? created_by,
-      BudgetModal? budget,
-      LocationModal? location,
-      ExperienceModal? experience,
-      List<BidModal>? bids}) = _ProjectModel;
+  const factory ProjectModel({
+    int? id,
+    String? title,
+    String? description,
+    CategoryModel? category,
+    List<SkillModel>? skills,
+    DurationModal? duration,
+    String? created,
+    String? application_deadline,
+    // UserModel? created_by,
+    // BudgetModal? budget,
+    // LocationModal? location,
+    // ExperienceModal? experience,
+    // List<BidModal>? bids,
+    @JsonKey(fromJson: _stringToDouble) double? amount,
+  }) = _ProjectModel;
+
+  // factory ProjectModel.fromJson(Map<String, dynamic> json) =>
+  //     _$ProjectModelFromJson(json);
+  // factory ProjectModel.fromJson(Map<String, dynamic> json) {
+  //   print('Parsing ProjectModel from JSON: $json');
+  //   try {
+  //     return _$ProjectModelFromJson(json);
+  //   } catch (e) {
+  //     print('Error parsing ProjectModel: $e');
+  //     rethrow;
+  //   }
+  // }
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) =>
       _$ProjectModelFromJson(json);
-  // factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
+  //  ProjectModel(
   //       id: json['id'] as int,
   //       title: json['title'] as String?,
   //       description: json['description'] as String?,
@@ -67,4 +79,13 @@ class ProjectModel with _$ProjectModel {
   //           ?.map((e) => BidModal.fromJson(e as Map<String, dynamic>))
   //           .toList(),
   //     );
+}
+
+double? _stringToDouble(dynamic value) {
+  if (value is String) {
+    return double.tryParse(value);
+  } else if (value is num) {
+    return value.toDouble();
+  }
+  return null;
 }

@@ -68,12 +68,12 @@ class _AppliedBidState extends State<AppliedBid> {
                       ? ListView.builder(
                           itemCount: bids.isEmpty ? 0 : bids.length,
                           itemBuilder: (context, index) {
-                            return Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(bids[index].project!.title ?? ''),
-                              ),
-                            );
+                            // return Card(
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.all(8.0),
+                            //     child: Text(bids[index].project!.title ?? ''),
+                            //   ),
+                            // );
                           })
                       : Center(
                           child: Lottie.asset(

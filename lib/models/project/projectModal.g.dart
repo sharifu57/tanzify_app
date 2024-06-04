@@ -8,7 +8,7 @@ part of 'projectModal.dart';
 
 _$ProjectModelImpl _$$ProjectModelImplFromJson(Map<String, dynamic> json) =>
     _$ProjectModelImpl(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt(),
       title: json['title'] as String?,
       description: json['description'] as String?,
       category: json['category'] == null
@@ -22,22 +22,7 @@ _$ProjectModelImpl _$$ProjectModelImplFromJson(Map<String, dynamic> json) =>
           : DurationModal.fromJson(json['duration'] as Map<String, dynamic>),
       created: json['created'] as String?,
       application_deadline: json['application_deadline'] as String?,
-      created_by: json['created_by'] == null
-          ? null
-          : UserModel.fromJson(json['created_by'] as Map<String, dynamic>),
-      budget: json['budget'] == null
-          ? null
-          : BudgetModal.fromJson(json['budget'] as Map<String, dynamic>),
-      location: json['location'] == null
-          ? null
-          : LocationModal.fromJson(json['location'] as Map<String, dynamic>),
-      experience: json['experience'] == null
-          ? null
-          : ExperienceModal.fromJson(
-              json['experience'] as Map<String, dynamic>),
-      bids: (json['bids'] as List<dynamic>?)
-          ?.map((e) => BidModal.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      amount: _stringToDouble(json['amount']),
     );
 
 Map<String, dynamic> _$$ProjectModelImplToJson(_$ProjectModelImpl instance) =>
@@ -50,9 +35,5 @@ Map<String, dynamic> _$$ProjectModelImplToJson(_$ProjectModelImpl instance) =>
       'duration': instance.duration,
       'created': instance.created,
       'application_deadline': instance.application_deadline,
-      'created_by': instance.created_by,
-      'budget': instance.budget,
-      'location': instance.location,
-      'experience': instance.experience,
-      'bids': instance.bids,
+      'amount': instance.amount,
     };

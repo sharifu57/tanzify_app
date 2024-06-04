@@ -41,7 +41,7 @@ class _TanzifyAppState extends State<TanzifyApp> {
           navigatorKey: Constants.globalAppKey,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            fontFamily: GoogleFonts.poppins().fontFamily,
+            // fontFamily: GoogleFonts.poppins().fontFamily,
             primarySwatch: Colors.blue,
           ),
           // theme: ThemeData(brightness: Brightness.dark),

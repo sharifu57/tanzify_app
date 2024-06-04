@@ -27,17 +27,22 @@ part 'bidModal.g.dart';
 
 class BidModal with _$BidModal {
   const factory BidModal({
-    String? amount,
+    int? id,
+    // String? amount,
     String? identity,
-    UserModel? bidder,
-    ProjectModel? project,
-    required int id,
-    required bool isActive,
-    required bool isDeleted,
-    DateTime? created,
-    DateTime? updated,
+    // UserModel? bidder,
+    // ProjectModel? project,
   }) = _BidModal;
 
   factory BidModal.fromJson(Map<String, dynamic> json) =>
       _$BidModalFromJson(json);
+}
+
+double? _stringToDouble(dynamic value) {
+  if (value is String) {
+    return double.tryParse(value);
+  } else if (value is num) {
+    return value.toDouble();
+  }
+  return null;
 }

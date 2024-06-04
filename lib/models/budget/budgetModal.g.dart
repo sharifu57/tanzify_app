@@ -9,13 +9,17 @@ part of 'budgetModal.dart';
 _$BudgetModalImpl _$$BudgetModalImplFromJson(Map<String, dynamic> json) =>
     _$BudgetModalImpl(
       id: (json['id'] as num).toInt(),
-      price_from: json['price_from'] as String,
-      price_to: json['price_to'] as String,
+      created: json['created'] as String?,
+      update: json['update'] as String?,
+      price_from: _stringToDouble(json['price_from']),
+      price_to: _stringToDouble(json['price_to']),
     );
 
 Map<String, dynamic> _$$BudgetModalImplToJson(_$BudgetModalImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'created': instance.created,
+      'update': instance.update,
       'price_from': instance.price_from,
       'price_to': instance.price_to,
     };

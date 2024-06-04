@@ -44,8 +44,8 @@ class _ViewProjectState extends State<ViewProject> {
       }
     }
 
-    final String projectBudgetAmount =
-        "${widget.project.budget?.price_from} - ${widget.project.budget?.price_to}";
+    // final String projectBudgetAmount =
+    //     "${widget.project.budget?.price_from} - ${widget.project.budget?.price_to}";
     return Scaffold(
         appBar: AppBar(
           elevation: 2,
@@ -118,13 +118,13 @@ class _ViewProjectState extends State<ViewProject> {
                                   color: Constants.primaryColor,
                                 ),
                               ),
-                              Text("${widget.project.location?.name}"),
+                              // Text("${widget.project.location?.name}"),
                             ],
                           ),
                         ),
-                        SizedBox(
-                            child: Text(
-                                "${widget.project.bids?.length ?? 0} Connected proposals")),
+                        // SizedBox(
+                        //     child: Text(
+                        //         "${widget.project.bids?.length ?? 0} Connected proposals")),
                         Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: const Divider()),
@@ -170,11 +170,11 @@ class _ViewProjectState extends State<ViewProject> {
                                 icon: Icons.price_check_outlined,
                                 color: Constants.primaryColor,
                               ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Text(
-                                    "${widget.project.budget?.price_from} - ${widget.project.budget?.price_to}"),
-                              ),
+                              // Container(
+                              //   padding: const EdgeInsets.only(left: 5),
+                              //   child: Text(
+                              //       "${widget.project.budget?.price_from} - ${widget.project.budget?.price_to}"),
+                              // ),
                             ],
                           ),
                         ),
@@ -202,11 +202,11 @@ class _ViewProjectState extends State<ViewProject> {
                                 icon: Icons.workspace_premium_outlined,
                                 color: Constants.primaryColor,
                               ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 5),
-                                child:
-                                    Text("${widget.project.experience?.title}"),
-                              ),
+                              // Container(
+                              //   padding: const EdgeInsets.only(left: 5),
+                              //   child:
+                              //       Text("${widget.project.experience?.title}"),
+                              // ),
                             ],
                           ),
                         ),
@@ -285,8 +285,8 @@ class _ViewProjectState extends State<ViewProject> {
                                     child: Row(
                                       children: [
                                         const Text("Member Since: "),
-                                        Text(formatDate(widget
-                                            .project.created_by?.date_joined))
+                                        // Text(formatDate(widget
+                                        //     .project.created_by?.date_joined))
                                       ],
                                     ),
                                   ),
@@ -326,12 +326,13 @@ class _ViewProjectState extends State<ViewProject> {
                   width: fullWidth / 2.3,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => ApplyProject(
-                              projectId: widget.project.id,
-                              projectTitle: widget.project.title,
-                              projectBudget: projectBudgetAmount,
-                              projectDescription: widget.project.description)));
+                      // Navigator.of(context).push(CupertinoPageRoute(
+                      //     builder: (context) => ApplyProject(
+                      //         // projectId: widget.project.id,
+                      //         projectId: 2,
+                      //         projectTitle: widget.project.title,
+                      //         projectBudget: projectBudgetAmount,
+                      //         projectDescription: widget.project.description)));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Constants.primaryColor,
