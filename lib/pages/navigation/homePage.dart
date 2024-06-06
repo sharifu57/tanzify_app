@@ -303,11 +303,8 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   Container(
                                                       child: projects[index]
-                                                                      .bids !=
-                                                                  null &&
-                                                              projects[index]
-                                                                  .bids!
-                                                                  .isNotEmpty
+                                                              .bids!
+                                                              .isNotEmpty
                                                           ? projects[index]
                                                                       .bids![0]
                                                                       .identity ==
@@ -383,7 +380,7 @@ class _HomePageState extends State<HomePage> {
                                                           : Container(
                                                               child: projects[index]
                                                                           .budget
-                                                                          ?.price_from !=
+                                                                          ?.price_to !=
                                                                       null
                                                                   ? Row(
                                                                       children: [
@@ -415,12 +412,7 @@ class _HomePageState extends State<HomePage> {
                                                                         ),
                                                                       ],
                                                                     )
-                                                                  : Container(
-                                                                      child:
-                                                                          const Text(
-                                                                              ""),
-                                                                    ),
-                                                            ))
+                                                                  : null))
                                                 ],
                                               ),
                                               Container(
@@ -546,7 +538,7 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                     ),
-                                    Divider(
+                                    const Divider(
                                       color: Constants.borderColor,
                                     )
                                   ],

@@ -3,9 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tanzify_app/components/containers/statusWidget.dart';
+import 'package:tanzify_app/components/icons/simpleIcon.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
+import 'package:tanzify_app/pages/constants.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class AppliedBid extends StatefulWidget {
   const AppliedBid({super.key});
@@ -53,7 +58,8 @@ class _AppliedBidState extends State<AppliedBid> {
   @override
   Widget build(BuildContext context) {
     final projectProvider = Provider.of<ProjectProvider>(context);
-    final bids = projectProvider.bidsList;
+    final bids = projectProvider.myBids;
+
     final isLoading = projectProvider.isLoading;
     return Scaffold(
         body: SizedBox(
@@ -63,25 +69,95 @@ class _AppliedBidState extends State<AppliedBid> {
             )
           : RefreshIndicator(
               onRefresh: _handleRefresh,
-              child: Flexible(
-                  child: bids.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: bids.isEmpty ? 0 : bids.length,
-                          itemBuilder: (context, index) {
-                            // return Card(
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.all(8.0),
-                            //     child: Text(bids[index].project!.title ?? ''),
-                            //   ),
-                            // );
-                          })
-                      : Center(
-                          child: Lottie.asset(
-                            'assets/img/empty.json',
-                            repeat: true,
-                            fit: BoxFit.contain,
-                          ),
-                        ))),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Flexible(
+                    child: bids.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: bids.isEmpty ? 0 : bids.length,
+                            itemBuilder: (context, index) {
+                              final bid = bids[index] as Map<String, dynamic>;
+                              final project =
+                                  bid['project'] as Map<String, dynamic>?;
+                              return Card(
+                                elevation: 0.4,
+                                shadowColor: Constants.primaryColor,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                "Bid Sent",
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                              Text(
+                                                timeago.format(DateTime.parse(
+                                                    bid['created'])),
+                                                style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              // const SimpleIcon(
+                                              //     size: 11,
+                                              //     color: Constants.successColor,
+                                              //     icon: Icons
+                                              //         .verified_user_outlined),
+                                              const SizedBox(width: 8),
+                                              StatusWidget(
+                                                  status: "${bid['status']}")
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          project!['title'] ?? '',
+                                          style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: SizedBox(
+                                            child: ReadMoreText(
+                                          textAlign: TextAlign.start,
+                                          project["description"] ?? "",
+                                          trimMode: TrimMode.Line,
+                                          trimLines: 4,
+                                          colorClickableText: Colors.pink,
+                                          trimCollapsedText: 'Show more',
+                                          trimExpandedText: 'Show less',
+                                          moreStyle: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              color: Constants.primaryColor),
+                                        )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            })
+                        : Center(
+                            child: Lottie.asset(
+                              'assets/img/empty.json',
+                              repeat: true,
+                              fit: BoxFit.contain,
+                            ),
+                          )),
+              )),
     ));
     // return
   }

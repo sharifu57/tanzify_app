@@ -62,6 +62,8 @@ class ProjectModal with _$ProjectModal {
       created_by: json['created_by'] != null
           ? UserModel.fromJson(json['created_by'])
           : null,
+      budget:
+          json['budget'] != null ? BudgetModal.fromJson(json['budget']) : null,
       skills: (json['skills'] as List<dynamic>?)
           ?.map(
               (e) => e is Map<String, dynamic> ? SkillModel.fromJson(e) : null)
