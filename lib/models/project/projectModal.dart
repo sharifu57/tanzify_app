@@ -14,7 +14,7 @@ part 'projectModal.g.dart';
 @freezed
 class ProjectModal with _$ProjectModal {
   const factory ProjectModal({
-    // int? id,
+    int? id,
     String? title,
     String? description,
     CategoryModel? category,
@@ -22,10 +22,10 @@ class ProjectModal with _$ProjectModal {
     DurationModal? duration,
     String? created,
     String? application_deadline,
-    // UserModel? created_by,
+    UserModel? created_by,
     BudgetModal? budget,
     LocationModal? location,
-    // ExperienceModal? experience,
+    ExperienceModal? experience,
     List<BidModal>? bids,
     // @JsonKey(fromJson: _stringToDouble) double? amount,
   }) = _ProjectModal;
@@ -44,7 +44,7 @@ class ProjectModal with _$ProjectModal {
 
   factory ProjectModal.fromJson(Map<String, dynamic> json) {
     return ProjectModal(
-      // id: json['id'] as int?,
+      id: json['id'] as int?,
       title: json['title'] as String?,
       description: json['description'] as String?,
       // category: json['category'] != null
@@ -55,6 +55,12 @@ class ProjectModal with _$ProjectModal {
           : null,
       duration: json['duration'] != null
           ? DurationModal.fromJson(json['duration'])
+          : null,
+      experience: json['experience'] != null
+          ? ExperienceModal.fromJson(json['experience'])
+          : null,
+      created_by: json['created_by'] != null
+          ? UserModel.fromJson(json['created_by'])
           : null,
       skills: (json['skills'] as List<dynamic>?)
           ?.map(
