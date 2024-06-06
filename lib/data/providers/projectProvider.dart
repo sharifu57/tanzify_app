@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tanzify_app/models/Bid/bidModal.dart';
 import 'package:tanzify_app/models/project/projectModal.dart';
+// import 'package:tanzify_app/models/project/projectModal.dart';
 import 'package:tanzify_app/services/dataConnection.dart';
 
 class ProjectProvider extends ChangeNotifier {
@@ -10,7 +11,7 @@ class ProjectProvider extends ChangeNotifier {
   bool _isLoading = false;
   String _errorMessage = "";
   late DataConnection _dataConnection = DataConnection();
-  List<ProjectModel> projects = [];
+  List<ProjectModal> projects = [];
   List<BidModal> myBids = [];
 
   ProjectProvider() {
@@ -19,7 +20,7 @@ class ProjectProvider extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
-  List<ProjectModel> get projectsList => projects;
+  List<ProjectModal> get projectsList => projects;
   List<BidModal> get bidsList => myBids;
 
   void startLoading() {
@@ -147,12 +148,56 @@ class ProjectProvider extends ChangeNotifier {
   Future<void> getProjects(int userCategory) async {
     _isLoading = true;
     try {
+      print("-----step 1");
       var response =
           await _dataConnection.fetchData('get_match_projects/$userCategory/');
+      print("----step 2");
 
-      print("=====response: " + response);
+      if (response != null) {
+        print("Response: $response");
+
+        var results = response['results'];
+        print("=====results");
+        print(results);
+
+        if (results is List) {
+          results.forEach((element) {
+            print("Element type: ${element.runtimeType}");
+            print("Element content: $element");
+          });
+
+          projects = results
+              .map((e) {
+                if (e is Map<String, dynamic>) {
+                  try {
+                    return ProjectModal.fromJson(e);
+                  } catch (e) {
+                    print("Error parsing project: $e");
+                    return null; // Filter out invalid elements
+                  }
+                } else {
+                  print("Element is not a Map<String, dynamic>: $e");
+                  return null; // Filter out invalid elements
+                }
+              })
+              .where((e) => e != null)
+              .cast<ProjectModal>()
+              .toList();
+            notifyListeners();
+            _isLoading = false;
+        } else {
+          print("Results is not a list: $results");
+        }
+
+        print("=====here projects");
+        print(projects);
+        print("====end here projects");
+      }
     } catch (e) {
       _isLoading = false;
+      print("Error during parsing projects: $e");
+      _errorMessage = e.toString();
+      notifyListeners();
     }
   }
 

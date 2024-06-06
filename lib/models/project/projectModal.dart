@@ -12,14 +12,14 @@ part 'projectModal.freezed.dart';
 part 'projectModal.g.dart';
 
 @freezed
-class ProjectModel with _$ProjectModel {
-  const factory ProjectModel({
-    int? id,
+class ProjectModal with _$ProjectModal {
+  const factory ProjectModal({
+    // int? id,
     String? title,
     String? description,
-    CategoryModel? category,
+    // CategoryModel? category,
     List<SkillModel>? skills,
-    DurationModal? duration,
+    // DurationModal? duration,
     String? created,
     String? application_deadline,
     // UserModel? created_by,
@@ -27,8 +27,8 @@ class ProjectModel with _$ProjectModel {
     // LocationModal? location,
     // ExperienceModal? experience,
     // List<BidModal>? bids,
-    @JsonKey(fromJson: _stringToDouble) double? amount,
-  }) = _ProjectModel;
+    // @JsonKey(fromJson: _stringToDouble) double? amount,
+  }) = _ProjectModal;
 
   // factory ProjectModel.fromJson(Map<String, dynamic> json) =>
   //     _$ProjectModelFromJson(json);
@@ -42,8 +42,28 @@ class ProjectModel with _$ProjectModel {
   //   }
   // }
 
-  factory ProjectModel.fromJson(Map<String, dynamic> json) =>
-      _$ProjectModelFromJson(json);
+  factory ProjectModal.fromJson(Map<String, dynamic> json) {
+    return ProjectModal(
+      // id: json['id'] as int?,
+      title: json['title'] as String?,
+      description: json['description'] as String?,
+      // category: json['category'] != null
+      //     ? CategoryModel.fromJson(json['category'])
+      //     : null,
+      skills: (json['skills'] as List<dynamic>?)
+          ?.map(
+              (e) => e is Map<String, dynamic> ? SkillModel.fromJson(e) : null)
+          .where((e) => e != null)
+          .cast<SkillModel>()
+          .toList(),
+
+      created: json['created'] as String?,
+      application_deadline: json['application_deadline'] as String?,
+    );
+  }
+
+  // factory ProjectModel.fromJson(Map<String, dynamic> json) =>
+  //     _$ProjectModelFromJson(json);
   //  ProjectModel(
   //       id: json['id'] as int,
   //       title: json['title'] as String?,

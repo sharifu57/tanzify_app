@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tanzify_app/models/project/projectModal.dart';
 import 'package:tanzify_app/models/user/userModal.dart';
 
 part 'bidModal.freezed.dart';
