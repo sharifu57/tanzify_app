@@ -17,16 +17,16 @@ class ProjectModal with _$ProjectModal {
     // int? id,
     String? title,
     String? description,
-    // CategoryModel? category,
+    CategoryModel? category,
     List<SkillModel>? skills,
-    // DurationModal? duration,
+    DurationModal? duration,
     String? created,
     String? application_deadline,
     // UserModel? created_by,
-    // BudgetModal? budget,
-    // LocationModal? location,
+    BudgetModal? budget,
+    LocationModal? location,
     // ExperienceModal? experience,
-    // List<BidModal>? bids,
+    List<BidModal>? bids,
     // @JsonKey(fromJson: _stringToDouble) double? amount,
   }) = _ProjectModal;
 
@@ -50,11 +50,23 @@ class ProjectModal with _$ProjectModal {
       // category: json['category'] != null
       //     ? CategoryModel.fromJson(json['category'])
       //     : null,
+      location: json['location'] != null
+          ? LocationModal.fromJson(json['location'])
+          : null,
+      duration: json['duration'] != null
+          ? DurationModal.fromJson(json['duration'])
+          : null,
       skills: (json['skills'] as List<dynamic>?)
           ?.map(
               (e) => e is Map<String, dynamic> ? SkillModel.fromJson(e) : null)
           .where((e) => e != null)
           .cast<SkillModel>()
+          .toList(),
+
+      bids: (json['bids'] as List<dynamic>?)
+          ?.map((e) => e is Map<String, dynamic> ? BidModal.fromJson(e) : null)
+          .where((e) => e != null)
+          .cast<BidModal>()
           .toList(),
 
       created: json['created'] as String?,

@@ -240,37 +240,34 @@ class _HomePageState extends State<HomePage> {
                                 return Column(
                                   children: [
                                     InkWell(
-                                      onTap:
-                                          // projects[index].bids != null &&
-                                          //         projects[index]
-                                          //             .bids!
-                                          //             .isNotEmpty &&
-                                          //         projects[index]
-                                          //                 .bids![0]
-                                          //                 .identity ==
-                                          //             userIdString
-                                          projects[index] == null
-                                              ? () {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    const SnackBar(
-                                                      duration: Duration(
-                                                          milliseconds: 1000),
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      content: Text(
-                                                          "You have already bid on this project"),
-                                                    ),
-                                                  );
-                                                }
-                                              : () {
-                                                  Navigator.of(context).push(
-                                                      CupertinoPageRoute(
-                                                          builder: (context) =>
-                                                              ViewProject(
-                                                                  project: projects[
-                                                                      index])));
-                                                },
+                                      onTap: projects[index].bids != null &&
+                                              projects[index]
+                                                  .bids!
+                                                  .isNotEmpty &&
+                                              projects[index]
+                                                      .bids![0]
+                                                      .identity ==
+                                                  userIdString
+                                          ? () {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  duration: Duration(
+                                                      milliseconds: 1000),
+                                                  backgroundColor: Colors.red,
+                                                  content: Text(
+                                                      "You have already bid on this project"),
+                                                ),
+                                              );
+                                            }
+                                          : () {
+                                              Navigator.of(context).push(
+                                                  CupertinoPageRoute(
+                                                      builder: (context) =>
+                                                          ViewProject(
+                                                              project: projects[
+                                                                  index])));
+                                            },
                                       child: SizedBox(
                                         child: Container(
                                           padding: const EdgeInsets.all(10),
@@ -288,146 +285,186 @@ class _HomePageState extends State<HomePage> {
                                                         style: TextStyle(
                                                             fontSize: 10),
                                                       ),
-                                                      // Text(
-                                                      //   projects[index]
-                                                      //               .created !=
-                                                      //           null
-                                                      //       ? timeago.format(
-                                                      //           DateTime.parse(
-                                                      //               projects[
-                                                      //                       index]
-                                                      //                   .created!))
-                                                      //       : "Date not available",
-                                                      //   style: const TextStyle(
-                                                      //       color: Colors.grey,
-                                                      //       fontSize: 10),
-                                                      // ),
+                                                      Text(
+                                                        projects[index]
+                                                                    .created !=
+                                                                null
+                                                            ? timeago.format(
+                                                                DateTime.parse(
+                                                                    projects[
+                                                                            index]
+                                                                        .created!))
+                                                            : "Date not available",
+                                                        style: const TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 10),
+                                                      ),
                                                     ],
                                                   ),
                                                   Container(
-                                                      child:
-                                                          // projects[index]
-                                                          //                 .bids !=
-                                                          //             null &&
-                                                          //         projects[index]
-                                                          //             .bids!
-                                                          //             .isNotEmpty
-                                                          //     ? projects[index]
-                                                          //                 .bids![0]
-                                                          //                 .identity ==
-                                                          //             userIdString
-                                                          //         ?
-                                                          Card(
-                                                    elevation: 0,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                      side: const BorderSide(
-                                                          color: Constants
-                                                              .successColor),
-                                                    ),
-                                                    child: const Padding(
-                                                      padding:
-                                                          EdgeInsets.all(5.0),
-                                                      child: Row(
-                                                        children: [
-                                                          SimpleIcon(
-                                                              size: 11,
-                                                              color: Constants
-                                                                  .successColor,
-                                                              icon: Icons
-                                                                  .verified_user_outlined),
-                                                          SizedBox(width: 8),
-                                                          Text(
-                                                            "Applied",
-                                                            style: TextStyle(
-                                                                color: Constants
-                                                                    .successColor,
-                                                                fontSize: 11),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  )
-                                                      // : Container()
-                                                      // : Row(
-                                                      //     children: [
-                                                      //       // Text(
-                                                      //       //   projects[index]
-                                                      //       //           .budget!
-                                                      //       //           .price_from
-                                                      //       //       as String,
-                                                      //       //   style:
-                                                      //       //       const TextStyle(
-                                                      //       //     fontSize: 11,
-                                                      //       //     fontWeight:
-                                                      //       //         FontWeight
-                                                      //       //             .w500,
-                                                      //       //   ),
-                                                      //       // ),
-                                                      //       const Text("-"),
-                                                      //       // Text(
-                                                      //       //   projects[index]
-                                                      //       //           .budget!
-                                                      //       //           .price_to
-                                                      //       //       as String,
-                                                      //       //   style:
-                                                      //       //       const TextStyle(
-                                                      //       //     fontSize: 11,
-                                                      //       //     fontWeight:
-                                                      //       //         FontWeight
-                                                      //       //             .w500,
-                                                      //       //   ),
-                                                      //       // ),
-                                                      //     ],
-                                                      //   ),
-                                                      )
+                                                      child: projects[index]
+                                                                      .bids !=
+                                                                  null &&
+                                                              projects[index]
+                                                                  .bids!
+                                                                  .isNotEmpty
+                                                          ? projects[index]
+                                                                      .bids![0]
+                                                                      .identity ==
+                                                                  userIdString
+                                                              ? Card(
+                                                                  elevation: 0,
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            8.0),
+                                                                    side: const BorderSide(
+                                                                        color: Constants
+                                                                            .successColor),
+                                                                  ),
+                                                                  child:
+                                                                      const Padding(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            5.0),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        SimpleIcon(
+                                                                            size:
+                                                                                11,
+                                                                            color:
+                                                                                Constants.successColor,
+                                                                            icon: Icons.verified_user_outlined),
+                                                                        SizedBox(
+                                                                            width:
+                                                                                8),
+                                                                        Text(
+                                                                          "Applied",
+                                                                          style: TextStyle(
+                                                                              color: Constants.successColor,
+                                                                              fontSize: 11),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ))
+                                                              : Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      projects[
+                                                                              index]
+                                                                          .budget!
+                                                                          .price_from as String,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontSize:
+                                                                            11,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                    const Text(
+                                                                        "-"),
+                                                                    Text(
+                                                                      projects[
+                                                                              index]
+                                                                          .budget!
+                                                                          .price_to as String,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontSize:
+                                                                            11,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                          : Container(
+                                                              child: projects[index]
+                                                                          .budget
+                                                                          ?.price_from !=
+                                                                      null
+                                                                  ? Row(
+                                                                      children: [
+                                                                        Text(
+                                                                          projects[index]
+                                                                              .budget!
+                                                                              .price_from as String,
+                                                                          style:
+                                                                              const TextStyle(
+                                                                            fontSize:
+                                                                                11,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                        const Text(
+                                                                            "-"),
+                                                                        Text(
+                                                                          projects[index]
+                                                                              .budget!
+                                                                              .price_to as String,
+                                                                          style:
+                                                                              const TextStyle(
+                                                                            fontSize:
+                                                                                11,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    )
+                                                                  : Container(
+                                                                      child:
+                                                                          const Text(
+                                                                              ""),
+                                                                    ),
+                                                            ))
                                                 ],
                                               ),
-                                              // Container(
-                                              //   alignment: Alignment.centerLeft,
-                                              //   child: Row(
-                                              //     mainAxisAlignment:
-                                              //         MainAxisAlignment
-                                              //             .spaceBetween,
-                                              //     children: [
-                                              //       Text(
-                                              //         projects[index].title ??
-                                              //             "No title",
-                                              //         style: const TextStyle(
-                                              //             fontSize: 13,
-                                              //             fontWeight:
-                                              //                 FontWeight.bold),
-                                              //       ),
-                                              //       const Text("")
-                                              //     ],
-                                              //   ),
-                                              // ),
-                                              // Container(
-                                              //   padding: const EdgeInsets.only(
-                                              //       top: 5),
-                                              //   child: SizedBox(
-                                              //       child: ReadMoreText(
-                                              //     textAlign: TextAlign.start,
-                                              //     projects[index].description ??
-                                              //         "",
-                                              //     trimMode: TrimMode.Line,
-                                              //     trimLines: 4,
-                                              //     colorClickableText:
-                                              //         Colors.pink,
-                                              //     trimCollapsedText:
-                                              //         'Show more',
-                                              //     trimExpandedText: 'Show less',
-                                              //     moreStyle: const TextStyle(
-                                              //         fontSize: 12,
-                                              //         fontWeight:
-                                              //             FontWeight.bold,
-                                              //         color: Constants
-                                              //             .primaryColor),
-                                              //   )),
-                                              // ),
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      projects[index].title ??
+                                                          "No title",
+                                                      style: const TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    const Text("")
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: SizedBox(
+                                                    child: ReadMoreText(
+                                                  textAlign: TextAlign.start,
+                                                  projects[index].description ??
+                                                      "",
+                                                  trimMode: TrimMode.Line,
+                                                  trimLines: 4,
+                                                  colorClickableText:
+                                                      Colors.pink,
+                                                  trimCollapsedText:
+                                                      'Show more',
+                                                  trimExpandedText: 'Show less',
+                                                  moreStyle: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Constants
+                                                          .primaryColor),
+                                                )),
+                                              ),
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 padding: const EdgeInsets.only(
@@ -435,28 +472,29 @@ class _HomePageState extends State<HomePage> {
                                                 child: SingleChildScrollView(
                                                   scrollDirection:
                                                       Axis.horizontal,
-                                                  // child: Row(
-                                                  //   children: projects[index]
-                                                  //           .skills
-                                                  //           ?.map((skill) {
-                                                  //         return Padding(
-                                                  //           padding:
-                                                  //               const EdgeInsets
-                                                  //                   .only(
-                                                  //                   right:
-                                                  //                       4.0), // Add some spacing
-                                                  //           child: ChoiceChip(
-                                                  //             label: Text(
-                                                  //                 skill.name),
-                                                  //             selected: true,
-                                                  //           ),
-                                                  //         );
-                                                  //       }).toList() ??
-                                                  //       [
-                                                  //         const Chip(
-                                                  //             label: Text(""))
-                                                  //       ],
-                                                  // ),
+                                                  child: Row(
+                                                    children: projects[index]
+                                                            .skills
+                                                            ?.map((skill) {
+                                                          return Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    right:
+                                                                        4.0), // Add some spacing
+                                                            child: ChoiceChip(
+                                                              label: Text(
+                                                                  skill.name ??
+                                                                      ''),
+                                                              selected: true,
+                                                            ),
+                                                          );
+                                                        }).toList() ??
+                                                        [
+                                                          const Chip(
+                                                              label: Text(""))
+                                                        ],
+                                                  ),
                                                 ),
                                               ),
                                               Row(
@@ -484,23 +522,23 @@ class _HomePageState extends State<HomePage> {
                                                                   .width /
                                                               6,
                                                         ),
-                                                        // Text(projects[index]
-                                                        //         .location!
-                                                        //         .name ??
-                                                        //     '')
+                                                        Text(projects[index]
+                                                                .location!
+                                                                .name ??
+                                                            '')
                                                       ],
                                                     ),
                                                   ),
-                                                  // Container(
-                                                  //   padding:
-                                                  //       const EdgeInsets.only(
-                                                  //           top: 5),
-                                                  //   child: Text(
-                                                  //     "${projects[index].bids?.length ?? 0} Proposals",
-                                                  //     style: const TextStyle(
-                                                  //         fontSize: 11),
-                                                  //   ),
-                                                  // ),
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5),
+                                                    child: Text(
+                                                      "${projects[index].bids?.length ?? 0} Proposals",
+                                                      style: const TextStyle(
+                                                          fontSize: 11),
+                                                    ),
+                                                  ),
                                                 ],
                                               )
                                             ],

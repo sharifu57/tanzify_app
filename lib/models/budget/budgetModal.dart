@@ -7,10 +7,8 @@ part 'budgetModal.g.dart';
 class BudgetModal with _$BudgetModal {
   const factory BudgetModal({
     required int id,
-    String? created,
-    String? update,
-    @JsonKey(fromJson: _stringToDouble) double? price_from,
-    @JsonKey(fromJson: _stringToDouble) double? price_to,
+    String? price_from,
+    String? price_to,
   }) = _BudgetModal;
 
   factory BudgetModal.fromJson(Map<String, dynamic> json) =>

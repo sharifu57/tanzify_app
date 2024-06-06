@@ -7,12 +7,7 @@ part 'locationModal.g.dart';
 class LocationModal with _$LocationModal {
   const factory LocationModal({
     required int id,
-    required bool isActive,
-    required bool isDeleted,
-    DateTime? created,
-    DateTime? updated,
     String? name,
-    String? code,
   }) = _LocationModal;
 
   factory LocationModal.fromJson(Map<String, dynamic> json) =>

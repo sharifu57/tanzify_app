@@ -18,12 +18,17 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ProjectModal {
 // int? id,
   String? get title => throw _privateConstructorUsedError;
-  String? get description =>
-      throw _privateConstructorUsedError; // CategoryModel? category,
-  List<SkillModel>? get skills =>
-      throw _privateConstructorUsedError; // DurationModal? duration,
+  String? get description => throw _privateConstructorUsedError;
+  CategoryModel? get category => throw _privateConstructorUsedError;
+  List<SkillModel>? get skills => throw _privateConstructorUsedError;
+  DurationModal? get duration => throw _privateConstructorUsedError;
   String? get created => throw _privateConstructorUsedError;
-  String? get application_deadline => throw _privateConstructorUsedError;
+  String? get application_deadline =>
+      throw _privateConstructorUsedError; // UserModel? created_by,
+  BudgetModal? get budget => throw _privateConstructorUsedError;
+  LocationModal? get location =>
+      throw _privateConstructorUsedError; // ExperienceModal? experience,
+  List<BidModal>? get bids => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProjectModalCopyWith<ProjectModal> get copyWith =>
@@ -39,9 +44,19 @@ abstract class $ProjectModalCopyWith<$Res> {
   $Res call(
       {String? title,
       String? description,
+      CategoryModel? category,
       List<SkillModel>? skills,
+      DurationModal? duration,
       String? created,
-      String? application_deadline});
+      String? application_deadline,
+      BudgetModal? budget,
+      LocationModal? location,
+      List<BidModal>? bids});
+
+  $CategoryModelCopyWith<$Res>? get category;
+  $DurationModalCopyWith<$Res>? get duration;
+  $BudgetModalCopyWith<$Res>? get budget;
+  $LocationModalCopyWith<$Res>? get location;
 }
 
 /// @nodoc
@@ -59,9 +74,14 @@ class _$ProjectModalCopyWithImpl<$Res, $Val extends ProjectModal>
   $Res call({
     Object? title = freezed,
     Object? description = freezed,
+    Object? category = freezed,
     Object? skills = freezed,
+    Object? duration = freezed,
     Object? created = freezed,
     Object? application_deadline = freezed,
+    Object? budget = freezed,
+    Object? location = freezed,
+    Object? bids = freezed,
   }) {
     return _then(_value.copyWith(
       title: freezed == title
@@ -72,10 +92,18 @@ class _$ProjectModalCopyWithImpl<$Res, $Val extends ProjectModal>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as CategoryModel?,
       skills: freezed == skills
           ? _value.skills
           : skills // ignore: cast_nullable_to_non_nullable
               as List<SkillModel>?,
+      duration: freezed == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as DurationModal?,
       created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
@@ -84,7 +112,67 @@ class _$ProjectModalCopyWithImpl<$Res, $Val extends ProjectModal>
           ? _value.application_deadline
           : application_deadline // ignore: cast_nullable_to_non_nullable
               as String?,
+      budget: freezed == budget
+          ? _value.budget
+          : budget // ignore: cast_nullable_to_non_nullable
+              as BudgetModal?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as LocationModal?,
+      bids: freezed == bids
+          ? _value.bids
+          : bids // ignore: cast_nullable_to_non_nullable
+              as List<BidModal>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CategoryModelCopyWith<$Res>? get category {
+    if (_value.category == null) {
+      return null;
+    }
+
+    return $CategoryModelCopyWith<$Res>(_value.category!, (value) {
+      return _then(_value.copyWith(category: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DurationModalCopyWith<$Res>? get duration {
+    if (_value.duration == null) {
+      return null;
+    }
+
+    return $DurationModalCopyWith<$Res>(_value.duration!, (value) {
+      return _then(_value.copyWith(duration: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BudgetModalCopyWith<$Res>? get budget {
+    if (_value.budget == null) {
+      return null;
+    }
+
+    return $BudgetModalCopyWith<$Res>(_value.budget!, (value) {
+      return _then(_value.copyWith(budget: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocationModalCopyWith<$Res>? get location {
+    if (_value.location == null) {
+      return null;
+    }
+
+    return $LocationModalCopyWith<$Res>(_value.location!, (value) {
+      return _then(_value.copyWith(location: value) as $Val);
+    });
   }
 }
 
@@ -99,9 +187,23 @@ abstract class _$$ProjectModalImplCopyWith<$Res>
   $Res call(
       {String? title,
       String? description,
+      CategoryModel? category,
       List<SkillModel>? skills,
+      DurationModal? duration,
       String? created,
-      String? application_deadline});
+      String? application_deadline,
+      BudgetModal? budget,
+      LocationModal? location,
+      List<BidModal>? bids});
+
+  @override
+  $CategoryModelCopyWith<$Res>? get category;
+  @override
+  $DurationModalCopyWith<$Res>? get duration;
+  @override
+  $BudgetModalCopyWith<$Res>? get budget;
+  @override
+  $LocationModalCopyWith<$Res>? get location;
 }
 
 /// @nodoc
@@ -117,9 +219,14 @@ class __$$ProjectModalImplCopyWithImpl<$Res>
   $Res call({
     Object? title = freezed,
     Object? description = freezed,
+    Object? category = freezed,
     Object? skills = freezed,
+    Object? duration = freezed,
     Object? created = freezed,
     Object? application_deadline = freezed,
+    Object? budget = freezed,
+    Object? location = freezed,
+    Object? bids = freezed,
   }) {
     return _then(_$ProjectModalImpl(
       title: freezed == title
@@ -130,10 +237,18 @@ class __$$ProjectModalImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as CategoryModel?,
       skills: freezed == skills
           ? _value._skills
           : skills // ignore: cast_nullable_to_non_nullable
               as List<SkillModel>?,
+      duration: freezed == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as DurationModal?,
       created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
@@ -142,6 +257,18 @@ class __$$ProjectModalImplCopyWithImpl<$Res>
           ? _value.application_deadline
           : application_deadline // ignore: cast_nullable_to_non_nullable
               as String?,
+      budget: freezed == budget
+          ? _value.budget
+          : budget // ignore: cast_nullable_to_non_nullable
+              as BudgetModal?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as LocationModal?,
+      bids: freezed == bids
+          ? _value._bids
+          : bids // ignore: cast_nullable_to_non_nullable
+              as List<BidModal>?,
     ));
   }
 }
@@ -152,19 +279,25 @@ class _$ProjectModalImpl implements _ProjectModal {
   const _$ProjectModalImpl(
       {this.title,
       this.description,
+      this.category,
       final List<SkillModel>? skills,
+      this.duration,
       this.created,
-      this.application_deadline})
-      : _skills = skills;
+      this.application_deadline,
+      this.budget,
+      this.location,
+      final List<BidModal>? bids})
+      : _skills = skills,
+        _bids = bids;
 
 // int? id,
   @override
   final String? title;
   @override
   final String? description;
-// CategoryModel? category,
+  @override
+  final CategoryModel? category;
   final List<SkillModel>? _skills;
-// CategoryModel? category,
   @override
   List<SkillModel>? get skills {
     final value = _skills;
@@ -174,15 +307,32 @@ class _$ProjectModalImpl implements _ProjectModal {
     return EqualUnmodifiableListView(value);
   }
 
-// DurationModal? duration,
+  @override
+  final DurationModal? duration;
   @override
   final String? created;
   @override
   final String? application_deadline;
+// UserModel? created_by,
+  @override
+  final BudgetModal? budget;
+  @override
+  final LocationModal? location;
+// ExperienceModal? experience,
+  final List<BidModal>? _bids;
+// ExperienceModal? experience,
+  @override
+  List<BidModal>? get bids {
+    final value = _bids;
+    if (value == null) return null;
+    if (_bids is EqualUnmodifiableListView) return _bids;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ProjectModal(title: $title, description: $description, skills: $skills, created: $created, application_deadline: $application_deadline)';
+    return 'ProjectModal(title: $title, description: $description, category: $category, skills: $skills, duration: $duration, created: $created, application_deadline: $application_deadline, budget: $budget, location: $location, bids: $bids)';
   }
 
   @override
@@ -193,10 +343,18 @@ class _$ProjectModalImpl implements _ProjectModal {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             const DeepCollectionEquality().equals(other._skills, _skills) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration) &&
             (identical(other.created, created) || other.created == created) &&
             (identical(other.application_deadline, application_deadline) ||
-                other.application_deadline == application_deadline));
+                other.application_deadline == application_deadline) &&
+            (identical(other.budget, budget) || other.budget == budget) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            const DeepCollectionEquality().equals(other._bids, _bids));
   }
 
   @override
@@ -204,9 +362,14 @@ class _$ProjectModalImpl implements _ProjectModal {
       runtimeType,
       title,
       description,
+      category,
       const DeepCollectionEquality().hash(_skills),
+      duration,
       created,
-      application_deadline);
+      application_deadline,
+      budget,
+      location,
+      const DeepCollectionEquality().hash(_bids));
 
   @JsonKey(ignore: true)
   @override
@@ -219,20 +382,35 @@ abstract class _ProjectModal implements ProjectModal {
   const factory _ProjectModal(
       {final String? title,
       final String? description,
+      final CategoryModel? category,
       final List<SkillModel>? skills,
+      final DurationModal? duration,
       final String? created,
-      final String? application_deadline}) = _$ProjectModalImpl;
+      final String? application_deadline,
+      final BudgetModal? budget,
+      final LocationModal? location,
+      final List<BidModal>? bids}) = _$ProjectModalImpl;
 
   @override // int? id,
   String? get title;
   @override
   String? get description;
-  @override // CategoryModel? category,
+  @override
+  CategoryModel? get category;
+  @override
   List<SkillModel>? get skills;
-  @override // DurationModal? duration,
+  @override
+  DurationModal? get duration;
+  @override
   String? get created;
   @override
   String? get application_deadline;
+  @override // UserModel? created_by,
+  BudgetModal? get budget;
+  @override
+  LocationModal? get location;
+  @override // ExperienceModal? experience,
+  List<BidModal>? get bids;
   @override
   @JsonKey(ignore: true)
   _$$ProjectModalImplCopyWith<_$ProjectModalImpl> get copyWith =>
