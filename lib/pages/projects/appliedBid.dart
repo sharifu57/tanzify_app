@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/containers/statusWidget.dart';
-import 'package:tanzify_app/components/icons/simpleIcon.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';

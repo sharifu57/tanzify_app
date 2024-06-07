@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tanzify_app/components/icons/simpleIcon.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
@@ -18,7 +16,7 @@ import 'package:readmore/readmore.dart';
 class HomePage extends StatefulWidget {
   final Function(int)? goToPage;
 
-  const HomePage({Key? key, this.goToPage}) : super(key: key);
+  const HomePage({super.key, this.goToPage});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -47,7 +45,6 @@ class _HomePageState extends State<HomePage> {
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     getUserFromStorage();
-    // fetchProjects();
 
     super.initState();
   }
@@ -63,7 +60,6 @@ class _HomePageState extends State<HomePage> {
   void _onScroll() {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      // Provider.of<ProjectProvider>(context, listen: false).getProjects();
       fetchProjects();
     }
   }
@@ -97,8 +93,6 @@ class _HomePageState extends State<HomePage> {
         });
 
         fetchProjects();
-
-        print("========categoryId: $categoryId");
       }
     }
   }
@@ -108,7 +102,7 @@ class _HomePageState extends State<HomePage> {
     final projectProvider = Provider.of<ProjectProvider>(context);
     final isLoading = projectProvider.isLoading;
     final projects = projectProvider.projectsList;
-    final double fullHeight = MediaQuery.of(context).size.height;
+    // final double fullHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         appBar: AppBar(
@@ -139,8 +133,6 @@ class _HomePageState extends State<HomePage> {
                     ),
             ),
           ),
-          // Example count of notifications
-
           actions: [
             Stack(
               children: [
@@ -155,7 +147,6 @@ class _HomePageState extends State<HomePage> {
                   right: 4,
                   top: 3,
                   child: Container(
-                    // padding: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(10),
@@ -562,33 +553,5 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
-  }
-
-  Widget _backButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-                  child: const Icon(Icons.keyboard_arrow_left,
-                      color: Colors.black),
-                ),
-                const Text('Back',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
-              ],
-            ),
-            Container()
-          ],
-        ),
-      ),
-    );
   }
 }

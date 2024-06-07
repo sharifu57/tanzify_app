@@ -70,14 +70,10 @@ class ProjectProvider extends ChangeNotifier {
         } else {
           print("Results is not a list: $results");
         }
-
-        print("=====here projects");
-        print(projects);
-        print("====end here projects");
       }
     } catch (e) {
       _isLoading = false;
-      print("Error during parsing projects: $e");
+      // print("Error during parsing projects: $e");
       _errorMessage = e.toString();
       notifyListeners();
     }
@@ -110,26 +106,15 @@ class ProjectProvider extends ChangeNotifier {
   }
 
   Future<void> getMyBids(int bidderId) async {
-    print("----------bidder id: ${bidderId}----------");
+    // print("----------bidder id: ${bidderId}----------");
     _isLoading = true;
     try {
       var response = await _dataConnection.fetchData('my_bids/$bidderId/');
 
       if (response != null && response is List) {
-        print("===========my response bid");
-        print(response);
-        print("=========end my response bid");
-
-        // myBids = response
-        //     .where((e) =>
-        //         e is Map<String, dynamic>) // Ensure each element is a map
-        //     .map((e) => BidModal.fromJson(e as Map<String, dynamic>))
-        //     .toList();
-
         myBids = response;
       }
     } catch (e) {
-      print("Error during parsing my bids: $e");
       _errorMessage = e.toString();
     } finally {
       _isLoading = false;

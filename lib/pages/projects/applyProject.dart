@@ -82,9 +82,6 @@ class _ApplyProjectState extends State<ApplyProject> {
   void getUserFromStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? user = prefs.getString('user');
-    print("==========this user");
-    print(user);
-    print("===========end this user");
 
     if (user != null) {
       final userData = jsonDecode(user);
@@ -202,9 +199,6 @@ class _ApplyProjectState extends State<ApplyProject> {
                     controller: amountController,
                     keyBoardInputType: TextInputType.number,
                     validator: (String? value) {
-                      print("===========value");
-                      print(value);
-                      print("===========end value");
                       if (value!.isEmpty) {
                         return "Please enter a valid amount";
                       }
@@ -212,7 +206,6 @@ class _ApplyProjectState extends State<ApplyProject> {
                     },
                     onSaved: (value) {
                       _amount = value ?? '';
-                      print("===============onSaved Amount: $_amount");
                     },
                   ),
                   SizedBox(height: 20.h),
