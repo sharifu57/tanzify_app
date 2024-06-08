@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/appBar/appBar.dart';
+import 'package:tanzify_app/components/form/customInputForm.dart';
+import 'package:tanzify_app/components/form/plainInputForm.dart';
 import 'package:tanzify_app/components/form/radioButtonInputForm.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/categoryProvider.dart';
@@ -17,6 +21,10 @@ class AddNewProject extends StatefulWidget {
 }
 
 class _AddNewProjectState extends State<AddNewProject> {
+  final projectNameController = TextEditingController();
+  final projectDescriptionController = TextEditingController();
+  String _projectName = "";
+  String _description = "";
   final _formKey = GlobalKey<FormState>();
   int _currentStep = 0;
   String _selectedCategory = "";
@@ -32,6 +40,9 @@ class _AddNewProjectState extends State<AddNewProject> {
         setState(() {
           _skills = skills;
           _selectedSkills = {for (var skill in skills) skill.id: false};
+          print("======selectedSkills");
+          print(_selectedSkills);
+          print("======end selectedSkills");
         });
       });
     });
@@ -71,6 +82,21 @@ class _AddNewProjectState extends State<AddNewProject> {
 
     final isLoading = projectProvider.isLoading;
     final double fullHeight = MediaQuery.of(context).size.height;
+    ScreenUtil.init(context,
+        designSize: const Size(360, 690), minTextAdapt: true);
+
+    String? validateProjectName(String? phoneNumber) {
+      if (phoneNumber == null || phoneNumber.isEmpty) {
+        return "Phone number cannot be empty";
+      }
+      // Regex pattern to match Tanzanian phone numbers
+      String pattern = r'^(\+255)\d{9}$';
+      RegExp regex = RegExp(pattern);
+      if (!regex.hasMatch(phoneNumber)) {
+        return "Enter a valid phone number starting with +255";
+      }
+      return null;
+    }
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -83,7 +109,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                   padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: Column(
                     children: [
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       Container(
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -147,10 +173,51 @@ class _AddNewProjectState extends State<AddNewProject> {
                                         "No skills available for this category."),
                               ),
                               Step(
-                                isActive: _currentStep == 2,
-                                title: const Text("Describe Project"),
-                                content: const Text("Details for step 2"),
-                              ),
+                                  isActive: _currentStep == 2,
+                                  title: const Text("Describe Project"),
+                                  content: Column(
+                                    children: [
+                                      Container(
+                                        // height: 10.h,
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: CustomInputForm(
+                                            labelText: "Project Title",
+                                            hintText: "Enter project title",
+                                            hintStyle:
+                                                const TextStyle(fontSize: 11),
+                                            controller: projectNameController,
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return "Project Title is required";
+                                              }
+                                              return null;
+                                            },
+                                            onSaved: (value) =>
+                                                _projectName = value!,
+                                            keyBoardInputType:
+                                                TextInputType.name),
+                                      ),
+                                      SizedBox(
+                                        height: 15.h,
+                                      ),
+                                      PlainInputForm(
+                                        maxLines: "5",
+                                        hintText: 'Project Description',
+                                        controller:
+                                            projectDescriptionController,
+                                        keyBoardInputType: TextInputType.text,
+                                        validator: (String? value) {
+                                          if (value!.isEmpty) {
+                                            return "Please enter a valid description";
+                                          }
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          _description = value ?? '';
+                                        },
+                                      ),
+                                    ],
+                                  )),
                             ],
                             onStepTapped: (int newIndex) {
                               setState(() {
@@ -185,7 +252,7 @@ class _AddNewProjectState extends State<AddNewProject> {
 
                               return Container(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
+                                    const EdgeInsets.symmetric(vertical: 7),
                                 child: Row(
                                   children: <Widget>[
                                     ElevatedButton(
