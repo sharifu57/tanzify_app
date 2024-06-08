@@ -8,6 +8,7 @@ import 'package:tanzify_app/components/form/customInputForm.dart';
 import 'package:tanzify_app/components/form/plainInputForm.dart';
 import 'package:tanzify_app/components/form/radioButtonInputForm.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
+import 'package:tanzify_app/data/providers/budgetProvider.dart';
 import 'package:tanzify_app/data/providers/categoryProvider.dart';
 import 'package:tanzify_app/data/providers/durationProvider.dart';
 import 'package:tanzify_app/data/providers/locationProvider.dart';
@@ -37,12 +38,16 @@ class _AddNewProjectState extends State<AddNewProject> {
 
   String? selectedDurationId;
   String? selectedLocationId;
+  String? selectedBudgetId;
 
   String? selectedDuration;
   String? selectedDurationTitle;
 
   String? selectedLocation;
   String? selectedLocationTitle;
+
+  String? selectedBudget;
+  String? selectedBudgetTitle;
 
   void handleSelectedItemChange(String? value) {
     setState(() {
@@ -53,9 +58,6 @@ class _AddNewProjectState extends State<AddNewProject> {
         setState(() {
           _skills = skills;
           _selectedSkills = {for (var skill in skills) skill.id: false};
-          print("======selectedSkills");
-          print(_selectedSkills);
-          print("======end selectedSkills");
         });
       });
     });
@@ -78,6 +80,7 @@ class _AddNewProjectState extends State<AddNewProject> {
     await fetchCategories();
     await fetchDurations();
     await fetchLocations();
+    await fetchBudgets();
   }
 
   Future<void> fetchCategories() async {
@@ -90,6 +93,10 @@ class _AddNewProjectState extends State<AddNewProject> {
 
   Future<void> fetchLocations() async {
     await Provider.of<LocationProvider>(context, listen: false).getLocations();
+  }
+
+  Future<void> fetchBudgets() async {
+    await Provider.of<BudgetProvider>(context, listen: false).getBudgets();
   }
 
   bool isStepValid(int step) {
@@ -329,6 +336,36 @@ class _AddNewProjectState extends State<AddNewProject> {
                                           ),
                                         ),
                                       ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      Container(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 7.h),
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text("Budget"),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _showBudgetBottomSheet(context);
+                                        },
+                                        child: Card.outlined(
+                                          elevation: 0,
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 13,
+                                                      horizontal: 15),
+                                              child: selectedBudgetTitle == null
+                                                  ? const Text("Select Budget")
+                                                  : Text(
+                                                      "$selectedBudgetTitle"),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ))
                             ],
@@ -404,54 +441,114 @@ class _AddNewProjectState extends State<AddNewProject> {
     );
   }
 
+  void _showBudgetBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.45,
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Select Budget',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    child: Consumer<BudgetProvider>(
+                      builder: (context, budgetProvider, child) {
+                        final budgets = budgetProvider.budgets;
+                        if (budgets.isEmpty) {
+                          return const Center(child: WaveSpinKit());
+                        }
+
+                        return ListView(
+                          children: budgets.map((e) {
+                            return RadioListTile<String>(
+                              activeColor: Constants.primaryColor,
+                              title: Row(
+                                children: [
+                                  Text(e.price_from ?? ""),
+                                  Text(" - "),
+                                  Text(e.price_to ?? ""),
+                                ],
+                              ),
+                              value: e.id.toString(),
+                              groupValue: selectedBudget,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  selectedBudget = value!;
+                                  final newTitle =
+                                      "${e.price_from} - ${e.price_to}";
+                                  selectedBudgetTitle = newTitle;
+                                });
+                                Navigator.pop(context);
+                              },
+                            );
+                          }).toList(),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   void _showLocationBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.45,
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Select Location',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.45,
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Select Location',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Consumer<LocationProvider>(
-                    builder: (context, locationProvider, child) {
-                      final locations = locationProvider.locations;
-                      print("-------here locations ${locations}");
-                      if (locations.isEmpty) {
-                        return const Center(child: WaveSpinKit());
-                      }
+                  Expanded(
+                    child: Consumer<LocationProvider>(
+                      builder: (context, locationProvider, child) {
+                        final locations = locationProvider.locations;
+                        if (locations.isEmpty) {
+                          return const Center(child: WaveSpinKit());
+                        }
 
-                      return ListView(
-                        children: locations.map((e) {
-                          return RadioListTile<String>(
-                            activeColor: Constants.secondaryColor,
-                            title: Text(e.name ?? ""),
-                            value: e.id.toString(),
-                            groupValue: selectedLocation,
-                            onChanged: (String? value) {
-                              setState(() {
-                                selectedLocation = value!;
+                        return ListView(
+                          children: locations.map((e) {
+                            return RadioListTile<String>(
+                              activeColor: Constants.primaryColor,
+                              title: Text(e.name ?? ""),
+                              value: e.id.toString(),
+                              groupValue: selectedLocation,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  selectedLocation = value!;
 
-                                selectedLocationTitle = e.name;
-                                print(
-                                    "=====location name: ${selectedLocationTitle}");
-                              });
-                              Navigator.pop(context);
-                            },
-                          );
-                        }).toList(),
-                      );
-                    },
+                                  selectedLocationTitle = e.name;
+                                });
+                                Navigator.pop(context);
+                              },
+                            );
+                          }).toList(),
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });
