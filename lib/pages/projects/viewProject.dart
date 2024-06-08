@@ -234,7 +234,7 @@ class _ViewProjectState extends State<ViewProject> {
                                   runSpacing: 6.0,
                                   children: widget.project.skills!
                                       .map((skill) => ChoiceChip(
-                                          label: Text(skill.name ?? ""),
+                                          label: Text(skill.name),
                                           selected: true))
                                       .toList(),
                                 ),

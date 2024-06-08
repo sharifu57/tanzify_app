@@ -6,15 +6,10 @@ part 'skillModal.g.dart';
 
 @freezed
 class SkillModel with _$SkillModel {
-  const factory SkillModel(
-      {
-      final int? id,
-      final String? name,
-      // required CategoryModel? category
-    }) = _SkillModel;
-
-  // factory SkillModel.fromJson(Map<String, dynamic> json) =>
-  //     SkillModel(id: json["id"] as int, name: json["name"] as String);
+  const factory SkillModel({
+    required int id,
+    required String name,
+  }) = _SkillModel;
 
   factory SkillModel.fromJson(Map<String, dynamic> json) =>
       _$SkillModelFromJson(json);

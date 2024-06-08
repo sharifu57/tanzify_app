@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tanzify_app/models/category/categoryModal.dart';
+import 'package:tanzify_app/models/skill/skillModal.dart';
 import 'package:tanzify_app/services/dataConnection.dart';
 
 class CategoryProvider with ChangeNotifier {
   String _errorMessage = "";
   bool _isLoading = false;
   List<CategoryModel> categories = [];
+  List<SkillModel> skills = [];
   late DataConnection _dataConnection;
 
   CategoryProvider() {
@@ -15,6 +17,7 @@ class CategoryProvider with ChangeNotifier {
   String get errorMessage => _errorMessage;
   bool get isLoading => _isLoading;
   List<CategoryModel> get categoryList => categories;
+  List<SkillModel> get skillList => skills;
 
   Future<void> getCategories() async {
     _isLoading = true;
@@ -34,15 +37,21 @@ class CategoryProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getSkillsBycategoryId(String categoryId) async {
+  Future<List<SkillModel>> getSkillsBycategoryId(String categoryId) async {
     try {
       var response = await _dataConnection.fetchData('skills/$categoryId/');
-      print("=======response skills");
-      print(response);
-      print("-======end response skills");
+
+      if (response != null) {
+        var skills =
+            (response as List).map((e) => SkillModel.fromJson(e)).toList();
+
+        return skills;
+      }
+      return [];
     } catch (e) {
       _errorMessage = e.toString();
       notifyListeners();
+      return [];
     }
   }
 }

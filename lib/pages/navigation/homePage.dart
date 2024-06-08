@@ -469,8 +469,7 @@ class _HomePageState extends State<HomePage> {
                                                                         4.0), // Add some spacing
                                                             child: ChoiceChip(
                                                               label: Text(
-                                                                  skill.name ??
-                                                                      ''),
+                                                                  skill.name),
                                                               selected: true,
                                                             ),
                                                           );
