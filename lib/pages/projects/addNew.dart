@@ -7,7 +7,7 @@ import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/categoryProvider.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';
-// import 'package:tanzify_app/models/skillModel.dart';
+import 'package:tanzify_app/pages/constants.dart';
 
 class AddNewProject extends StatefulWidget {
   const AddNewProject({super.key});
@@ -19,7 +19,7 @@ class AddNewProject extends StatefulWidget {
 class _AddNewProjectState extends State<AddNewProject> {
   final _formKey = GlobalKey<FormState>();
   int _currentStep = 0;
-  String _selectedCategory = "1";
+  String _selectedCategory = "";
   List<SkillModel> _skills = [];
   Map<int, bool> _selectedSkills = {};
 
@@ -54,6 +54,15 @@ class _AddNewProjectState extends State<AddNewProject> {
     await Provider.of<CategoryProvider>(context, listen: false).getCategories();
   }
 
+  bool isStepValid(int step) {
+    if (step == 0) {
+      return _selectedCategory.isNotEmpty;
+    } else if (step == 1) {
+      return _selectedSkills.containsValue(true);
+    }
+    return true; // Step 2 and other steps don't have specific validation in this context
+  }
+
   @override
   Widget build(BuildContext context) {
     final projectProvider = Provider.of<ProjectProvider>(context);
@@ -85,14 +94,13 @@ class _AddNewProjectState extends State<AddNewProject> {
                         ),
                       ),
                       SizedBox(
-                        // height: fullHeight - 100,
                         child: Form(
                           key: _formKey,
                           child: Stepper(
                             steps: [
                               Step(
                                 isActive: _currentStep == 0,
-                                title: const Text("Step 0"),
+                                title: const Text("Select Category"),
                                 content: Container(
                                   alignment: Alignment.centerLeft,
                                   child: SizedBox(
@@ -119,7 +127,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                               ),
                               Step(
                                 isActive: _currentStep == 1,
-                                title: const Text("Step 1"),
+                                title: const Text("Select Skills"),
                                 content: _skills.isNotEmpty
                                     ? Column(
                                         children: _skills.map((skill) {
@@ -140,7 +148,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                               ),
                               Step(
                                 isActive: _currentStep == 2,
-                                title: const Text("Step 2"),
+                                title: const Text("Describe Project"),
                                 content: const Text("Details for step 2"),
                               ),
                             ],
@@ -151,12 +159,14 @@ class _AddNewProjectState extends State<AddNewProject> {
                             },
                             currentStep: _currentStep,
                             onStepContinue: () {
-                              if (_currentStep != 2) {
-                                setState(() {
-                                  _currentStep += 1;
-                                });
-                              } else {
-                                _submit();
+                              if (isStepValid(_currentStep)) {
+                                if (_currentStep < 2) {
+                                  setState(() {
+                                    _currentStep += 1;
+                                  });
+                                } else {
+                                  _submit();
+                                }
                               }
                             },
                             onStepCancel: () {
@@ -170,19 +180,37 @@ class _AddNewProjectState extends State<AddNewProject> {
                             controlsBuilder: (BuildContext context,
                                 ControlsDetails details) {
                               final isLastStep = _currentStep == 2;
-                              return Row(
-                                children: <Widget>[
-                                  TextButton(
-                                    onPressed: details.onStepContinue,
-                                    child: Text(
-                                        isLastStep ? 'Submit' : 'Continue'),
-                                  ),
-                                  if (_currentStep != 0)
-                                    TextButton(
-                                      onPressed: details.onStepCancel,
-                                      child: const Text('Back'),
+                              final isStepValid =
+                                  this.isStepValid(_currentStep);
+
+                              return Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child: Row(
+                                  children: <Widget>[
+                                    ElevatedButton(
+                                      onPressed: isStepValid
+                                          ? details.onStepContinue
+                                          : null,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Constants.primaryColor,
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20.0))),
+                                      ),
+                                      child: Text(
+                                        isLastStep ? 'Submit' : 'Continue',
+                                        style: const TextStyle(
+                                            color: Constants.fillColor),
+                                      ),
                                     ),
-                                ],
+                                    if (_currentStep != 0)
+                                      TextButton(
+                                        onPressed: details.onStepCancel,
+                                        child: const Text('Back'),
+                                      ),
+                                  ],
+                                ),
                               );
                             },
                           ),
