@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   String? categoryIdString;
   String? userCategory;
   late ScrollController _scrollController;
+
   void handlePageChange(int page) {
     if (widget.goToPage != null) {
       widget.goToPage!(page);
@@ -45,13 +45,11 @@ class _HomePageState extends State<HomePage> {
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     getUserFromStorage();
-
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
@@ -102,7 +100,6 @@ class _HomePageState extends State<HomePage> {
     final projectProvider = Provider.of<ProjectProvider>(context);
     final isLoading = projectProvider.isLoading;
     final projects = projectProvider.projectsList;
-    // final double fullHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         appBar: AppBar(
@@ -155,13 +152,15 @@ class _HomePageState extends State<HomePage> {
                       minWidth: 20,
                       minHeight: 20,
                     ),
-                    child: Text(
-                      '$notificationCount',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
+                    child: Center(
+                      child: Text(
+                        '$notificationCount',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ),
                 )
@@ -189,13 +188,15 @@ class _HomePageState extends State<HomePage> {
                         minWidth: 20,
                         minHeight: 10,
                       ),
-                      child: Text(
-                        '$notificationCount',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
+                      child: Center(
+                        child: Text(
+                          '$notificationCount',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
                   )
@@ -226,6 +227,7 @@ class _HomePageState extends State<HomePage> {
                       const Divider(color: Constants.borderColor),
                       Flexible(
                           child: ListView.builder(
+                              controller: _scrollController,
                               itemCount: projects.isEmpty ? 0 : projects.length,
                               itemBuilder: (context, index) {
                                 return Column(
@@ -542,7 +544,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _handleRefresh() async {
-    // await Future.delayed(const Duration(seconds: 2));
     try {
       await fetchProjects();
     } catch (error) {

@@ -18,20 +18,30 @@ class CategoryProvider with ChangeNotifier {
 
   Future<void> getCategories() async {
     _isLoading = true;
-    notifyListeners();
     try {
       var response = await _dataConnection.fetchData('categories/');
 
       if (response != null) {
         categories =
             (response as List).map((e) => CategoryModel.fromJson(e)).toList();
-
       }
       _isLoading = false;
       notifyListeners();
     } catch (e) {
       _errorMessage = e.toString();
       _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getSkillsBycategoryId(String categoryId) async {
+    try {
+      var response = await _dataConnection.fetchData('skills/$categoryId/');
+      print("=======response skills");
+      print(response);
+      print("-======end response skills");
+    } catch (e) {
+      _errorMessage = e.toString();
       notifyListeners();
     }
   }

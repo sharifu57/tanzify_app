@@ -44,8 +44,8 @@ class ProjectProvider extends ChangeNotifier {
 
         if (results is List) {
           results.forEach((element) {
-            print("Element type: ${element.runtimeType}");
-            print("Element content: $element");
+            // print("Element type: ${element.runtimeType}");
+            // print("Element content: $element");
           });
 
           projects = results
@@ -54,11 +54,11 @@ class ProjectProvider extends ChangeNotifier {
                   try {
                     return ProjectModal.fromJson(e);
                   } catch (e) {
-                    print("Error parsing project: $e");
+                    // print("Error parsing project: $e");
                     return null; // Filter out invalid elements
                   }
                 } else {
-                  print("Element is not a Map<String, dynamic>: $e");
+                  // print("Element is not a Map<String, dynamic>: $e");
                   return null; // Filter out invalid elements
                 }
               })
@@ -68,7 +68,7 @@ class ProjectProvider extends ChangeNotifier {
           notifyListeners();
           _isLoading = false;
         } else {
-          print("Results is not a list: $results");
+          // print("Results is not a list: $results");
         }
       }
     } catch (e) {

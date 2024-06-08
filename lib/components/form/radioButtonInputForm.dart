@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CustomCheckFormInput extends StatefulWidget {
+class RadioButtonFormInput extends StatefulWidget {
   // final String selectedItem;
   final Function(String?) onSelectedItemChanged;
   final String title;
   final String value;
   final String groupValue;
   final Function(String?) onSaved;
-  const CustomCheckFormInput(
+  const RadioButtonFormInput(
       {super.key,
       required this.onSelectedItemChanged,
       required this.title,
@@ -16,18 +16,16 @@ class CustomCheckFormInput extends StatefulWidget {
       required this.onSaved});
 
   @override
-  State<CustomCheckFormInput> createState() => _CustomCheckFormInputState();
+  State<RadioButtonFormInput> createState() => _RadioButtonFormInputState();
 }
 
-class _CustomCheckFormInputState extends State<CustomCheckFormInput> {
+class _RadioButtonFormInputState extends State<RadioButtonFormInput> {
   String? selectedItem;
   void handleSelectedItemChange(String value) {
     setState(() {
       selectedItem = value;
     });
-    // if (widget.onSelectedItemChanged != null) {
-    //   widget.onSelectedItemChanged(selectedItem);
-    // }
+
     widget.onSelectedItemChanged(selectedItem);
   }
 

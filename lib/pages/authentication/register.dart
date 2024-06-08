@@ -27,7 +27,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
 import 'package:tanzify_app/components/containers/bazierContainer.dart';
-import 'package:tanzify_app/components/form/checkBoxInputForm.dart';
+import 'package:tanzify_app/components/form/radioButtonInputForm.dart';
 import 'package:tanzify_app/components/form/customInputForm.dart';
 import 'package:tanzify_app/components/form/selectInputForm.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
@@ -262,7 +262,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         Expanded(
                           flex: 5,
-                          child: CustomCheckFormInput(
+                          child: RadioButtonFormInput(
                             onSelectedItemChanged: handleSelectedItemChange,
                             title: 'Freelancer',
                             groupValue: _selectedItem,
@@ -272,7 +272,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         Expanded(
                           flex: 5,
-                          child: CustomCheckFormInput(
+                          child: RadioButtonFormInput(
                             onSelectedItemChanged: handleSelectedItemChange,
                             title: 'Employer',
                             groupValue: _selectedItem,
