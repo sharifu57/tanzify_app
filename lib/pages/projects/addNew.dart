@@ -9,7 +9,10 @@ import 'package:tanzify_app/components/form/plainInputForm.dart';
 import 'package:tanzify_app/components/form/radioButtonInputForm.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/categoryProvider.dart';
+import 'package:tanzify_app/data/providers/durationProvider.dart';
+import 'package:tanzify_app/data/providers/locationProvider.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
+import 'package:tanzify_app/models/location/locationModal.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';
 import 'package:tanzify_app/pages/constants.dart';
 
@@ -27,9 +30,19 @@ class _AddNewProjectState extends State<AddNewProject> {
   String _description = "";
   final _formKey = GlobalKey<FormState>();
   int _currentStep = 0;
+  String _duration = "";
   String _selectedCategory = "";
   List<SkillModel> _skills = [];
   Map<int, bool> _selectedSkills = {};
+
+  String? selectedDurationId;
+  String? selectedLocationId;
+
+  String? selectedDuration;
+  String? selectedDurationTitle;
+
+  String? selectedLocation;
+  String? selectedLocationTitle;
 
   void handleSelectedItemChange(String? value) {
     setState(() {
@@ -58,11 +71,25 @@ class _AddNewProjectState extends State<AddNewProject> {
   @override
   void initState() {
     super.initState();
-    fetchCategories();
+    fetchInitialData();
+  }
+
+  Future<void> fetchInitialData() async {
+    await fetchCategories();
+    await fetchDurations();
+    await fetchLocations();
   }
 
   Future<void> fetchCategories() async {
     await Provider.of<CategoryProvider>(context, listen: false).getCategories();
+  }
+
+  Future<void> fetchDurations() async {
+    await Provider.of<DurationProvider>(context, listen: false).getDurations();
+  }
+
+  Future<void> fetchLocations() async {
+    await Provider.of<LocationProvider>(context, listen: false).getLocations();
   }
 
   bool isStepValid(int step) {
@@ -110,14 +137,32 @@ class _AddNewProjectState extends State<AddNewProject> {
                   child: Column(
                     children: [
                       SizedBox(height: 10.h),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: const Text(
-                          "Upload new Project",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: const Text(
+                              "Upload new Project",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(
+                            child: TextButton.icon(
+                              label: const Text("Cancel"),
+                              icon: const Icon(
+                                Icons.cancel,
+                                size: 12,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          )
+                        ],
                       ),
                       SizedBox(
                         child: Form(
@@ -198,7 +243,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                                                 TextInputType.name),
                                       ),
                                       SizedBox(
-                                        height: 15.h,
+                                        height: 10.h,
                                       ),
                                       PlainInputForm(
                                         maxLines: "5",
@@ -216,8 +261,76 @@ class _AddNewProjectState extends State<AddNewProject> {
                                           _description = value ?? '';
                                         },
                                       ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      Container(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 7.h),
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text(
+                                            "How long will this Project Take?"),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _showDurationBottomSheet(context);
+                                        },
+                                        child: Card.outlined(
+                                          elevation: 0,
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 13,
+                                                      horizontal: 15),
+                                              child: selectedDuration == null
+                                                  ? const Text(
+                                                      "Select Duration")
+                                                  : Text(
+                                                      "$selectedDurationTitle"),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   )),
+                              Step(
+                                  isActive: _currentStep == 3,
+                                  title: const Text("Other Details"),
+                                  content: Column(
+                                    children: [
+                                      Container(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 7.h),
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text("Location"),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _showLocationBottomSheet(context);
+                                        },
+                                        child: Card.outlined(
+                                          elevation: 0,
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 13,
+                                                      horizontal: 15),
+                                              child: selectedLocationTitle ==
+                                                      null
+                                                  ? const Text(
+                                                      "Select Location")
+                                                  : Text(
+                                                      "$selectedLocationTitle"),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ))
                             ],
                             onStepTapped: (int newIndex) {
                               setState(() {
@@ -227,7 +340,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                             currentStep: _currentStep,
                             onStepContinue: () {
                               if (isStepValid(_currentStep)) {
-                                if (_currentStep < 2) {
+                                if (_currentStep < 3) {
                                   setState(() {
                                     _currentStep += 1;
                                   });
@@ -246,7 +359,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                             type: StepperType.vertical,
                             controlsBuilder: (BuildContext context,
                                 ControlsDetails details) {
-                              final isLastStep = _currentStep == 2;
+                              final isLastStep = _currentStep == 3;
                               final isStepValid =
                                   this.isStepValid(_currentStep);
 
@@ -288,6 +401,112 @@ class _AddNewProjectState extends State<AddNewProject> {
                 ),
               ),
             ),
+    );
+  }
+
+  void _showLocationBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.45,
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Select Location',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: Consumer<LocationProvider>(
+                    builder: (context, locationProvider, child) {
+                      final locations = locationProvider.locations;
+                      print("-------here locations ${locations}");
+                      if (locations.isEmpty) {
+                        return const Center(child: WaveSpinKit());
+                      }
+
+                      return ListView(
+                        children: locations.map((e) {
+                          return RadioListTile<String>(
+                            activeColor: Constants.secondaryColor,
+                            title: Text(e.name ?? ""),
+                            value: e.id.toString(),
+                            groupValue: selectedLocation,
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedLocation = value!;
+
+                                selectedLocationTitle = e.name;
+                                print(
+                                    "=====location name: ${selectedLocationTitle}");
+                              });
+                              Navigator.pop(context);
+                            },
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _showDurationBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height:
+              MediaQuery.of(context).size.height * 0.45, // 45% of screen height
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Select Duration',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: Consumer<DurationProvider>(
+                  builder: (context, durationProvider, child) {
+                    final durations = durationProvider.durations;
+
+                    if (durations.isEmpty) {
+                      return const Center(child: WaveSpinKit());
+                    }
+
+                    return ListView(
+                      children: durations.map((e) {
+                        return RadioListTile<String>(
+                          activeColor: Constants.secondaryColor,
+                          title: Text(e.title),
+                          value: e.id.toString(),
+                          groupValue: selectedDuration,
+                          onChanged: (String? value) {
+                            print("-===========value duration ${value} =====");
+                            setState(() {
+                              selectedDuration = value!;
+                              selectedDurationTitle = e.title;
+                            });
+                            Navigator.pop(context);
+                          },
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

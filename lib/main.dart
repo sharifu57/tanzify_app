@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/data/providers/categoryProvider.dart';
 import 'package:tanzify_app/data/providers/durationProvider.dart';
+import 'package:tanzify_app/data/providers/locationProvider.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/data/providers/userProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
@@ -35,7 +36,8 @@ class _TanzifyAppState extends State<TanzifyApp> {
           ),
           ChangeNotifierProvider(create: (context) => CategoryProvider()),
           ChangeNotifierProvider(create: (context) => ProjectProvider()),
-          ChangeNotifierProvider(create: (context) => DurationProvider())
+          ChangeNotifierProvider(create: (context) => DurationProvider()),
+          ChangeNotifierProvider(create: (context) => LocationProvider())
         ],
         child: MaterialApp(
           navigatorKey: Constants.globalAppKey,
