@@ -16,9 +16,14 @@ import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/models/location/locationModal.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:date_field/date_field.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AddNewProject extends StatefulWidget {
-  const AddNewProject({super.key});
+  const AddNewProject({
+    super.key,
+  });
 
   @override
   State<AddNewProject> createState() => _AddNewProjectState();
@@ -27,6 +32,7 @@ class AddNewProject extends StatefulWidget {
 class _AddNewProjectState extends State<AddNewProject> {
   final projectNameController = TextEditingController();
   final projectDescriptionController = TextEditingController();
+  late final DateTimeFieldPickerPlatform platform;
   String _projectName = "";
   String _description = "";
   final _formKey = GlobalKey<FormState>();
@@ -48,6 +54,10 @@ class _AddNewProjectState extends State<AddNewProject> {
 
   String? selectedBudget;
   String? selectedBudgetTitle;
+
+  DateTime? selectedDate;
+  DateTime? selectedTime;
+  DateTime? selectedDateTime;
 
   void handleSelectedItemChange(String? value) {
     setState(() {
@@ -309,7 +319,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                                     children: [
                                       Container(
                                         padding:
-                                            EdgeInsets.symmetric(vertical: 7.h),
+                                            EdgeInsets.symmetric(vertical: 0.h),
                                         alignment: Alignment.centerLeft,
                                         child: const Text("Location"),
                                       ),
@@ -364,6 +374,63 @@ class _AddNewProjectState extends State<AddNewProject> {
                                                       "$selectedBudgetTitle"),
                                             ),
                                           ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      Container(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 7.h),
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text("Deadline"),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: DateTimeField(
+                                          decoration: InputDecoration(
+                                            labelText: 'Deadline',
+                                            helperText: 'YYYY/MM/DD',
+                                            border: InputBorder.none,
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.black),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.black),
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.red),
+                                            ),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.red),
+                                            ),
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    vertical: 12,
+                                                    horizontal: 15),
+                                          ),
+                                          value: selectedDate,
+                                          dateFormat: DateFormat.yMd(),
+                                          mode: DateTimeFieldPickerMode.date,
+                                          // pickerPlatform: widget.platform,
+                                          onChanged: (DateTime? value) {
+                                            setState(() {
+                                              selectedDate = value;
+                                            });
+                                          },
                                         ),
                                       ),
                                     ],
