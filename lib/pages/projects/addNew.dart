@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/appBar/appBar.dart';
 import 'package:tanzify_app/components/form/customInputForm.dart';
 import 'package:tanzify_app/components/form/plainInputForm.dart';
@@ -38,9 +41,12 @@ class _AddNewProjectState extends State<AddNewProject> {
   final _formKey = GlobalKey<FormState>();
   int _currentStep = 0;
   String _duration = "";
+  String? userId;
   String _selectedCategory = "";
   List<SkillModel> _skills = [];
   Map<int, bool> _selectedSkills = {};
+
+  List<int> _selectedSkillIds = [];
 
   String? selectedDurationId;
   String? selectedLocationId;
@@ -73,6 +79,18 @@ class _AddNewProjectState extends State<AddNewProject> {
     });
   }
 
+  void getUserFromStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? user = prefs.getString('user');
+
+    if (user != null) {
+      final userData = jsonDecode(user);
+      setState(() {
+        userId = userData["id"].toString();
+      });
+    }
+  }
+
   void _submit() {
     if (_formKey.currentState?.validate() ?? false) {
       print('Form submitted');
@@ -84,6 +102,7 @@ class _AddNewProjectState extends State<AddNewProject> {
   void initState() {
     super.initState();
     fetchInitialData();
+    getUserFromStorage();
   }
 
   Future<void> fetchInitialData() async {
@@ -113,9 +132,10 @@ class _AddNewProjectState extends State<AddNewProject> {
     if (step == 0) {
       return _selectedCategory.isNotEmpty;
     } else if (step == 1) {
-      return _selectedSkills.containsValue(true);
+      // containsValue is used for Map and not list
+      return _selectedSkillIds.isNotEmpty;
     }
-    return true; // Step 2 and other steps don't have specific validation in this context
+    return true;
   }
 
   @override
@@ -146,361 +166,446 @@ class _AddNewProjectState extends State<AddNewProject> {
       appBar: const CustomAppBar(),
       body: isLoading
           ? const WaveSpinKit()
-          : SizedBox(
-              height: fullHeight,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: const Text(
-                              "Upload new Project",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(
-                            child: TextButton.icon(
-                              label: const Text("Cancel"),
-                              icon: const Icon(
-                                Icons.cancel,
-                                size: 12,
-                                color: Colors.red,
+          : SingleChildScrollView(
+              child: SizedBox(
+                // height: fullHeight,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: const Text(
+                                "Upload new Project",
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
                               ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        child: Form(
-                          key: _formKey,
-                          child: Stepper(
-                            steps: [
-                              Step(
-                                isActive: _currentStep == 0,
-                                title: const Text("Select Category"),
-                                content: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: SizedBox(
-                                    height: fullHeight / 4,
-                                    child: ListView.builder(
-                                      itemCount: categories.isEmpty
-                                          ? 0
-                                          : categories.length,
-                                      itemBuilder: (context, index) {
-                                        return RadioButtonFormInput(
-                                            onSelectedItemChanged:
-                                                handleSelectedItemChange,
-                                            title: categories[index].name,
-                                            value:
-                                                categories[index].id.toString(),
-                                            groupValue: _selectedCategory,
-                                            onSaved: (value) {
-                                              _selectedCategory = value!;
-                                            });
-                                      },
+                            SizedBox(
+                              child: TextButton.icon(
+                                label: const Text("Cancel"),
+                                icon: const Icon(
+                                  Icons.cancel,
+                                  size: 12,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          child: Form(
+                            key: _formKey,
+                            child: Stepper(
+                              steps: [
+                                Step(
+                                  isActive: _currentStep == 0,
+                                  title: const Text("Select Category"),
+                                  content: Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: SizedBox(
+                                      height: fullHeight / 4,
+                                      child: ListView.builder(
+                                        itemCount: categories.isEmpty
+                                            ? 0
+                                            : categories.length,
+                                        itemBuilder: (context, index) {
+                                          return RadioButtonFormInput(
+                                              onSelectedItemChanged:
+                                                  handleSelectedItemChange,
+                                              title: categories[index].name,
+                                              value: categories[index]
+                                                  .id
+                                                  .toString(),
+                                              groupValue: _selectedCategory,
+                                              onSaved: (value) {
+                                                _selectedCategory = value!;
+                                              });
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Step(
-                                isActive: _currentStep == 1,
-                                title: const Text("Select Skills"),
-                                content: _skills.isNotEmpty
-                                    ? Column(
-                                        children: _skills.map((skill) {
-                                          return CheckboxListTile(
-                                            title: Text(skill.name),
-                                            value: _selectedSkills[skill.id],
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                _selectedSkills[skill.id] =
-                                                    value ?? false;
-                                              });
-                                            },
-                                          );
-                                        }).toList(),
-                                      )
-                                    : const Text(
-                                        "No skills available for this category."),
-                              ),
-                              Step(
-                                  isActive: _currentStep == 2,
-                                  title: const Text("Describe Project"),
-                                  content: Column(
-                                    children: [
-                                      Container(
-                                        // height: 10.h,
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: CustomInputForm(
+                                Step(
+                                  isActive: _currentStep == 1,
+                                  title: const Text("Select Skills"),
+                                  content: _skills.isNotEmpty
+                                      ? Column(
+                                          children: _skills.map((skill) {
+                                            // return CheckboxListTile(
+                                            //   title: Text(skill.name),
+                                            //   value: _selectedSkills[skill.id],
+                                            //   onChanged: (bool? value) {
+                                            //     setState(() {
+                                            //       _selectedSkills[skill.id] =
+                                            //           value ?? false;
+                                            //     });
+                                            //   },
+                                            // );
+
+                                            return CheckboxListTile(
+                                              title: Text(skill.name),
+                                              value: _selectedSkillIds
+                                                  .contains(skill.id),
+                                              onChanged: (bool? value) {
+                                                setState(() {
+                                                  if (value ?? false) {
+                                                    _selectedSkillIds
+                                                        .add(skill.id);
+                                                  } else {
+                                                    _selectedSkillIds
+                                                        .remove(skill.id);
+                                                  }
+                                                });
+                                              },
+                                            );
+                                          }).toList(),
+                                        )
+                                      : const Text(
+                                          "No skills available for this category."),
+                                ),
+                                Step(
+                                    isActive: _currentStep == 2,
+                                    title: const Text("Describe Project"),
+                                    content: Column(
+                                      children: [
+                                        Container(
+                                          // height: 10.h,
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: CustomInputForm(
                                             labelText: "Project Title",
                                             hintText: "Enter project title",
                                             hintStyle:
                                                 const TextStyle(fontSize: 11),
                                             controller: projectNameController,
+                                            keyBoardInputType:
+                                                TextInputType.name,
                                             validator: (value) {
                                               if (value!.isEmpty) {
                                                 return "Project Title is required";
                                               }
                                               return null;
                                             },
-                                            onSaved: (value) =>
-                                                _projectName = value!,
-                                            keyBoardInputType:
-                                                TextInputType.name),
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      PlainInputForm(
-                                        maxLines: "5",
-                                        hintText: 'Project Description',
-                                        controller:
-                                            projectDescriptionController,
-                                        keyBoardInputType: TextInputType.text,
-                                        validator: (String? value) {
-                                          if (value!.isEmpty) {
-                                            return "Please enter a valid description";
-                                          }
-                                          return null;
-                                        },
-                                        onSaved: (value) {
-                                          _description = value ?? '';
-                                        },
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      Container(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 7.h),
-                                        alignment: Alignment.centerLeft,
-                                        child: const Text(
-                                            "How long will this Project Take?"),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _showDurationBottomSheet(context);
-                                        },
-                                        child: Card.outlined(
-                                          elevation: 0,
-                                          child: SizedBox(
-                                            width: double.infinity,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 13,
-                                                      horizontal: 15),
-                                              child: selectedDuration == null
-                                                  ? const Text(
-                                                      "Select Duration")
-                                                  : Text(
-                                                      "$selectedDurationTitle"),
-                                            ),
+                                            onSaved: (value) {
+                                              _projectName = value!;
+                                            },
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  )),
-                              Step(
-                                  isActive: _currentStep == 3,
-                                  title: const Text("Other Details"),
-                                  content: Column(
-                                    children: [
-                                      Container(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 0.h),
-                                        alignment: Alignment.centerLeft,
-                                        child: const Text("Location"),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _showLocationBottomSheet(context);
-                                        },
-                                        child: Card.outlined(
-                                          elevation: 0,
-                                          child: SizedBox(
-                                            width: double.infinity,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 13,
-                                                      horizontal: 15),
-                                              child: selectedLocationTitle ==
-                                                      null
-                                                  ? const Text(
-                                                      "Select Location")
-                                                  : Text(
-                                                      "$selectedLocationTitle"),
-                                            ),
-                                          ),
+                                        SizedBox(
+                                          height: 10.h,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      Container(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 7.h),
-                                        alignment: Alignment.centerLeft,
-                                        child: const Text("Budget"),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _showBudgetBottomSheet(context);
-                                        },
-                                        child: Card.outlined(
-                                          elevation: 0,
-                                          child: SizedBox(
-                                            width: double.infinity,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 13,
-                                                      horizontal: 15),
-                                              child: selectedBudgetTitle == null
-                                                  ? const Text("Select Budget")
-                                                  : Text(
-                                                      "$selectedBudgetTitle"),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      Container(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 7.h),
-                                        alignment: Alignment.centerLeft,
-                                        child: const Text("Deadline"),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: DateTimeField(
-                                          decoration: InputDecoration(
-                                            labelText: 'Deadline',
-                                            helperText: 'YYYY/MM/DD',
-                                            border: InputBorder.none,
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.black),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.black),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.red),
-                                            ),
-                                            focusedErrorBorder:
-                                                OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.red),
-                                            ),
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 12,
-                                                    horizontal: 15),
-                                          ),
-                                          value: selectedDate,
-                                          dateFormat: DateFormat.yMd(),
-                                          mode: DateTimeFieldPickerMode.date,
-                                          // pickerPlatform: widget.platform,
-                                          onChanged: (DateTime? value) {
-                                            setState(() {
-                                              selectedDate = value;
-                                            });
+                                        PlainInputForm(
+                                          maxLines: "5",
+                                          hintText: 'Project Description',
+                                          controller:
+                                              projectDescriptionController,
+                                          keyBoardInputType: TextInputType.text,
+                                          validator: (String? value) {
+                                            if (value!.isEmpty) {
+                                              return "Please enter a valid description";
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {
+                                            _description = value ?? '';
                                           },
                                         ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 7.h),
+                                          alignment: Alignment.centerLeft,
+                                          child: const Text(
+                                              "How long will this Project Take?"),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            _showDurationBottomSheet(context);
+                                          },
+                                          child: Card.outlined(
+                                            elevation: 0,
+                                            child: SizedBox(
+                                              width: double.infinity,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 13,
+                                                        horizontal: 15),
+                                                child: selectedDuration == null
+                                                    ? const Text(
+                                                        "Select Duration")
+                                                    : Text(
+                                                        "$selectedDurationTitle"),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                Step(
+                                    isActive: _currentStep == 3,
+                                    title: const Text("Other Details"),
+                                    content: SizedBox(
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 0.h),
+                                            alignment: Alignment.centerLeft,
+                                            child: const Text("Location"),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              _showLocationBottomSheet(context);
+                                            },
+                                            child: Card.outlined(
+                                              elevation: 0,
+                                              child: SizedBox(
+                                                width: double.infinity,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 13,
+                                                      horizontal: 15),
+                                                  child: selectedLocationTitle ==
+                                                          null
+                                                      ? const Text(
+                                                          "Select Location")
+                                                      : Text(
+                                                          "$selectedLocationTitle"),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 7.h),
+                                            alignment: Alignment.centerLeft,
+                                            child: const Text("Budget"),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              _showBudgetBottomSheet(context);
+                                            },
+                                            child: Card.outlined(
+                                              elevation: 0,
+                                              child: SizedBox(
+                                                width: double.infinity,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 13,
+                                                      horizontal: 15),
+                                                  child: selectedBudgetTitle ==
+                                                          null
+                                                      ? const Text(
+                                                          "Select Budget")
+                                                      : Text(
+                                                          "$selectedBudgetTitle"),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 7.h),
+                                            alignment: Alignment.centerLeft,
+                                            child: const Text("Deadline"),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: DateTimeField(
+                                              decoration: InputDecoration(
+                                                labelText: 'Deadline',
+                                                helperText: 'YYYY/MM/DD',
+                                                border: InputBorder.none,
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.black),
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.black),
+                                                ),
+                                                errorBorder: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.red),
+                                                ),
+                                                focusedErrorBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.red),
+                                                ),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 12,
+                                                        horizontal: 15),
+                                              ),
+                                              value: selectedDate,
+                                              dateFormat: DateFormat.yMd(),
+                                              mode:
+                                                  DateTimeFieldPickerMode.date,
+                                              // pickerPlatform: widget.platform,
+                                              onChanged: (DateTime? value) {
+                                                setState(() {
+                                                  selectedDate = value;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ))
-                            ],
-                            onStepTapped: (int newIndex) {
-                              setState(() {
-                                _currentStep = newIndex;
-                              });
-                            },
-                            currentStep: _currentStep,
-                            onStepContinue: () {
-                              if (isStepValid(_currentStep)) {
-                                if (_currentStep < 3) {
-                                  setState(() {
-                                    _currentStep += 1;
-                                  });
-                                } else {
-                                  _submit();
-                                }
-                              }
-                            },
-                            onStepCancel: () {
-                              if (_currentStep != 0) {
+                                    ))
+                              ],
+                              onStepTapped: (int newIndex) {
                                 setState(() {
-                                  _currentStep -= 1;
+                                  _currentStep = newIndex;
                                 });
-                              }
-                            },
-                            type: StepperType.vertical,
-                            controlsBuilder: (BuildContext context,
-                                ControlsDetails details) {
-                              final isLastStep = _currentStep == 3;
-                              final isStepValid =
-                                  this.isStepValid(_currentStep);
+                              },
+                              currentStep: _currentStep,
+                              onStepContinue: () {
+                                if (isStepValid(_currentStep)) {
+                                  if (_currentStep < 3) {
+                                    setState(() {
+                                      _currentStep += 1;
+                                    });
+                                  } else {
+                                    if (_formKey.currentState!.validate()) {
+                                      _formKey.currentState!.save();
+                                      print("======saved current state");
 
-                              return Container(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 7),
-                                child: Row(
-                                  children: <Widget>[
-                                    ElevatedButton(
-                                      onPressed: isStepValid
-                                          ? details.onStepContinue
-                                          : null,
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Constants.primaryColor,
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20.0))),
+                                      var postPayload = {
+                                        "created_by": userId,
+                                        "title":
+                                            projectNameController.text.trim(),
+                                        "description": _description,
+                                        "category": _selectedCategory,
+                                        "skills": _selectedSkillIds,
+                                        "duration": selectedDuration,
+                                        "location": selectedLocationId,
+                                        "budget": selectedBudgetId,
+                                        "deadline": selectedDate.toString(),
+                                      };
+
+                                      print("=======my payload ${postPayload}");
+                                      projectProvider
+                                          .createProject(postPayload)
+                                          .then((success) => {
+                                                if (success)
+                                                  {
+                                                    AlertDialog(
+                                                      title: Text(
+                                                          "Project Created"),
+                                                      content: Text(
+                                                          "Your project has been created"),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child:
+                                                              const Text("OK"),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  }
+                                                else
+                                                  {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            content: Text(
+                                                                projectProvider
+                                                                    .errorMessage)))
+                                                  }
+                                              });
+                                    }
+                                  }
+                                }
+                              },
+                              onStepCancel: () {
+                                if (_currentStep != 0) {
+                                  setState(() {
+                                    _currentStep -= 1;
+                                  });
+                                }
+                              },
+                              type: StepperType.vertical,
+                              controlsBuilder: (BuildContext context,
+                                  ControlsDetails details) {
+                                final isLastStep = _currentStep == 3;
+                                final isStepValid =
+                                    this.isStepValid(_currentStep);
+
+                                return Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 7),
+                                  child: Row(
+                                    children: <Widget>[
+                                      ElevatedButton(
+                                        onPressed: isStepValid
+                                            ? details.onStepContinue
+                                            : null,
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Constants.primaryColor,
+                                          shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20.0))),
+                                        ),
+                                        child: Text(
+                                          isLastStep ? 'Submit' : 'Continue',
+                                          style: const TextStyle(
+                                              color: Constants.fillColor),
+                                        ),
                                       ),
-                                      child: Text(
-                                        isLastStep ? 'Submit' : 'Continue',
-                                        style: const TextStyle(
-                                            color: Constants.fillColor),
-                                      ),
-                                    ),
-                                    if (_currentStep != 0)
-                                      TextButton(
-                                        onPressed: details.onStepCancel,
-                                        child: const Text('Back'),
-                                      ),
-                                  ],
-                                ),
-                              );
-                            },
+                                      if (_currentStep != 0)
+                                        TextButton(
+                                          onPressed: details.onStepCancel,
+                                          child: const Text('Back'),
+                                        ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -540,7 +645,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                               title: Row(
                                 children: [
                                   Text(e.price_from ?? ""),
-                                  Text(" - "),
+                                  const Text(" - "),
                                   Text(e.price_to ?? ""),
                                 ],
                               ),
@@ -549,6 +654,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                               onChanged: (String? value) {
                                 setState(() {
                                   selectedBudget = value!;
+                                  selectedBudgetId = value;
                                   final newTitle =
                                       "${e.price_from} - ${e.price_to}";
                                   selectedBudgetTitle = newTitle;
@@ -602,8 +708,9 @@ class _AddNewProjectState extends State<AddNewProject> {
                               groupValue: selectedLocation,
                               onChanged: (String? value) {
                                 setState(() {
+                                  print("=====selectde location: ${value}");
                                   selectedLocation = value!;
-
+                                  selectedLocationId = value.toString();
                                   selectedLocationTitle = e.name;
                                 });
                                 Navigator.pop(context);
@@ -654,7 +761,6 @@ class _AddNewProjectState extends State<AddNewProject> {
                           value: e.id.toString(),
                           groupValue: selectedDuration,
                           onChanged: (String? value) {
-                            print("-===========value duration ${value} =====");
                             setState(() {
                               selectedDuration = value!;
                               selectedDurationTitle = e.title;

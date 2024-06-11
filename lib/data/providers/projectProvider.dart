@@ -121,4 +121,28 @@ class ProjectProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<bool> createProject(Map<String, dynamic> payload) async {
+    startLoading();
+    try {
+      var response = await _dataConnection.postData("create_project/", payload);
+      if (response != null) {
+        if (response.data['status'] == 201) {
+          stopLoading();
+          _errorMessage = response.data['message'];
+        }
+
+        return true;
+      } else {
+        _errorMessage = "Failed to create project: ${response.data['message']}";
+        stopLoading();
+        return false;
+      }
+    } on DioError catch (e) {
+      _errorMessage =
+          "Network error: ${e.response?.data['message'] ?? e.message}";
+      stopLoading();
+      return false;
+    }
+  }
 }
