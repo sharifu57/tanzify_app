@@ -523,9 +523,9 @@ class _AddNewProjectState extends State<AddNewProject> {
                                                 if (success)
                                                   {
                                                     AlertDialog(
-                                                      title: Text(
+                                                      title: const Text(
                                                           "Project Created"),
-                                                      content: Text(
+                                                      content: const Text(
                                                           "Your project has been created"),
                                                       actions: <Widget>[
                                                         TextButton(
@@ -708,7 +708,6 @@ class _AddNewProjectState extends State<AddNewProject> {
                               groupValue: selectedLocation,
                               onChanged: (String? value) {
                                 setState(() {
-                                  print("=====selectde location: ${value}");
                                   selectedLocation = value!;
                                   selectedLocationId = value.toString();
                                   selectedLocationTitle = e.name;

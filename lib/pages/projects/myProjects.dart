@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tanzify_app/components/empty/emptyData.dart';
 import 'package:tanzify_app/pages/projects/addNew.dart';
 
 class MyProjects extends StatefulWidget {
@@ -20,13 +21,7 @@ class _MyProjectsState extends State<MyProjects> {
             Navigator.of(context).push(CupertinoPageRoute(
                 builder: (context) => const AddNewProject()));
           }),
-      body: Center(
-        child: Lottie.asset(
-          'assets/img/empty.json',
-          repeat: true,
-          fit: BoxFit.contain,
-        ),
-      ),
+      body: const Center(child: EmptyData()),
     );
   }
 }

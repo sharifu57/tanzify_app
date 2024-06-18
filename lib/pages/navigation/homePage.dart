@@ -209,7 +209,7 @@ class _HomePageState extends State<HomePage> {
             ? const Center(child: WaveSpinKit())
             : RefreshIndicator(
                 onRefresh: _handleRefresh,
-                child: Container(
+                child:projects.isEmpty? Center(): Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
