@@ -31,13 +31,19 @@ class ProfileMenuWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(100),
           color: iconColor.withOpacity(0.1),
         ),
-        child: Icon(icon, color: iconColor),
+        child: Icon(
+          icon,
+          color: iconColor,
+          size: 18,
+        ),
       ),
-      title: Text(title,
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium
-              ?.apply(color: textColor)),
+      title: Text(
+        title,
+        // style: Theme.of(context)
+        //     .textTheme
+        //     .headlineSmall
+        //     ?.apply(color: textColor)
+      ),
       trailing: endIcon
           ? Container(
               width: 30,

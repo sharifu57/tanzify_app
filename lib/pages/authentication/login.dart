@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
 import 'package:tanzify_app/components/containers/bazierContainer.dart';
@@ -131,6 +132,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   controller: emailController,
                   keyBoardInputType: TextInputType.emailAddress,
                   obscureText: false,
+                  icon: LineAwesomeIcons.mail_bulk_solid,
                   validator: (value) {
                     if (value!.isEmpty || !value.contains('@')) {
                       return "Email enter a valid email address";
@@ -148,6 +150,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   controller: passwordController,
                   keyBoardInputType: TextInputType.visiblePassword,
                   obscureText: true,
+                  icon: Icons.fingerprint,
                   validator: (value) {
                     if (value!.isEmpty || value.length < 6) {
                       return "Password must be at least 6 characters";

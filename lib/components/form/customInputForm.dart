@@ -9,6 +9,7 @@ class CustomInputForm extends StatefulWidget {
   final onSaved;
   final TextInputType keyBoardInputType;
   final bool obscureText;
+  final IconData icon;
 
   const CustomInputForm(
       {super.key,
@@ -19,6 +20,7 @@ class CustomInputForm extends StatefulWidget {
       required this.validator,
       required this.onSaved,
       required this.keyBoardInputType,
+      required this.icon,
       this.obscureText = false});
 
   @override
@@ -48,43 +50,46 @@ class _CustomInputFormState extends State<CustomInputForm> {
       keyboardType: widget.keyBoardInputType,
       obscureText: _obscureText,
       decoration: InputDecoration(
-        // fillColor: Constants.fillColor,
-        // filled: true,
+          // fillColor: Constants.fillColor,
+          // filled: true,
 
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-        labelText: widget.labelText,
-        hintText: widget.hintText,
-        hintStyle: widget.hintStyle,
-        suffixIcon: widget.obscureText
-            ? IconButton(
-                icon: Icon(
-                    _obscureText ? Icons.visibility_off : Icons.visibility),
-                onPressed: _togglePasswordVisibility,
-              )
-            : null,
-        border: InputBorder.none,
-        // border: OutlineInputBorder(
-        //   borderRadius: BorderRadius.circular(10),
-        //   borderSide: const BorderSide(color: Colors.grey),
-        // ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.black),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.black),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.red),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.red),
-        ),
-      ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          labelText: widget.labelText,
+          hintText: widget.hintText,
+          hintStyle: widget.hintStyle,
+          suffixIcon: widget.obscureText
+              ? IconButton(
+                  icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility),
+                  onPressed: _togglePasswordVisibility,
+                )
+              : null,
+          border: InputBorder.none,
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(10),
+          //   borderSide: const BorderSide(color: Colors.grey),
+          // ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.black),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.black),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.red),
+          ),
+          prefixIcon: Icon(
+            widget.icon,
+            size: 18,
+          )),
     );
   }
 }

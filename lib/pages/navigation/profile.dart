@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tanzify_app/components/profile/imageProfile.dart';
 import 'package:tanzify_app/components/profile/profileWidget.dart';
+import 'package:tanzify_app/components/profile/updateProfile.dart';
 import 'package:tanzify_app/pages/constants.dart';
 
 class Profile extends StatefulWidget {
@@ -11,6 +17,37 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  String? firstName;
+  String? lastName;
+  String? profileImage;
+  String? email;
+  String? categoryName;
+  @override
+  void initState() {
+    getUserFromStorage();
+    super.initState();
+  }
+
+  void getUserFromStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? user = prefs.getString('user');
+
+    if (user != null) {
+      final userData = jsonDecode(user);
+      final dynamic userIdData = userData["id"];
+
+      if (userIdData != null) {
+        setState(() {
+          firstName = userData["first_name"];
+          lastName = userData["last_name"];
+          profileImage = userData['profile']['profile_image'];
+          categoryName = userData['profile']['category']['name'];
+          email = userData["email"];
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
@@ -34,40 +71,22 @@ class _ProfileState extends State<Profile> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              SizedBox(
-                width: 120,
-                height: 120,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: const Image(image: AssetImage(""))),
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Container(
-                  width: 35,
-                  height: 35,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Constants.primaryColor),
-                  child: const Icon(
-                    LineAwesomeIcons.edit,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                ),
-              ),
+              const ImageProfile(),
               const SizedBox(height: 10),
-              Text("Heading1",
-                  style: Theme.of(context).textTheme.headlineMedium),
-              Text("Heading2", style: Theme.of(context).textTheme.bodyMedium),
+              Text("$firstName $lastName",
+                  style: Theme.of(context).textTheme.headlineSmall),
+              Text("$categoryName",
+                  style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 20),
               SizedBox(
-                width: 200,
+                // width: 200,
                 child: ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () {
+                    Navigator.of(context).push(CupertinoPageRoute(
+                        builder: (context) => const UpdateProfileScreen()));
+                  },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Constants.primaryColor,
+                      backgroundColor: Constants.tertiaryColor,
                       side: BorderSide.none,
                       shape: const StadiumBorder()),
                   child: const Text("Edit Profile",

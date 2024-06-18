@@ -165,6 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             controller: firstNameController,
                             keyBoardInputType: TextInputType.text,
                             obscureText: false,
+                            icon: Icons.person,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "First name is required";
@@ -184,6 +185,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             controller: lastNameController,
                             keyBoardInputType: TextInputType.text,
                             obscureText: false,
+                            icon: Icons.person,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Last name is required";
@@ -204,6 +206,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: emailController,
                       keyBoardInputType: TextInputType.emailAddress,
                       obscureText: false,
+                      icon: Icons.mail,
                       validator: (value) {
                         if (value!.isEmpty || !value.contains('@')) {
                           return "Email enter a valid email address";
@@ -221,6 +224,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: phoneNumberController,
                       keyBoardInputType: TextInputType.phone,
                       obscureText: false,
+                      icon: Icons.phone,
                       validator: validatePhoneNumber,
                       onSaved: (value) => _phoneNumber = value!,
                     ),
@@ -233,6 +237,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: passwordController,
                       keyBoardInputType: TextInputType.visiblePassword,
                       obscureText: true,
+                      icon: Icons.fingerprint,
                       validator: validatePassword,
                       onSaved: (value) => _password = value!,
                     ),

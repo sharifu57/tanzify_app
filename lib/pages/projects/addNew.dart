@@ -291,6 +291,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                                             controller: projectNameController,
                                             keyBoardInputType:
                                                 TextInputType.name,
+                                            icon: Icons.ac_unit,
                                             validator: (value) {
                                               if (value!.isEmpty) {
                                                 return "Project Title is required";

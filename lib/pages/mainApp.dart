@@ -26,7 +26,7 @@ class _MainAppState extends State<MainApp> {
       }),
       const Proposal(),
       const JobPosting(),
-      const AlertPage(),
+      // const AlertPage(),
       const Profile()
     ];
     return Scaffold(

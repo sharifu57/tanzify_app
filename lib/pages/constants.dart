@@ -13,4 +13,8 @@ class Constants {
   final String title = "Tanzify";
   static final GlobalKey<NavigatorState> globalAppKey =
       GlobalKey<NavigatorState>();
+
+  static void randoFunction() {
+    return;
+  }
 }
