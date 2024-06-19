@@ -7,7 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/profile/imageProfile.dart';
 import 'package:tanzify_app/components/profile/profileWidget.dart';
 import 'package:tanzify_app/components/profile/updateProfile.dart';
+import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/utils/customDialog.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -120,29 +122,36 @@ class _ProfileState extends State<Profile> {
                   textColor: Colors.red,
                   endIcon: false,
                   onPress: () {
-                    // Get.defaultDialog(
-                    //   title: "LOGOUT",
-                    //   titleStyle: const TextStyle(fontSize: 20),
-                    //   content: const Padding(
-                    //     padding: EdgeInsets.symmetric(vertical: 15.0),
-                    //     child: Text("Are you sure, you want to Logout?"),
-                    //   ),
-                    //   confirm: Expanded(
-                    //     child: ElevatedButton(
-                    //       onPressed: () =>
-                    //           AuthenticationRepository.instance.logout(),
-                    //       style: ElevatedButton.styleFrom(
-                    //           backgroundColor: Colors.redAccent,
-                    //           side: BorderSide.none),
-                    //       child: const Text("Yes"),
-                    //     ),
-                    //   ),
-                    //   cancel: OutlinedButton(
-                    //       onPressed: () => Get.back(), child: const Text("No")),
-                    // );
+                    _showLogoutDialog();
                   }),
             ],
           ),
         )));
+  }
+
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          type: 1,
+          message: "Are you sure you want to log out?",
+          onCancelPressed: () {
+            Navigator.pop(context);
+          },
+          onOkPressed: () {
+            _logoutUser();
+          },
+        );
+      },
+    );
+  }
+
+  _logoutUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user');
+    await prefs.clear();
+    Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(builder: (context) => const LoginPage()));
   }
 }

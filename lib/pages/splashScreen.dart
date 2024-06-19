@@ -35,7 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void checkIsLoggInStatus() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? accessToken = prefs.getString("accessToken");
+    // String? accessToken = prefs.getString("accessToken");
+    String? accessToken = prefs.getString("user");
 
     bool isLoggedIn = accessToken != null && accessToken.isNotEmpty;
 
