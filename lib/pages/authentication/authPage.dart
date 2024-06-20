@@ -104,12 +104,12 @@ class _AuthPageState extends State<AuthPage> {
               ));
   }
 
-  navigateToPage({required final String pathName}) {
+  navigateToPage({required final String pathName}) async {
     if (pathName == 'login') {
-      Navigator.of(context)
+      await Navigator.of(context)
           .push(CupertinoPageRoute(builder: (context) => const LoginPage()));
     } else if (pathName == 'register') {
-      Navigator.of(context)
+      await Navigator.of(context)
           .push(CupertinoPageRoute(builder: (context) => const RegisterPage()));
     }
   }

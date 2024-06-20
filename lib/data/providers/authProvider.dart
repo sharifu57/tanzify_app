@@ -52,8 +52,39 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> forgotPassword(String email) async {
+    startLoading();
+
+    try {
+      Response response = await dio.post(
+        "${DataConnection.connectionUrl}forgot_password/",
+        data: {'email': email},
+      );
+
+      if (response.data is Map && response.data.containsKey('status')) {
+        if (response.data['status'] == 200) {
+          _successMessage = response.data['message'];
+          stopLoading();
+          return true;
+        } else {
+          _errorMessage = "Error: ${response.data['message']}";
+          stopLoading();
+          return false;
+        }
+      } else {
+        _errorMessage = "Unexpected response format";
+        stopLoading();
+        return false;
+      }
+    } on DioError catch (e) {
+      _errorMessage =
+          "Network error: ${e.response?.data['message'].toString() ?? e.message}";
+      stopLoading();
+      return false;
+    }
+  }
+
   Future<bool> login(String email, String password) async {
-    print(DataConnection.connectionUrl);
     startLoading();
     try {
       Response response = await dio.post(
@@ -73,7 +104,6 @@ class AuthProvider with ChangeNotifier {
         stopLoading();
         return true;
       } else {
-        print("==========failed");
         _errorMessage = "Error: ${response.data['message']}";
         stopLoading();
         return false;
@@ -172,6 +202,30 @@ class AuthProvider with ChangeNotifier {
     } on DioError catch (e) {
       stopSmallLoading();
       _errorMessage = "Network error: ${e.message}";
+      stopLoading();
+      return false;
+    }
+  }
+
+  Future<bool> verifyPasswordOTP(String email, String otp) async {
+    startLoading();
+    try {
+      Response response = await dio.post(
+          "${DataConnection.connectionUrl}verify_password_otp/",
+          data: {'email': email, 'otp': otp});
+
+      if (response.data['status'] == 200) {
+        _successMessage = response.data['message'];
+        stopLoading();
+        return true;
+      } else {
+        _errorMessage = "Error: ${response.data['message'] ?? 'Unkown Error'}";
+        stopLoading();
+        return false;
+      }
+    } on DioError catch (e) {
+      _errorMessage =
+          "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
       return false;
     }

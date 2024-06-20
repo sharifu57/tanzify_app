@@ -5,25 +5,24 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
 import 'package:tanzify_app/components/containers/bazierContainer.dart';
+import 'package:tanzify_app/components/form/customInputForm.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/authPage.dart';
-import 'package:tanzify_app/pages/authentication/forgotPassword/forgotPassword.dart';
-import 'package:tanzify_app/pages/authentication/register.dart';
-import 'package:tanzify_app/pages/authentication/verification.dart';
+import 'package:tanzify_app/pages/authentication/forgotPassword/verifyEmail.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/mainApp.dart';
-import '../../components/form/customInputForm.dart';
+import 'package:tanzify_app/utils/customDialog.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+class _ForgotPasswordState extends State<ForgotPassword> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   final _formKey = GlobalKey<FormState>();
@@ -40,13 +39,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       ScreenUtil.init(context,
           designSize: const Size(360, 690), minTextAdapt: true);
     });
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
   }
 
   @override
@@ -112,9 +104,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             height: 50.h,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: Text("Log in to Tanzify",
+            padding: EdgeInsets.symmetric(vertical: 0.h),
+            child: Text("Forgot Password",
                 style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600)),
+          ),
+          // Text(
+          //     "Lost your password? Please enter your email address. You will receive an OTP to create a new password."),
+          const SafeArea(
+              child: Text(
+                  "Lost your password? Please enter your email address. You will receive an OTP to create a new password.")),
+          SizedBox(
+            height: 20.h,
           ),
           Form(
             key: _formKey,
@@ -137,79 +137,47 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   },
                   onSaved: (value) => _email = value!,
                 ),
-                SizedBox(height: 30.h),
-                CustomInputForm(
-                  labelText: "Password",
-                  hintText: "Enter your password",
-                  hintStyle:
-                      TextStyle(color: Constants.primaryColor, fontSize: 10.sp),
-                  controller: passwordController,
-                  keyBoardInputType: TextInputType.visiblePassword,
-                  obscureText: true,
-                  icon: Icons.fingerprint,
-                  validator: (value) {
-                    if (value!.isEmpty || value.length < 6) {
-                      return "Password must be at least 6 characters";
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _password = value!,
-                ),
-                SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        navigateToPage(pathName: 'forgot-password');
-                      },
-                      child: Text(
-                        "Forgot Password",
-                        style: TextStyle(
-                            color: Constants.primaryColor, fontSize: 12.sp),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        navigateToPage(pathName: 'register');
-                      },
-                      child: Text(
-                        "Create an account",
-                        style: TextStyle(
-                            color: Constants.primaryColor, fontSize: 12.sp),
-                      ),
-                    ),
-                  ],
-                ),
                 SizedBox(height: 20.h),
                 authProvider.isLoading
                     ? const WaveSpinKit()
                     : FormButton(
                         fullWidth: true,
-                        text: "Log In",
+                        text: "SEND OTP",
                         variant: FormButtonVariant.filled,
                         onClick: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             authProvider
-                                .login(emailController.text,
-                                    passwordController.text)
+                                .forgotPassword(emailController.text)
                                 .then((success) {
                               if (!success) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      backgroundColor: Colors.red,
-                                      content: Text(authProvider.errorMessage)),
+                                showCustomDialog(
+                                  context,
+                                  CustomDialog(
+                                    message: authProvider.errorMessage,
+                                    onOkPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    onCancelPressed: () {},
+                                    type: 4,
+                                  ),
                                 );
-                              } else {
-                                // ScaffoldMessenger.of(context).showSnackBar(
-                                //   SnackBar(
-                                //       backgroundColor: Colors.green,
-                                //       content: Text(authProvider.errorMessage)),
-                                // );
-                                Navigator.of(context).push(CupertinoPageRoute(
-                                    builder: (context) => const MainApp()));
                               }
+
+                              showCustomDialog(
+                                context,
+                                CustomDialog(
+                                  message: authProvider.successMessage,
+                                  onOkPressed: () {
+                                    Navigator.of(context).push(
+                                        CupertinoPageRoute(
+                                            builder: (context) => VerifyEmail(
+                                                email: emailController.text)));
+                                  },
+                                  onCancelPressed: () {},
+                                  type: 2,
+                                ),
+                              );
                             });
                           }
                         }),
@@ -221,13 +189,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     );
   }
 
-  navigateToPage({required final String pathName}) async {
-    if (pathName == 'forgot-password') {
-      await Navigator.of(context).push(
-          CupertinoPageRoute(builder: (context) => const ForgotPassword()));
-    } else if (pathName == 'register') {
-      await Navigator.of(context)
-          .push(CupertinoPageRoute(builder: (context) => const RegisterPage()));
-    }
-  }
+  // navigateToPage({required final String pathName}) {
+  //   if (pathName == 'forgot-password') {
+  //     Navigator.of(context).push(
+  //         CupertinoPageRoute(builder: (context) => const ForgotPassword()));
+  //   } else if (pathName == 'register') {
+  //     Navigator.of(context)
+  //         .push(CupertinoPageRoute(builder: (context) => const RegisterPage()));
+  //   }
+  // }
 }
