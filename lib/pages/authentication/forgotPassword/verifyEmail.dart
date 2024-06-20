@@ -8,6 +8,7 @@ import 'package:tanzify_app/components/containers/bazierContainer.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
+import 'package:tanzify_app/pages/authentication/forgotPassword/resetPassword.dart';
 import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/utils/customDialog.dart';
@@ -55,15 +56,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
     Color accentDarkGreenColor = Color(0xFF115C49);
     Color accentYellowColor = Color(0xFFFFB612);
     Color accentOrangeColor = Color(0xFFEA7A3B);
-
-    // otpTextStyles = [
-    //   createStyle(accentPurpleColor),
-    //   createStyle(accentYellowColor),
-    //   createStyle(accentDarkGreenColor),
-    //   createStyle(accentOrangeColor),
-    //   createStyle(accentPinkColor),
-    //   createStyle(accentPurpleColor),
-    // ];
 
     TextStyle? createStyle(Color color) {
       ThemeData theme = Theme.of(context);
@@ -192,11 +184,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     .then((success) => {
                           if (!success)
                             {
-                              // ScaffoldMessenger.of(context).showSnackBar((SnackBar(
-                              //   content: Text(authProvider.errorMessage),
-                              //   backgroundColor: Colors.red,
-                              //   duration: const Duration(seconds: 2),
-                              // )))
                               showCustomDialog(
                                 context,
                                 CustomDialog(
@@ -217,10 +204,10 @@ class _VerifyEmailState extends State<VerifyEmail> {
                                   message: authProvider.successMessage,
                                   onOkPressed: () {
                                     Navigator.pop(context);
-                                    // Navigator.of(context).push(
-                                    //     CupertinoPageRoute(
-                                    //         builder: (context) => VerifyEmail(
-                                    //             email: emailController.text)));
+                                    Navigator.of(context).push(
+                                        CupertinoPageRoute(
+                                            builder: (context) => ResetPassword(
+                                                email: widget.email)));
                                   },
                                   onCancelPressed: () {},
                                   type: 2,

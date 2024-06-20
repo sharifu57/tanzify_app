@@ -214,7 +214,31 @@ class AuthProvider with ChangeNotifier {
           "${DataConnection.connectionUrl}verify_password_otp/",
           data: {'email': email, 'otp': otp});
 
-      if (response.data['status'] == 200) {
+      if (response.data['status'] == 202) {
+        _successMessage = response.data['message'];
+        stopLoading();
+        return true;
+      } else {
+        _errorMessage = "Error: ${response.data['message'] ?? 'Unkown Error'}";
+        stopLoading();
+        return false;
+      }
+    } on DioError catch (e) {
+      _errorMessage =
+          "Network error: ${e.response?.data['message'] ?? e.message}";
+      stopLoading();
+      return false;
+    }
+  }
+
+  Future<bool> resetPassword(String email, String password) async {
+    startLoading();
+    try {
+      Response response = await dio.post(
+          "${DataConnection.connectionUrl}reset_new_password/",
+          data: {'email': email, 'password': password});
+
+      if (response.data['status'] == 202) {
         _successMessage = response.data['message'];
         stopLoading();
         return true;
