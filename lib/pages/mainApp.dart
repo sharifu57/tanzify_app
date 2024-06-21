@@ -3,7 +3,7 @@ import 'package:tanzify_app/components/icons/simpleIcon.dart';
 import 'package:tanzify_app/pages/navigation/alertPage.dart';
 import 'package:tanzify_app/pages/navigation/application.dart';
 import 'package:tanzify_app/pages/navigation/homePage.dart';
-import 'package:tanzify_app/pages/navigation/post.dart';
+import 'package:tanzify_app/pages/navigation/NewProject.dart';
 import 'package:tanzify_app/pages/navigation/profile.dart';
 import 'package:tanzify_app/pages/navigation/proposal.dart';
 
@@ -25,7 +25,7 @@ class _MainAppState extends State<MainApp> {
         });
       }),
       const Proposal(),
-      const JobPosting(),
+      const NewProject(),
       // const AlertPage(),
       const Profile()
     ];
