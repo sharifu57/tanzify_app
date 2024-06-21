@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/containers/statusWidget.dart';
+import 'package:tanzify_app/components/empty/emptyData.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
@@ -149,13 +150,7 @@ class _AppliedBidState extends State<AppliedBid> {
                                 ),
                               );
                             })
-                        : Center(
-                            child: Lottie.asset(
-                              'assets/img/empty.json',
-                              repeat: true,
-                              fit: BoxFit.contain,
-                            ),
-                          )),
+                        : const Center(child:  EmptyData())),
               )),
     ));
     // return

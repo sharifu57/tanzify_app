@@ -162,22 +162,24 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     type: 4,
                                   ),
                                 );
+                              } else {
+                                showCustomDialog(
+                                  context,
+                                  CustomDialog(
+                                    message: authProvider.successMessage,
+                                    onOkPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.of(context).push(
+                                          CupertinoPageRoute(
+                                              builder: (context) => VerifyEmail(
+                                                  email:
+                                                      emailController.text)));
+                                    },
+                                    onCancelPressed: () {},
+                                    type: 2,
+                                  ),
+                                );
                               }
-
-                              showCustomDialog(
-                                context,
-                                CustomDialog(
-                                  message: authProvider.successMessage,
-                                  onOkPressed: () {
-                                    Navigator.of(context).push(
-                                        CupertinoPageRoute(
-                                            builder: (context) => VerifyEmail(
-                                                email: emailController.text)));
-                                  },
-                                  onCancelPressed: () {},
-                                  type: 2,
-                                ),
-                              );
                             });
                           }
                         }),

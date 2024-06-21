@@ -34,38 +34,36 @@ class _ProposalState extends State<Proposal> {
       length: 2,
       child: Scaffold(
         appBar: const CustomAppBar(),
-        body: isLoading
-            ? const Center(child: WaveSpinKit())
-            : Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      alignment: Alignment.centerLeft,
-                      child: const Text("Proposals",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w700)),
-                    ),
-                    // SizedBox(height: 10),
-                    const TabBar(
-                      tabs: [
-                        Tab(
-                          text: "Applied",
-                        ),
-                        Tab(
-                          text: "Created by Me",
-                        ),
-                      ],
-                    ),
-                    const Expanded(
-                      child: TabBarView(
-                        children: [AppliedBid(), MyProjects()],
-                      ),
-                    ),
-                  ],
+        body: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                alignment: Alignment.centerLeft,
+                child: const Text("Proposals",
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+              ),
+              // SizedBox(height: 10),
+              const TabBar(
+                tabs: [
+                  Tab(
+                    text: "Applied",
+                  ),
+                  Tab(
+                    text: "Created by Me",
+                  ),
+                ],
+              ),
+              const Expanded(
+                child: TabBarView(
+                  children: [AppliedBid(), MyProjects()],
                 ),
               ),
+            ],
+          ),
+        ),
       ),
     );
   }

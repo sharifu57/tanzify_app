@@ -86,10 +86,15 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> login(String email, String password) async {
     startLoading();
+    print("${DataConnection.connectionUrl}login/");
     try {
       Response response = await dio.post(
           "${DataConnection.connectionUrl}login/",
           data: {'email': email, 'password': password});
+
+      print("======this is response");
+      print(response);
+      print("====end this response");
 
       if (response.data['status'] == 200) {
         var data = response.data;
@@ -108,8 +113,14 @@ class AuthProvider with ChangeNotifier {
         stopLoading();
         return false;
       }
-    } on DioError catch (e) {
-      _errorMessage = "Error: ${e.response?.data['message'] ?? e.message}";
+    } on DioException catch (e) {
+      print("=====this error");
+      print(e.response?.data['message']);
+      print(e.message);
+      print("=====end this error");
+
+      _errorMessage =
+          "Error: ${e.response?.data['message'] ?? "Internal server error"}";
       stopLoading();
       return false;
     }
