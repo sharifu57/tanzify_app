@@ -84,6 +84,51 @@ class ProjectProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> getRecentProjects() async {
+    _isLoading = true;
+    try {
+      var response = await _dataConnection.fetchData('projects/');
+
+      if (response != null) {
+        var results = response['results'];
+
+        if (results is List) {
+          results.forEach((element) {
+            // print("Element type: ${element.runtimeType}");
+            // print("Element content: $element");
+          });
+
+          projects = results
+              .map((e) {
+                if (e is Map<String, dynamic>) {
+                  try {
+                    return ProjectModal.fromJson(e);
+                  } catch (e) {
+                    // print("Error parsing project: $e");
+                    return null; // Filter out invalid elements
+                  }
+                } else {
+                  // print("Element is not a Map<String, dynamic>: $e");
+                  return null; // Filter out invalid elements
+                }
+              })
+              .where((e) => e != null)
+              .cast<ProjectModal>()
+              .toList();
+          notifyListeners();
+          _isLoading = false;
+        } else {
+          // print("Results is not a list: $results");
+        }
+      }
+    } catch (e) {
+      _isLoading = false;
+      // print("Error during parsing projects: $e");
+      _errorMessage = e.toString();
+      notifyListeners();
+    }
+  }
+
   Future<bool> applyProject(Map<String, dynamic> payload) async {
     startLoading();
 

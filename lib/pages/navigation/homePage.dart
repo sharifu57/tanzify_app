@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/homePage/employerHome.dart';
+import 'package:tanzify_app/pages/homePage/bestMatch.dart';
 import 'package:tanzify_app/pages/homePage/freelancerHome.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,6 +70,7 @@ class _HomePageState extends State<HomePage> {
   void getUserFromStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? user = prefs.getString('user');
+    // await prefs.clear();
 
     if (user != null) {
       final userData = jsonDecode(user);
@@ -106,11 +108,8 @@ class _HomePageState extends State<HomePage> {
             height: 10,
             padding: const EdgeInsets.all(1),
             child: profileImage != null
-                // ? CircleAvatar(
-                //     backgroundImage: NetworkImage(profileImage!),
-                //   )
-                ? const Center(
-                    child: Text("M"),
+                ? CircleAvatar(
+                    backgroundImage: NetworkImage(profileImage!),
                   )
                 : CircleAvatar(
                     backgroundColor: Constants.primaryColor,

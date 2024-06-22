@@ -111,10 +111,24 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           SizedBox(
             height: 50.h,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: Text("Log in to Tanzify",
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600)),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              "Login",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Constants.primaryColor),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(bottom: 10),
+            child: const Text(
+              "Please Sign In to continue",
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
           ),
           Form(
             key: _formKey,
@@ -137,7 +151,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   },
                   onSaved: (value) => _email = value!,
                 ),
-                SizedBox(height: 30.h),
+                SizedBox(height: 15.h),
                 CustomInputForm(
                   labelText: "Password",
                   hintText: "Enter your password",
@@ -155,7 +169,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   },
                   onSaved: (value) => _password = value!,
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 10.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -169,24 +183,24 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             color: Constants.primaryColor, fontSize: 12.sp),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        navigateToPage(pathName: 'register');
-                      },
-                      child: Text(
-                        "Create an account",
-                        style: TextStyle(
-                            color: Constants.primaryColor, fontSize: 12.sp),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     navigateToPage(pathName: 'register');
+                    //   },
+                    //   child: Text(
+                    //     "Create an account",
+                    //     style: TextStyle(
+                    //         color: Constants.primaryColor, fontSize: 12.sp),
+                    //   ),
+                    // ),
                   ],
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 10.h),
                 authProvider.isLoading
                     ? const WaveSpinKit()
                     : FormButton(
                         fullWidth: true,
-                        text: "Log In",
+                        text: "Sign In",
                         variant: FormButtonVariant.filled,
                         onClick: () {
                           if (_formKey.currentState!.validate()) {
@@ -202,17 +216,32 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       content: Text(authProvider.errorMessage)),
                                 );
                               } else {
-                                // ScaffoldMessenger.of(context).showSnackBar(
-                                //   SnackBar(
-                                //       backgroundColor: Colors.green,
-                                //       content: Text(authProvider.errorMessage)),
-                                // );
                                 Navigator.of(context).push(CupertinoPageRoute(
                                     builder: (context) => const MainApp()));
                               }
                             });
                           }
                         }),
+                Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have account?"),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(CupertinoPageRoute(
+                                builder: (context) => const RegisterPage()));
+                          },
+                          child: const Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Constants.primaryColor),
+                          ))
+                    ],
+                  ),
+                )
               ],
             ),
           ),

@@ -35,9 +35,11 @@ import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/data/providers/categoryProvider.dart';
 import 'package:tanzify_app/models/category/categoryModal.dart';
+import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/authentication/verification.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tanzify_app/utils/customDialog.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key, this.title});
@@ -53,6 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final phoneNumberController = TextEditingController();
+  final repasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String _firstName = "";
   String _lastName = "";
@@ -101,6 +104,18 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  bool _validatePasswords(String password, String repassword) {
+    return password == repassword;
+  }
+
+  bool _isPasswordValid(String password) {
+    // At least 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character
+    String pattern =
+        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$';
+    RegExp regex = RegExp(pattern);
+    return regex.hasMatch(password);
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoryProvider>(context);
@@ -141,13 +156,32 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: MediaQuery.of(context).size.height * .2),
           const AppLogo(),
           SizedBox(
-            height: 50.h,
+            height: 30.h,
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              "Register",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Constants.primaryColor),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(bottom: 10),
+            child: const Text(
+              "Please Create account",
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
           ),
           SizedBox(
             child: Form(
@@ -197,7 +231,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 30.h),
+                    SizedBox(height: 15.h),
                     CustomInputForm(
                       labelText: "Email",
                       hintText: "",
@@ -215,7 +249,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       onSaved: (value) => _email = value!,
                     ),
-                    SizedBox(height: 30.h),
+                    SizedBox(height: 15.h),
                     CustomInputForm(
                       labelText: "Phone",
                       hintText: "",
@@ -228,7 +262,19 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: validatePhoneNumber,
                       onSaved: (value) => _phoneNumber = value!,
                     ),
-                    SizedBox(height: 30.h),
+                    SizedBox(height: 15.h),
+                    // CustomInputForm(
+                    //   labelText: "Password",
+                    //   hintText: "Enter your password",
+                    //   hintStyle: TextStyle(
+                    //       color: Constants.primaryColor, fontSize: 10.sp),
+                    //   controller: passwordController,
+                    //   keyBoardInputType: TextInputType.visiblePassword,
+                    //   obscureText: true,
+                    //   icon: Icons.fingerprint,
+                    //   validator: validatePassword,
+                    //   onSaved: (value) => _password = value!,
+                    // ),
                     CustomInputForm(
                       labelText: "Password",
                       hintText: "Enter your password",
@@ -238,10 +284,39 @@ class _RegisterPageState extends State<RegisterPage> {
                       keyBoardInputType: TextInputType.visiblePassword,
                       obscureText: true,
                       icon: Icons.fingerprint,
-                      validator: validatePassword,
+                      validator: (value) {
+                        if (value!.isEmpty || value.length < 6) {
+                          return "Password must be at least 6 characters";
+                        }
+                        if (!_isPasswordValid(value)) {
+                          return "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+                        }
+                        return null;
+                      },
                       onSaved: (value) => _password = value!,
                     ),
-                    SizedBox(height: 30.h),
+                    SizedBox(height: 15.h),
+                    CustomInputForm(
+                      labelText: "Re-Enter Password",
+                      hintText: "Re-Enter your password",
+                      hintStyle: TextStyle(
+                          color: Constants.primaryColor, fontSize: 10.sp),
+                      controller: repasswordController,
+                      keyBoardInputType: TextInputType.visiblePassword,
+                      obscureText: true,
+                      icon: Icons.fingerprint,
+                      validator: (value) {
+                        if (value!.isEmpty || value.length < 6) {
+                          return "Password must be at least 6 characters";
+                        } else if (!_validatePasswords(
+                            passwordController.text, value)) {
+                          return "Passwords do not match";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _password = value!,
+                    ),
+                    SizedBox(height: 15.h),
                     if (errorMessage.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -262,31 +337,31 @@ class _RegisterPageState extends State<RegisterPage> {
                         onSaved: (value) => _category = value!,
                       ),
                     SizedBox(height: 10.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: RadioButtonFormInput(
-                            onSelectedItemChanged: handleSelectedItemChange,
-                            title: 'Freelancer',
-                            groupValue: _selectedItem,
-                            value: '1',
-                            onSaved: (value) => _selectedItem = value!,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: RadioButtonFormInput(
-                            onSelectedItemChanged: handleSelectedItemChange,
-                            title: 'Employer',
-                            groupValue: _selectedItem,
-                            value: '2',
-                            onSaved: (value) => _selectedItem = value!,
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //   children: [
+                    //     Expanded(
+                    //       flex: 5,
+                    //       child: RadioButtonFormInput(
+                    //         onSelectedItemChanged: handleSelectedItemChange,
+                    //         title: 'Freelancer',
+                    //         groupValue: _selectedItem,
+                    //         value: '1',
+                    //         onSaved: (value) => _selectedItem = value!,
+                    //       ),
+                    //     ),
+                    //     Expanded(
+                    //       flex: 5,
+                    //       child: RadioButtonFormInput(
+                    //         onSelectedItemChanged: handleSelectedItemChange,
+                    //         title: 'Employer',
+                    //         groupValue: _selectedItem,
+                    //         value: '2',
+                    //         onSaved: (value) => _selectedItem = value!,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 )),
           ),
@@ -294,6 +369,26 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 0.h,
           ),
           _submitButton(authProvider),
+          Container(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Already have account?"),
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(CupertinoPageRoute(
+                          builder: (context) => const LoginPage()));
+                    },
+                    child: const Text(
+                      "Sign In",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Constants.primaryColor),
+                    ))
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -360,22 +455,49 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   authProvider.register(payload).then((success) => {
                         if (success)
+                          // {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //     SnackBar(
+                          //         backgroundColor: Colors.green,
+                          //         content: Text(authProvider.errorMessage)),
+                          //   ),
+                          //   Navigator.of(context).push(CupertinoPageRoute(
+                          //       builder: (context) => VerificationPage(
+                          //           email: emailController.text.trim())))
+                          // }
                           {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content: Text(authProvider.errorMessage)),
-                            ),
-                            Navigator.of(context).push(CupertinoPageRoute(
-                                builder: (context) => VerificationPage(
-                                    email: emailController.text.trim())))
+                            showCustomDialog(
+                              context,
+                              CustomDialog(
+                                message: authProvider.successMessage,
+                                onOkPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(CupertinoPageRoute(
+                                      builder: (context) => VerificationPage(
+                                          email: emailController.text.trim())));
+                                },
+                                onCancelPressed: () {},
+                                type: 2,
+                              ),
+                            )
                           }
                         else
                           {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  backgroundColor: Colors.red,
-                                  content: Text(authProvider.errorMessage)),
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   SnackBar(
+                            //       backgroundColor: Colors.red,
+                            //       content: Text(authProvider.errorMessage)),
+                            // )
+                            showCustomDialog(
+                              context,
+                              CustomDialog(
+                                message: authProvider.errorMessage,
+                                onOkPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                onCancelPressed: () {},
+                                type: 4,
+                              ),
                             )
                           }
                       });

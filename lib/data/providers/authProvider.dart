@@ -134,6 +134,7 @@ class AuthProvider with ChangeNotifier {
 
       if (response.statusCode == 201) {
         stopLoading();
+        _successMessage = "${response.data['message']}";
         return true;
       } else {
         _errorMessage =
