@@ -103,40 +103,48 @@ class _BestMatchState extends State<BestMatch> {
     final projects = projectProvider.projectsList;
 
     return Scaffold(
-      body: Flexible(
-          child: projects.isEmpty
-              ? const Center(
-                  child: EmptyData(),
-                )
-              : ListView.builder(
-                  controller: _scrollController,
-                  itemCount: projects.isEmpty ? 0 : projects.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: projects[index].bids != null &&
-                                  projects[index].bids!.isNotEmpty &&
-                                  projects[index].bids![0].identity ==
-                                      userIdString
-                              ? () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      duration: Duration(milliseconds: 1000),
-                                      backgroundColor: Colors.red,
-                                      content: Text(
-                                          "You have already bid on this project"),
-                                    ),
-                                  );
-                                }
-                              : () {
-                                  Navigator.of(context).push(CupertinoPageRoute(
-                                      builder: (context) => ViewProject(
-                                          project: projects[index])));
-                                },
-                          child: isLoading
-                              ? const Center(child: WaveSpinKit())
-                              : SizedBox(
+      body: SizedBox(
+        child: isLoading
+            ? const Center(
+                child: WaveSpinKit(),
+              )
+            : Flexible(
+                child: projects.isEmpty
+                    ? const Center(
+                        child: EmptyData(),
+                      )
+                    : ListView.builder(
+                        controller: _scrollController,
+                        itemCount: projects.isEmpty ? 0 : projects.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              InkWell(
+                                onTap: projects[index].bids != null &&
+                                        projects[index].bids!.isNotEmpty &&
+                                        projects[index].bids![0].identity ==
+                                            userIdString
+                                    ? () {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                            backgroundColor: Colors.red,
+                                            content: Text(
+                                                "You have already bid on this project"),
+                                          ),
+                                        );
+                                      }
+                                    : () {
+                                        Navigator.of(context).push(
+                                            CupertinoPageRoute(
+                                                builder: (context) =>
+                                                    ViewProject(
+                                                        project:
+                                                            projects[index])));
+                                      },
+                                child: SizedBox(
                                   child: Container(
                                     padding: const EdgeInsets.all(10),
                                     child: Column(
@@ -389,13 +397,14 @@ class _BestMatchState extends State<BestMatch> {
                                     ),
                                   ),
                                 ),
-                        ),
-                        const Divider(
-                          color: Constants.borderColor,
-                        )
-                      ],
-                    );
-                  })),
+                              ),
+                              const Divider(
+                                color: Constants.borderColor,
+                              )
+                            ],
+                          );
+                        })),
+      ),
     );
   }
 

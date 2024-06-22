@@ -21,7 +21,6 @@ class ProjectProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
   List<ProjectModal> get projectsList => projects;
-  // List<BidModal> get bidsList => myBids;
 
   void startLoading() {
     _isLoading = true;
@@ -34,16 +33,11 @@ class ProjectProvider extends ChangeNotifier {
   }
 
   Future<void> getProjects(int userCategory) async {
-    print("======projects");
-    print(projects);
-    print("end projects==");
     _isLoading = true;
     try {
       var response =
           await _dataConnection.fetchData('get_match_projects/$userCategory/');
 
-      print(response);
-      print("end projects response==");
       if (response != null) {
         var results = response['results'];
 
@@ -59,11 +53,9 @@ class ProjectProvider extends ChangeNotifier {
                   try {
                     return ProjectModal.fromJson(e);
                   } catch (e) {
-                    // print("Error parsing project: $e");
                     return null; // Filter out invalid elements
                   }
                 } else {
-                  // print("Element is not a Map<String, dynamic>: $e");
                   return null; // Filter out invalid elements
                 }
               })
