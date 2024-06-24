@@ -66,12 +66,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   backgroundColor: Constants.primaryColor,
                   child: email != null
                       ? Text(
-                          email![0],
+                          email![0].toUpperCase(),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 12),
                         )
                       : Text(
-                          '${(firstName ?? '').isNotEmpty ? firstName![0] : ''}${(lastName ?? '').isNotEmpty ? lastName![0] : ''}',
+                          '${(firstName ?? '').isNotEmpty ? firstName![0].toUpperCase() : ''}${(lastName ?? '').isNotEmpty ? lastName![0].toUpperCase() : ''}',
                           style: const TextStyle(color: Colors.white),
                         ),
                 ),

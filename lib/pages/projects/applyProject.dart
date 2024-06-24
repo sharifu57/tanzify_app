@@ -50,14 +50,12 @@ class _ApplyProjectState extends State<ApplyProject> {
   PlatformFile? selectedFile;
 
   @override
-  void initState() {
-    super.initState();
-    getUserFromStorage();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ScreenUtil.init(context,
-          designSize: const Size(360, 690), minTextAdapt: true);
-      Provider.of<DurationProvider>(context, listen: false).getDurations();
-    });
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> getAllDurations() async {
+    await Provider.of<DurationProvider>(context, listen: false).getDurations();
   }
 
   Future<void> _pickFile() async {
@@ -89,11 +87,24 @@ class _ApplyProjectState extends State<ApplyProject> {
         userId = userData["id"].toString();
       });
     }
+
+    getAllDurations();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserFromStorage();
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   ScreenUtil.init(context,
+    //       designSize: const Size(360, 690), minTextAdapt: true);
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    final double fullHeight = MediaQuery.of(context).size.height;
+    // final double fullHeight = MediaQuery.of(context).size.height;
     final projectProvider = Provider.of<ProjectProvider>(context);
     return Scaffold(
       appBar: AppBar(

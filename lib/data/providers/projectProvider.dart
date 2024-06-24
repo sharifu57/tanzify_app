@@ -10,6 +10,7 @@ class ProjectProvider extends ChangeNotifier {
   Dio dio = Dio();
   bool _isLoading = false;
   String _errorMessage = "";
+  String _successMessage = "";
   late DataConnection _dataConnection = DataConnection();
   List<ProjectModal> projects = [];
   List<dynamic> myBids = [];
@@ -20,6 +21,7 @@ class ProjectProvider extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
+  String get successMessage => _successMessage;
   List<ProjectModal> get projectsList => projects;
 
   void startLoading() {
@@ -168,18 +170,12 @@ class ProjectProvider extends ChangeNotifier {
     startLoading();
     try {
       var response = await _dataConnection.postData("create_project/", payload);
-      if (response != null) {
-        if (response.data['status'] == 201) {
-          stopLoading();
-          _errorMessage = response.data['message'];
-        }
-
-        return true;
-      } else {
-        _errorMessage = "Failed to create project: ${response.data['message']}";
+      if (response.data['status'] == 201) {
         stopLoading();
-        return false;
+        _successMessage = response.data['message'];
       }
+
+      return true;
     } on DioError catch (e) {
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";

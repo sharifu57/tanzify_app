@@ -8,6 +8,7 @@ import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/homePage/employerHome.dart';
 import 'package:tanzify_app/pages/homePage/bestMatch.dart';
 import 'package:tanzify_app/pages/homePage/freelancerHome.dart';
+import 'package:tanzify_app/pages/message/chats.dart';
 
 class HomePage extends StatefulWidget {
   final Function(int)? goToPage;
@@ -127,78 +128,90 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         actions: [
-          Stack(
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.notifications,
-                ),
-                iconSize: 20,
-                onPressed: () {},
-              ),
-              Positioned(
-                right: 4,
-                top: 3,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  constraints: const BoxConstraints(
-                    minWidth: 20,
-                    minHeight: 20,
-                  ),
-                  child: Center(
-                    child: Text(
-                      '$notificationCount',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
           Container(
-            padding: const EdgeInsets.only(right: 14),
-            child: Stack(
+            padding: const EdgeInsets.only(top: 10),
+            child: Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.message_outlined),
-                  iconSize: 20,
-                  onPressed: () {},
-                ),
-                Positioned(
-                  right: 4,
-                  top: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    constraints: const BoxConstraints(
-                      minWidth: 20,
-                      minHeight: 10,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '$notificationCount',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                        textAlign: TextAlign.center,
+                Stack(
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.notifications,
                       ),
+                      iconSize: 20,
+                      onPressed: () {},
                     ),
+                    Positioned(
+                      right: 4,
+                      top: 3,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 20,
+                          minHeight: 20,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '$notificationCount',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.only(right: 14),
+                  child: Stack(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.telegram_outlined),
+                        iconSize: 20,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => const Chats()));
+                        },
+                      ),
+                      Positioned(
+                        right: 4,
+                        top: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 20,
+                            minHeight: 10,
+                          ),
+                          child: Center(
+                            child: Text(
+                              '$notificationCount',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                )
+                ),
               ],
             ),
-          ),
+          )
         ],
       ),
       body: userType == 1 ? const FreelancerHome() : const EmployerHome(),

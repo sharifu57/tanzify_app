@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/homePage/allProjects.dart';
 import 'package:tanzify_app/pages/homePage/bestMatch.dart';
@@ -13,6 +14,15 @@ class FreelancerHome extends StatefulWidget {
 
 class _FreelancerHomeState extends State<FreelancerHome> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScreenUtil.init(context,
+          designSize: const Size(360, 690), minTextAdapt: true);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: RefreshIndicator(
@@ -22,6 +32,9 @@ class _FreelancerHomeState extends State<FreelancerHome> {
         decoration: const BoxDecoration(color: Colors.white),
         child: Column(
           children: <Widget>[
+            SizedBox(
+              height: 20.h,
+            ),
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(top: 10),

@@ -22,6 +22,8 @@ import 'package:tanzify_app/pages/constants.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tanzify_app/pages/mainApp.dart';
+import 'package:tanzify_app/utils/customDialog.dart';
 
 class AddNewProject extends StatefulWidget {
   const AddNewProject({
@@ -164,453 +166,446 @@ class _AddNewProjectState extends State<AddNewProject> {
 
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: isLoading
-          ? const WaveSpinKit()
-          : SingleChildScrollView(
-              child: SizedBox(
-                // height: fullHeight,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
+      body: SingleChildScrollView(
+        child: SizedBox(
+          // height: fullHeight,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0),
+              child: Column(
+                children: [
+                  SizedBox(height: 10.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: const Text(
+                          "Upload new Project",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        child: TextButton.icon(
+                          label: const Text("Cancel"),
+                          icon: const Icon(
+                            Icons.cancel,
+                            size: 12,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    child: Form(
+                      key: _formKey,
+                      child: Stepper(
+                        steps: [
+                          Step(
+                            isActive: _currentStep == 0,
+                            title: const Text("Select Category"),
+                            content: Container(
                               alignment: Alignment.centerLeft,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: const Text(
-                                "Upload new Project",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                              child: SizedBox(
+                                height: fullHeight / 4,
+                                child: ListView.builder(
+                                  itemCount: categories.isEmpty
+                                      ? 0
+                                      : categories.length,
+                                  itemBuilder: (context, index) {
+                                    return RadioButtonFormInput(
+                                        onSelectedItemChanged:
+                                            handleSelectedItemChange,
+                                        title: categories[index].name,
+                                        value: categories[index].id.toString(),
+                                        groupValue: _selectedCategory,
+                                        onSaved: (value) {
+                                          _selectedCategory = value!;
+                                        });
+                                  },
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              child: TextButton.icon(
-                                label: const Text("Cancel"),
-                                icon: const Icon(
-                                  Icons.cancel,
-                                  size: 12,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          child: Form(
-                            key: _formKey,
-                            child: Stepper(
-                              steps: [
-                                Step(
-                                  isActive: _currentStep == 0,
-                                  title: const Text("Select Category"),
-                                  content: Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: SizedBox(
-                                      height: fullHeight / 4,
-                                      child: ListView.builder(
-                                        itemCount: categories.isEmpty
-                                            ? 0
-                                            : categories.length,
-                                        itemBuilder: (context, index) {
-                                          return RadioButtonFormInput(
-                                              onSelectedItemChanged:
-                                                  handleSelectedItemChange,
-                                              title: categories[index].name,
-                                              value: categories[index]
-                                                  .id
-                                                  .toString(),
-                                              groupValue: _selectedCategory,
-                                              onSaved: (value) {
-                                                _selectedCategory = value!;
-                                              });
+                          ),
+                          Step(
+                            isActive: _currentStep == 1,
+                            title: const Text("Select Skills"),
+                            content: _skills.isNotEmpty
+                                ? Column(
+                                    children: _skills.map((skill) {
+                                      // return CheckboxListTile(
+                                      //   title: Text(skill.name),
+                                      //   value: _selectedSkills[skill.id],
+                                      //   onChanged: (bool? value) {
+                                      //     setState(() {
+                                      //       _selectedSkills[skill.id] =
+                                      //           value ?? false;
+                                      //     });
+                                      //   },
+                                      // );
+
+                                      return CheckboxListTile(
+                                        title: Text(skill.name),
+                                        value: _selectedSkillIds
+                                            .contains(skill.id),
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            if (value ?? false) {
+                                              _selectedSkillIds.add(skill.id);
+                                            } else {
+                                              _selectedSkillIds
+                                                  .remove(skill.id);
+                                            }
+                                          });
                                         },
+                                      );
+                                    }).toList(),
+                                  )
+                                : const Text(
+                                    "No skills available for this category."),
+                          ),
+                          Step(
+                              isActive: _currentStep == 2,
+                              title: const Text("Describe Project"),
+                              content: Column(
+                                children: [
+                                  Container(
+                                    // height: 10.h,
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: CustomInputForm(
+                                      labelText: "Project Title",
+                                      hintText: "Enter project title",
+                                      hintStyle: const TextStyle(fontSize: 11),
+                                      controller: projectNameController,
+                                      keyBoardInputType: TextInputType.name,
+                                      icon: Icons.ac_unit,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return "Project Title is required";
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        _projectName = value!;
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  PlainInputForm(
+                                    maxLines: "5",
+                                    hintText: 'Project Description',
+                                    controller: projectDescriptionController,
+                                    keyBoardInputType: TextInputType.text,
+                                    validator: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return "Please enter a valid description";
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (value) {
+                                      _description = value ?? '';
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 7.h),
+                                    alignment: Alignment.centerLeft,
+                                    child: const Text(
+                                        "How long will this Project Take?"),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showDurationBottomSheet(context);
+                                    },
+                                    child: Card.outlined(
+                                      elevation: 0,
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 13, horizontal: 15),
+                                          child: selectedDuration == null
+                                              ? const Text("Select Duration")
+                                              : Text("$selectedDurationTitle"),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Step(
-                                  isActive: _currentStep == 1,
-                                  title: const Text("Select Skills"),
-                                  content: _skills.isNotEmpty
-                                      ? Column(
-                                          children: _skills.map((skill) {
-                                            // return CheckboxListTile(
-                                            //   title: Text(skill.name),
-                                            //   value: _selectedSkills[skill.id],
-                                            //   onChanged: (bool? value) {
-                                            //     setState(() {
-                                            //       _selectedSkills[skill.id] =
-                                            //           value ?? false;
-                                            //     });
-                                            //   },
-                                            // );
-
-                                            return CheckboxListTile(
-                                              title: Text(skill.name),
-                                              value: _selectedSkillIds
-                                                  .contains(skill.id),
-                                              onChanged: (bool? value) {
-                                                setState(() {
-                                                  if (value ?? false) {
-                                                    _selectedSkillIds
-                                                        .add(skill.id);
-                                                  } else {
-                                                    _selectedSkillIds
-                                                        .remove(skill.id);
-                                                  }
-                                                });
-                                              },
-                                            );
-                                          }).toList(),
-                                        )
-                                      : const Text(
-                                          "No skills available for this category."),
-                                ),
-                                Step(
-                                    isActive: _currentStep == 2,
-                                    title: const Text("Describe Project"),
-                                    content: Column(
-                                      children: [
-                                        Container(
-                                          // height: 10.h,
-                                          padding:
-                                              const EdgeInsets.only(top: 5),
-                                          child: CustomInputForm(
-                                            labelText: "Project Title",
-                                            hintText: "Enter project title",
-                                            hintStyle:
-                                                const TextStyle(fontSize: 11),
-                                            controller: projectNameController,
-                                            keyBoardInputType:
-                                                TextInputType.name,
-                                            icon: Icons.ac_unit,
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return "Project Title is required";
-                                              }
-                                              return null;
-                                            },
-                                            onSaved: (value) {
-                                              _projectName = value!;
-                                            },
+                                ],
+                              )),
+                          Step(
+                              isActive: _currentStep == 3,
+                              title: const Text("Other Details"),
+                              content: SizedBox(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 0.h),
+                                      alignment: Alignment.centerLeft,
+                                      child: const Text("Location"),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _showLocationBottomSheet(context);
+                                      },
+                                      child: Card.outlined(
+                                        elevation: 0,
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 13, horizontal: 15),
+                                            child: selectedLocationTitle == null
+                                                ? const Text("Select Location")
+                                                : Text(
+                                                    "$selectedLocationTitle"),
                                           ),
                                         ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        PlainInputForm(
-                                          maxLines: "5",
-                                          hintText: 'Project Description',
-                                          controller:
-                                              projectDescriptionController,
-                                          keyBoardInputType: TextInputType.text,
-                                          validator: (String? value) {
-                                            if (value!.isEmpty) {
-                                              return "Please enter a valid description";
-                                            }
-                                            return null;
-                                          },
-                                          onSaved: (value) {
-                                            _description = value ?? '';
-                                          },
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 7.h),
-                                          alignment: Alignment.centerLeft,
-                                          child: const Text(
-                                              "How long will this Project Take?"),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            _showDurationBottomSheet(context);
-                                          },
-                                          child: Card.outlined(
-                                            elevation: 0,
-                                            child: SizedBox(
-                                              width: double.infinity,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 13,
-                                                        horizontal: 15),
-                                                child: selectedDuration == null
-                                                    ? const Text(
-                                                        "Select Duration")
-                                                    : Text(
-                                                        "$selectedDurationTitle"),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                Step(
-                                    isActive: _currentStep == 3,
-                                    title: const Text("Other Details"),
-                                    content: SizedBox(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 0.h),
-                                            alignment: Alignment.centerLeft,
-                                            child: const Text("Location"),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              _showLocationBottomSheet(context);
-                                            },
-                                            child: Card.outlined(
-                                              elevation: 0,
-                                              child: SizedBox(
-                                                width: double.infinity,
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      vertical: 13,
-                                                      horizontal: 15),
-                                                  child: selectedLocationTitle ==
-                                                          null
-                                                      ? const Text(
-                                                          "Select Location")
-                                                      : Text(
-                                                          "$selectedLocationTitle"),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10.h,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 7.h),
-                                            alignment: Alignment.centerLeft,
-                                            child: const Text("Budget"),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              _showBudgetBottomSheet(context);
-                                            },
-                                            child: Card.outlined(
-                                              elevation: 0,
-                                              child: SizedBox(
-                                                width: double.infinity,
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      vertical: 13,
-                                                      horizontal: 15),
-                                                  child: selectedBudgetTitle ==
-                                                          null
-                                                      ? const Text(
-                                                          "Select Budget")
-                                                      : Text(
-                                                          "$selectedBudgetTitle"),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10.h,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 7.h),
-                                            alignment: Alignment.centerLeft,
-                                            child: const Text("Deadline"),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: DateTimeField(
-                                              decoration: InputDecoration(
-                                                labelText: 'Deadline',
-                                                helperText: 'YYYY/MM/DD',
-                                                border: InputBorder.none,
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.black),
-                                                ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.black),
-                                                ),
-                                                errorBorder: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.red),
-                                                ),
-                                                focusedErrorBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.red),
-                                                ),
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 12,
-                                                        horizontal: 15),
-                                              ),
-                                              value: selectedDate,
-                                              dateFormat: DateFormat.yMd(),
-                                              mode:
-                                                  DateTimeFieldPickerMode.date,
-                                              // pickerPlatform: widget.platform,
-                                              onChanged: (DateTime? value) {
-                                                setState(() {
-                                                  selectedDate = value;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ],
                                       ),
-                                    ))
-                              ],
-                              onStepTapped: (int newIndex) {
-                                setState(() {
-                                  _currentStep = newIndex;
-                                });
-                              },
-                              currentStep: _currentStep,
-                              onStepContinue: () {
-                                if (isStepValid(_currentStep)) {
-                                  if (_currentStep < 3) {
-                                    setState(() {
-                                      _currentStep += 1;
-                                    });
-                                  } else {
-                                    if (_formKey.currentState!.validate()) {
-                                      _formKey.currentState!.save();
-                                      print("======saved current state");
-
-                                      var postPayload = {
-                                        "created_by": userId,
-                                        "title":
-                                            projectNameController.text.trim(),
-                                        "description": _description,
-                                        "category": _selectedCategory,
-                                        "skills": _selectedSkillIds,
-                                        "duration": selectedDuration,
-                                        "location": selectedLocationId,
-                                        "budget": selectedBudgetId,
-                                        "deadline": selectedDate.toString(),
-                                      };
-
-                                      print("=======my payload ${postPayload}");
-                                      projectProvider
-                                          .createProject(postPayload)
-                                          .then((success) => {
-                                                if (success)
-                                                  {
-                                                    AlertDialog(
-                                                      title: const Text(
-                                                          "Project Created"),
-                                                      content: const Text(
-                                                          "Your project has been created"),
-                                                      actions: <Widget>[
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child:
-                                                              const Text("OK"),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  }
-                                                else
-                                                  {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(SnackBar(
-                                                            backgroundColor:
-                                                                Colors.red,
-                                                            content: Text(
-                                                                projectProvider
-                                                                    .errorMessage)))
-                                                  }
-                                              });
-                                    }
-                                  }
-                                }
-                              },
-                              onStepCancel: () {
-                                if (_currentStep != 0) {
-                                  setState(() {
-                                    _currentStep -= 1;
-                                  });
-                                }
-                              },
-                              type: StepperType.vertical,
-                              controlsBuilder: (BuildContext context,
-                                  ControlsDetails details) {
-                                final isLastStep = _currentStep == 3;
-                                final isStepValid =
-                                    this.isStepValid(_currentStep);
-
-                                return Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 7),
-                                  child: Row(
-                                    children: <Widget>[
-                                      ElevatedButton(
-                                        onPressed: isStepValid
-                                            ? details.onStepContinue
-                                            : null,
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Constants.primaryColor,
-                                          shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20.0))),
+                                    ),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 7.h),
+                                      alignment: Alignment.centerLeft,
+                                      child: const Text("Budget"),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _showBudgetBottomSheet(context);
+                                      },
+                                      child: Card.outlined(
+                                        elevation: 0,
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 13, horizontal: 15),
+                                            child: selectedBudgetTitle == null
+                                                ? const Text("Select Budget")
+                                                : Text("$selectedBudgetTitle"),
+                                          ),
                                         ),
-                                        child: Text(
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 7.h),
+                                      alignment: Alignment.centerLeft,
+                                      child: const Text("Deadline"),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: DateTimeField(
+                                        decoration: InputDecoration(
+                                          labelText: 'Deadline',
+                                          helperText: 'YYYY/MM/DD',
+                                          border: InputBorder.none,
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.black),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.black),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.red),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Colors.red),
+                                          ),
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 12, horizontal: 15),
+                                        ),
+                                        value: selectedDate,
+                                        dateFormat: DateFormat.yMd(),
+                                        mode: DateTimeFieldPickerMode.date,
+                                        // pickerPlatform: widget.platform,
+                                        onChanged: (DateTime? value) {
+                                          setState(() {
+                                            selectedDate = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                        ],
+                        onStepTapped: (int newIndex) {
+                          setState(() {
+                            _currentStep = newIndex;
+                          });
+                        },
+                        currentStep: _currentStep,
+                        onStepContinue: () {
+                          if (isStepValid(_currentStep)) {
+                            if (_currentStep < 3) {
+                              setState(() {
+                                _currentStep += 1;
+                              });
+                            } else {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                print("======saved current state");
+
+                                var postPayload = {
+                                  "created_by": userId,
+                                  "title": projectNameController.text.trim(),
+                                  "description": _description,
+                                  "category": _selectedCategory,
+                                  "skills": _selectedSkillIds,
+                                  "duration": selectedDuration,
+                                  "location": selectedLocationId,
+                                  "budget": selectedBudgetId,
+                                  "deadline": selectedDate.toString(),
+                                };
+
+                                print("=======my payload ${postPayload}");
+                                projectProvider
+                                    .createProject(postPayload)
+                                    .then((success) => {
+                                          if (success)
+                                            // {
+                                            //   AlertDialog(
+                                            //     title: const Text(
+                                            //         "Project Created"),
+                                            //     content: const Text(
+                                            //         "Your project has been created"),
+                                            //     actions: <Widget>[
+                                            //       TextButton(
+                                            //         onPressed: () {
+                                            //           Navigator.of(
+                                            //                   context)
+                                            //               .pop();
+                                            //         },
+                                            //         child:
+                                            //             const Text("OK"),
+                                            //       ),
+                                            //     ],
+                                            //   )
+                                            // }
+                                            {
+                                              showCustomDialog(
+                                                context,
+                                                CustomDialog(
+                                                  message: projectProvider
+                                                      .successMessage,
+                                                  onOkPressed: () {
+                                                    Navigator.pop(context);
+                                                    Navigator.of(context).push(
+                                                        CupertinoPageRoute(
+                                                            builder: (context) =>
+                                                                const MainApp()));
+                                                  },
+                                                  onCancelPressed: () {},
+                                                  type: 2,
+                                                ),
+                                              )
+                                            }
+                                          else
+                                            {
+                                              showCustomDialog(
+                                                context,
+                                                CustomDialog(
+                                                  message: projectProvider
+                                                      .errorMessage,
+                                                  onOkPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  onCancelPressed: () {},
+                                                  type: 4,
+                                                ),
+                                              )
+                                            }
+                                        });
+                              }
+                            }
+                          }
+                        },
+                        onStepCancel: () {
+                          if (_currentStep != 0) {
+                            setState(() {
+                              _currentStep -= 1;
+                            });
+                          }
+                        },
+                        type: StepperType.vertical,
+                        controlsBuilder:
+                            (BuildContext context, ControlsDetails details) {
+                          final isLastStep = _currentStep == 3;
+                          final isStepValid = this.isStepValid(_currentStep);
+
+                          return Container(
+                            padding: const EdgeInsets.symmetric(vertical: 7),
+                            child: Row(
+                              children: <Widget>[
+                                ElevatedButton(
+                                  onPressed: isStepValid
+                                      ? details.onStepContinue
+                                      : null,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Constants.primaryColor,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20.0))),
+                                  ),
+                                  child: isLoading
+                                      ? const WaveSpinKit()
+                                      : Text(
                                           isLastStep ? 'Submit' : 'Continue',
                                           style: const TextStyle(
                                               color: Constants.fillColor),
                                         ),
-                                      ),
-                                      if (_currentStep != 0)
-                                        TextButton(
-                                          onPressed: details.onStepCancel,
-                                          child: const Text('Back'),
-                                        ),
-                                    ],
+                                ),
+                                if (_currentStep != 0)
+                                  TextButton(
+                                    onPressed: details.onStepCancel,
+                                    child: const Text('Back'),
                                   ),
-                                );
-                              },
+                              ],
                             ),
-                          ),
-                        ),
-                      ],
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
+          ),
+        ),
+      ),
     );
   }
 
