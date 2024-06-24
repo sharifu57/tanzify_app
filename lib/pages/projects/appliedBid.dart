@@ -150,10 +150,9 @@ class _AppliedBidState extends State<AppliedBid> {
                                 ),
                               );
                             })
-                        : const Center(child:  EmptyData())),
+                        : const Center(child: EmptyData())),
               )),
     ));
-    // return
   }
 
   Future<void> _handleRefresh() async {

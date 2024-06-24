@@ -6,8 +6,9 @@ class EmptyData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-    child: Center(
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Center(
         child: Lottie.asset(
           'assets/img/empty.json',
           repeat: true,

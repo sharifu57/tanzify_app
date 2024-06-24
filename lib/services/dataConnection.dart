@@ -6,7 +6,7 @@ class DataConnection with ChangeNotifier {
   bool isProduction = false;
 
   // static const String httpBase = 'http://109.199.108.165';
-  static const String httpBase = 'http://192.168.1.179:8005';
+  static const String httpBase = 'http://192.168.1.63:8005';
 
   static const String connectionUrl = "$httpBase/API/V1/";
 

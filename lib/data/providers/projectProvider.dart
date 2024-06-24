@@ -14,6 +14,7 @@ class ProjectProvider extends ChangeNotifier {
   late DataConnection _dataConnection = DataConnection();
   List<ProjectModal> projects = [];
   List<dynamic> myBids = [];
+  List<dynamic> myProjects = [];
 
   ProjectProvider() {
     _dataConnection = DataConnection();
@@ -150,13 +151,39 @@ class ProjectProvider extends ChangeNotifier {
   }
 
   Future<void> getMyBids(int bidderId) async {
-    // print("----------bidder id: ${bidderId}----------");
     _isLoading = true;
     try {
       var response = await _dataConnection.fetchData('my_bids/$bidderId/');
 
       if (response != null && response is List) {
         myBids = response;
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getMyProjects(int userId) async {
+    print("======user end id");
+    print(userId);
+    print("=====end user end id");
+    _isLoading = true;
+    try {
+      var response = await _dataConnection.fetchData('my_projects/$userId/');
+
+      print("======my projects");
+      print(_dataConnection.fetchData('my_projects/$userId/'));
+      print(response);
+      print("====end my projects");
+
+      if (response != null) {
+        print("====respone here");
+        myProjects = response;
+        print(myProjects);
+        print("====response not null");
       }
     } catch (e) {
       _errorMessage = e.toString();

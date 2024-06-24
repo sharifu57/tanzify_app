@@ -24,6 +24,8 @@ class _FreelancerHomeState extends State<FreelancerHome> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: const Size(360, 690), minTextAdapt: true);
     return Scaffold(
         body: RefreshIndicator(
       onRefresh: _handleRefresh,
@@ -32,9 +34,12 @@ class _FreelancerHomeState extends State<FreelancerHome> {
         decoration: const BoxDecoration(color: Colors.white),
         child: Column(
           children: <Widget>[
-            SizedBox(
-              height: 20.h,
-            ),
+            // SizedBox(
+            //   height: 100.h,
+            //   child: Card(
+            //     child: Center(child: Text("Center"),),
+            //   ),
+            // ),
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(top: 10),
