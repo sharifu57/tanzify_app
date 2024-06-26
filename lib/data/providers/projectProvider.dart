@@ -181,7 +181,7 @@ class ProjectProvider extends ChangeNotifier {
 
       if (response != null) {
         print("====respone here");
-        myProjects = response;
+        myProjects = response['data'];
         print(myProjects);
         print("====response not null");
       }
