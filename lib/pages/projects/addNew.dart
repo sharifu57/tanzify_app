@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,11 +15,9 @@ import 'package:tanzify_app/data/providers/categoryProvider.dart';
 import 'package:tanzify_app/data/providers/durationProvider.dart';
 import 'package:tanzify_app/data/providers/locationProvider.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
-import 'package:tanzify_app/models/location/locationModal.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:date_field/date_field.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tanzify_app/pages/mainApp.dart';
 import 'package:tanzify_app/utils/customDialog.dart';
@@ -42,13 +39,13 @@ class _AddNewProjectState extends State<AddNewProject> {
   String _description = "";
   final _formKey = GlobalKey<FormState>();
   int _currentStep = 0;
-  String _duration = "";
+  final String _duration = "";
   String? userId;
   String _selectedCategory = "";
   List<SkillModel> _skills = [];
   Map<int, bool> _selectedSkills = {};
 
-  List<int> _selectedSkillIds = [];
+  final List<int> _selectedSkillIds = [];
 
   String? selectedDurationId;
   String? selectedLocationId;
@@ -491,7 +488,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                                   "deadline": selectedDate.toString(),
                                 };
 
-                                print("=======my payload ${postPayload}");
+                                print("=======my payload $postPayload");
                                 projectProvider
                                     .createProject(postPayload)
                                     .then((success) => {

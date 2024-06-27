@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tanzify_app/models/Bid/bidModal.dart';
 import 'package:tanzify_app/models/project/projectModal.dart';
 // import 'package:tanzify_app/models/project/projectModal.dart';
 import 'package:tanzify_app/services/dataConnection.dart';
@@ -45,10 +44,10 @@ class ProjectProvider extends ChangeNotifier {
         var results = response['results'];
 
         if (results is List) {
-          results.forEach((element) {
+          for (var element in results) {
             // print("Element type: ${element.runtimeType}");
             // print("Element content: $element");
-          });
+          }
 
           projects = results
               .map((e) {
@@ -88,10 +87,10 @@ class ProjectProvider extends ChangeNotifier {
         var results = response['results'];
 
         if (results is List) {
-          results.forEach((element) {
+          for (var element in results) {
             // print("Element type: ${element.runtimeType}");
             // print("Element content: $element");
-          });
+          }
 
           projects = results
               .map((e) {
@@ -142,7 +141,7 @@ class ProjectProvider extends ChangeNotifier {
         stopLoading();
         return false;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
@@ -203,7 +202,7 @@ class ProjectProvider extends ChangeNotifier {
       }
 
       return true;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();

@@ -4,7 +4,7 @@ import 'package:tanzify_app/pages/constants.dart'; // Adjust the import based on
 class StatusWidget extends StatelessWidget {
   final String status;
 
-  const StatusWidget({Key? key, required this.status}) : super(key: key);
+  const StatusWidget({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {

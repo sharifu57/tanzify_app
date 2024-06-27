@@ -21,7 +21,7 @@ class ApplyProject extends StatefulWidget {
   final String? projectDescription;
   final String? projectBudget;
 
-  ApplyProject({
+  const ApplyProject({
     super.key,
     required this.projectId,
     required this.projectTitle,
@@ -39,9 +39,9 @@ class _ApplyProjectState extends State<ApplyProject> {
   final _formKey = GlobalKey<FormState>();
 
   String _amount = "";
-  String _duration = "";
+  final String _duration = "";
   String _proposal = "";
-  String _selectedPDF = "";
+  final String _selectedPDF = "";
   String? userId;
   String? selectedDurationId;
 
@@ -419,7 +419,7 @@ class _ApplyProjectState extends State<ApplyProject> {
                           value: e.id.toString(),
                           groupValue: selectedDuration,
                           onChanged: (String? value) {
-                            print("-===========value duration ${value} =====");
+                            print("-===========value duration $value =====");
                             setState(() {
                               selectedDuration = value!;
                               selectedDurationTitle = e.title;

@@ -76,7 +76,7 @@ class AuthProvider with ChangeNotifier {
         stopLoading();
         return false;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _errorMessage =
           "Network error: ${e.response?.data['message'].toString() ?? e.message}";
       stopLoading();
@@ -142,7 +142,7 @@ class AuthProvider with ChangeNotifier {
         stopLoading();
         return false;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
@@ -186,7 +186,7 @@ class AuthProvider with ChangeNotifier {
         stopLoading();
         return false;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
@@ -211,7 +211,7 @@ class AuthProvider with ChangeNotifier {
         stopSmallLoading();
         return false;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       stopSmallLoading();
       _errorMessage = "Network error: ${e.message}";
       stopLoading();
@@ -235,7 +235,7 @@ class AuthProvider with ChangeNotifier {
         stopLoading();
         return false;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
@@ -259,7 +259,7 @@ class AuthProvider with ChangeNotifier {
         stopLoading();
         return false;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();

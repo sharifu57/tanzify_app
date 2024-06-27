@@ -14,7 +14,7 @@ class OnBoard extends StatefulWidget {
 
 class _OnBoardState extends State<OnBoard> {
   final PageController _pageController = PageController(initialPage: 0);
-  int _currentPage = 0;
+  final int _currentPage = 0;
   bool onLastPage = false;
   @override
   Widget build(BuildContext context) {

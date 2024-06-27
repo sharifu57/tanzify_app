@@ -11,7 +11,6 @@ import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/projects/viewProject.dart';
-import 'package:tanzify_app/pages/searchScreen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class BestMatch extends StatefulWidget {

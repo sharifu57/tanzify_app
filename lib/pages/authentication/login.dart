@@ -11,7 +11,6 @@ import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/authPage.dart';
 import 'package:tanzify_app/pages/authentication/forgotPassword/forgotPassword.dart';
 import 'package:tanzify_app/pages/authentication/register.dart';
-import 'package:tanzify_app/pages/authentication/verification.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/mainApp.dart';
 import '../../components/form/customInputForm.dart';

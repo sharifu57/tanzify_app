@@ -1,6 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tanzify_app/models/category/categoryModal.dart';
-import 'package:tanzify_app/models/skill/skillModal.dart';
 
 part 'userModal.freezed.dart';
 part 'userModal.g.dart';

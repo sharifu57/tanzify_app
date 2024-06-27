@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +48,7 @@ class _MyProjectsState extends State<MyProjects> {
   Widget build(BuildContext context) {
     final projectProvider = Provider.of<ProjectProvider>(context);
     final projects = projectProvider.myProjects;
-    print("==========hell my projects ${projects}");
+    print("==========hell my projects $projects");
 
     final isLoading = projectProvider.isLoading;
     return Scaffold(

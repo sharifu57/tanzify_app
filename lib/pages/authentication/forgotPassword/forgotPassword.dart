@@ -12,7 +12,6 @@ import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/authPage.dart';
 import 'package:tanzify_app/pages/authentication/forgotPassword/verifyEmail.dart';
 import 'package:tanzify_app/pages/constants.dart';
-import 'package:tanzify_app/pages/mainApp.dart';
 import 'package:tanzify_app/utils/customDialog.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -28,7 +27,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKey = GlobalKey<FormState>();
 
   String _email = "";
-  String _password = "";
+  final String _password = "";
 
   @override
   void initState() {

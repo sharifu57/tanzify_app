@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/homePage/employerHome.dart';
-import 'package:tanzify_app/pages/homePage/bestMatch.dart';
 import 'package:tanzify_app/pages/homePage/freelancerHome.dart';
 import 'package:tanzify_app/pages/message/chats.dart';
 

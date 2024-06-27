@@ -10,8 +10,6 @@ import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/constants.dart';
-import 'package:tanzify_app/pages/mainApp.dart';
-import 'package:tanzify_app/pages/navigation/homePage.dart';
 
 class VerificationPage extends StatefulWidget {
   final String email;
@@ -50,12 +48,12 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   Widget buildForm(String errorMessage, AuthProvider authProvider) {
-    Color accentPurpleColor = Color(0xFF6A53A1);
-    Color primaryColor = Color(0xFF121212);
-    Color accentPinkColor = Color(0xFFF99BBD);
-    Color accentDarkGreenColor = Color(0xFF115C49);
-    Color accentYellowColor = Color(0xFFFFB612);
-    Color accentOrangeColor = Color(0xFFEA7A3B);
+    Color accentPurpleColor = const Color(0xFF6A53A1);
+    Color primaryColor = const Color(0xFF121212);
+    Color accentPinkColor = const Color(0xFFF99BBD);
+    Color accentDarkGreenColor = const Color(0xFF115C49);
+    Color accentYellowColor = const Color(0xFFFFB612);
+    Color accentOrangeColor = const Color(0xFFEA7A3B);
 
     // otpTextStyles = [
     //   createStyle(accentPurpleColor),
@@ -68,6 +66,7 @@ class _VerificationPageState extends State<VerificationPage> {
 
     TextStyle? createStyle(Color color) {
       ThemeData theme = Theme.of(context);
+      return null;
 
       // return theme.textTheme.headline3?.copyWith(color: color);
     }

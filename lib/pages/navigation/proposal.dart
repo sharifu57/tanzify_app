@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/appBar/appBar.dart';
-import 'package:tanzify_app/components/icons/simpleIcon.dart';
-import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/projects/appliedBid.dart';
 import 'package:tanzify_app/pages/projects/myProjects.dart';

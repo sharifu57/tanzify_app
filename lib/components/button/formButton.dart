@@ -48,32 +48,32 @@ class FormButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: disabled ? null : onClick,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled)) return Colors.grey;
+          backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) return Colors.grey;
               if (variant == FormButtonVariant.filled) {
                 return Constants.primaryColor;
               }
               return Colors.transparent;
             },
           ),
-          foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
+          foregroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
               if (variant == FormButtonVariant.outlined &&
-                  !states.contains(MaterialState.disabled)) {
+                  !states.contains(WidgetState.disabled)) {
                 return theme.primaryColor;
               }
               return null; // Use default
             },
           ),
           side: variant == FormButtonVariant.outlined
-              ? MaterialStateProperty.all(BorderSide(color: theme.primaryColor))
+              ? WidgetStateProperty.all(BorderSide(color: theme.primaryColor))
               : null,
-          padding: MaterialStateProperty.all(
+          padding: WidgetStateProperty.all(
             EdgeInsets.symmetric(
                 vertical: small ? 8 : 16, horizontal: small ? 12 : 24),
           ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),

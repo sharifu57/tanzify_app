@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
 import 'package:tanzify_app/components/form/customInputForm.dart';
-import 'package:tanzify_app/components/form/radioButtonInputForm.dart';
 import 'package:tanzify_app/components/form/selectInputForm.dart';
 import 'package:tanzify_app/components/profile/imageProfile.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
@@ -33,9 +32,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final phoneNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String _firstName = "";
-  String _lastName = "";
+  final String _lastName = "";
   String _email = "";
-  String _password = "";
+  final String _password = "";
   String _phoneNumber = "";
   String _category = "";
 
