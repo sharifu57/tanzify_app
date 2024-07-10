@@ -75,7 +75,9 @@ class _HomePageState extends State<HomePage> {
     if (user != null) {
       final userData = jsonDecode(user);
       final dynamic userIdData = userData["id"];
-      final dynamic categoryIdData = userData['profile']['category']['id'];
+      final dynamic categoryIdData = userData['profile']['category']?['id'];
+
+      // if (userData['profile']['category']['id'] != null) {}
 
       if (userIdData != null) {
         setState(() {

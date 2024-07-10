@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import 'package:tanzify_app/components/empty/emptyData.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/pages/projects/openMyProject.dart';
 import 'package:tanzify_app/services/userService.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -48,7 +50,7 @@ class _MyProjectsState extends State<MyProjects> {
   Widget build(BuildContext context) {
     final projectProvider = Provider.of<ProjectProvider>(context);
     final projects = projectProvider.myProjects;
-    print("==========hell my projects $projects");
+    // print("==========hell my projects $projects");
 
     final isLoading = projectProvider.isLoading;
     return Scaffold(
@@ -66,12 +68,17 @@ class _MyProjectsState extends State<MyProjects> {
                         ? ListView.builder(
                             itemCount: projects.isEmpty ? 0 : projects.length,
                             itemBuilder: (context, index) {
-                              // final project =
-                              return Container(
-                                // padding:
-                                //     const EdgeInsets.symmetric(vertical: 2),
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => OpenMyProject(
+                                              projectId: projects[index]['id']
+                                                  .toString())));
+                                },
                                 child: Card(
-                                    elevation: 0.4,
+                                    elevation: 1,
                                     shadowColor: Constants.primaryColor,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),

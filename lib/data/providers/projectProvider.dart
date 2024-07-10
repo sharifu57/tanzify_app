@@ -14,6 +14,7 @@ class ProjectProvider extends ChangeNotifier {
   List<ProjectModal> projects = [];
   List<dynamic> myBids = [];
   List<dynamic> myProjects = [];
+  List<dynamic> bidders = [];
 
   ProjectProvider() {
     _dataConnection = DataConnection();
@@ -166,23 +167,12 @@ class ProjectProvider extends ChangeNotifier {
   }
 
   Future<void> getMyProjects(int userId) async {
-    print("======user end id");
-    print(userId);
-    print("=====end user end id");
     _isLoading = true;
     try {
       var response = await _dataConnection.fetchData('my_projects/$userId/');
 
-      print("======my projects");
-      print(_dataConnection.fetchData('my_projects/$userId/'));
-      print(response);
-      print("====end my projects");
-
       if (response != null) {
-        print("====respone here");
         myProjects = response['data'];
-        print(myProjects);
-        print("====response not null");
       }
     } catch (e) {
       _errorMessage = e.toString();
@@ -207,6 +197,29 @@ class ProjectProvider extends ChangeNotifier {
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
       return false;
+    }
+  }
+
+  Future<void> getProjectBidders(String projectId) async {
+    _isLoading = true;
+    try {
+      var response =
+          await _dataConnection.fetchData('project_bidders/$projectId/');
+
+      print("=======resp 3");
+      print(response);
+      if (response['status'] == 200) {
+        print("=======status");
+        _isLoading = false;
+        bidders = response['data'];
+        print("=======diffffddddd: ${bidders}");
+      }
+    } catch (e) {
+      _isLoading = false;
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }

@@ -71,7 +71,7 @@ class _BestMatchState extends State<BestMatch> {
     if (user != null) {
       final userData = jsonDecode(user);
       final dynamic userIdData = userData["id"];
-      final dynamic categoryIdData = userData['profile']['category']['id'];
+      final dynamic categoryIdData = userData['profile']['category']?['id'];
 
       if (userIdData != null) {
         setState(() {

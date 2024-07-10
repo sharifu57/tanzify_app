@@ -151,6 +151,7 @@ class _ProfileState extends State<Profile> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('user');
     await prefs.clear();
+    // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacement(
         CupertinoPageRoute(builder: (context) => const LoginPage()));
   }
