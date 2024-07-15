@@ -54,15 +54,22 @@ Widget _buildSplashScreen() {
   return Material(
     color: Colors.white,
     child: Center(
-      child: Container(
-          height: 120,
-          width: 120,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+                height: 200,
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                padding: const EdgeInsets.all(20),
+                child: const AppLogo()),
           ),
-          padding: const EdgeInsets.all(20),
-          child: const AppLogo()),
+          const Text("Version 1.0.0+1"),
+        ],
+      ),
     ),
   );
 }

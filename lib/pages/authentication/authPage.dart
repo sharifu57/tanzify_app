@@ -52,7 +52,8 @@ class _AuthPageState extends State<AuthPage> {
                   children: [
                     SizedBox(
                       height: fullHeight / 4,
-                      child: const Center(child: AppLogo()),
+                      child: const Center(
+                          child: SizedBox(width: 150, child: AppLogo())),
                     ),
                     Expanded(
                       child: Container(
@@ -107,7 +108,7 @@ class _AuthPageState extends State<AuthPage> {
       await Navigator.of(context)
           .push(CupertinoPageRoute(builder: (context) => const LoginPage()));
     } else if (pathName == 'register') {
-       Navigator.of(context)
+      Navigator.of(context)
           .push(CupertinoPageRoute(builder: (context) => const RegisterPage()));
     }
   }
