@@ -14,6 +14,7 @@ import 'package:tanzify_app/data/providers/durationProvider.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/mainApp.dart';
+import 'package:tanzify_app/utils/customDialog.dart';
 
 class ApplyProject extends StatefulWidget {
   final int? projectId;
@@ -326,12 +327,6 @@ class _ApplyProjectState extends State<ApplyProject> {
                               if (_formKey.currentState!.validate()) {
                                 _formKey.currentState!.save();
 
-                                print(
-                                    "Amount: ${amountController.text.trim()}");
-                                print(
-                                    "Proposal: ${textController.text.trim()}");
-                                print("duration: $selectedDuration");
-
                                 var bidPayload = {
                                   "project": widget.projectId,
                                   "bidder": userId,
@@ -341,36 +336,39 @@ class _ApplyProjectState extends State<ApplyProject> {
                                   "attachment": selectedFile?.name,
                                 };
 
-                                print("==========bid payload");
-                                print(bidPayload);
-                                print("=========end bid payload");
-
                                 projectProvider
                                     .applyProject(bidPayload)
                                     .then((success) => {
                                           if (success)
                                             {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      backgroundColor:
-                                                          Colors.green,
-                                                      content: Text(
-                                                          projectProvider
-                                                              .errorMessage))),
-                                              Navigator.of(context).push(
-                                                  CupertinoPageRoute(
-                                                      builder: (context) =>
-                                                          const MainApp()))
+                                              showCustomDialog(
+                                                  context,
+                                                  CustomDialog(
+                                                      message: projectProvider
+                                                          .errorMessage,
+                                                      onOkPressed: () {
+                                                        Navigator.pop(context);
+                                                        Navigator.of(context).push(
+                                                            CupertinoPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const MainApp()));
+                                                      },
+                                                      onCancelPressed: () {},
+                                                      type: 2))
                                             }
                                           else
                                             {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      content: Text(
-                                                          projectProvider
-                                                              .errorMessage)))
+                                              showCustomDialog(
+                                                  context,
+                                                  CustomDialog(
+                                                      message: projectProvider
+                                                          .errorMessage,
+                                                      onOkPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      onCancelPressed: () {},
+                                                      type: 1))
                                             }
                                         });
                               }
@@ -419,7 +417,6 @@ class _ApplyProjectState extends State<ApplyProject> {
                           value: e.id.toString(),
                           groupValue: selectedDuration,
                           onChanged: (String? value) {
-                            print("-===========value duration $value =====");
                             setState(() {
                               selectedDuration = value!;
                               selectedDurationTitle = e.title;

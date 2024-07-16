@@ -50,7 +50,6 @@ class _MyProjectsState extends State<MyProjects> {
   Widget build(BuildContext context) {
     final projectProvider = Provider.of<ProjectProvider>(context);
     final projects = projectProvider.myProjects;
-    // print("==========hell my projects $projects");
 
     final isLoading = projectProvider.isLoading;
     return Scaffold(

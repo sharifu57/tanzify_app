@@ -89,10 +89,6 @@ class _AllProjectsState extends State<AllProjects> {
         fetchProjects();
       }
     }
-
-    print("=====prifle image");
-    print(profileImage);
-    print("=====end profile image");
   }
 
   @override
@@ -121,8 +117,8 @@ class _AllProjectsState extends State<AllProjects> {
                               InkWell(
                                 onTap: projects[index].bids != null &&
                                         projects[index].bids!.isNotEmpty &&
-                                        projects[index].bids![0].identity ==
-                                            userIdString
+                                        projects[index].bids!.any((bid) =>
+                                            bid.identity == userIdString)
                                     ? () {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
@@ -183,9 +179,10 @@ class _AllProjectsState extends State<AllProjects> {
                                                               .bids!
                                                               .isNotEmpty
                                                           ? projects[index]
-                                                                      .bids![0]
-                                                                      .identity ==
-                                                                  userIdString
+                                                                  .bids!
+                                                                  .any((bid) =>
+                                                                      bid.identity ==
+                                                                      userIdString)
                                                               ? Card(
                                                                   elevation: 0,
                                                                   shape:

@@ -91,7 +91,7 @@ class _BestMatchState extends State<BestMatch> {
     }
 
     print("=====prifle image");
-    print(profileImage);
+    print(userIdString);
     print("=====end profile image");
   }
 
@@ -121,8 +121,8 @@ class _BestMatchState extends State<BestMatch> {
                               InkWell(
                                 onTap: projects[index].bids != null &&
                                         projects[index].bids!.isNotEmpty &&
-                                        projects[index].bids![0].identity ==
-                                            userIdString
+                                        projects[index].bids!.any((bid) =>
+                                            bid.identity == userIdString)
                                     ? () {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
@@ -177,10 +177,10 @@ class _BestMatchState extends State<BestMatch> {
                                                 child: projects[index]
                                                         .bids!
                                                         .isNotEmpty
-                                                    ? projects[index]
-                                                                .bids![0]
-                                                                .identity ==
-                                                            userIdString
+                                                    ? projects[index].bids!.any(
+                                                            (bid) =>
+                                                                bid.identity ==
+                                                                userIdString)
                                                         ? Card(
                                                             elevation: 0,
                                                             shape:
