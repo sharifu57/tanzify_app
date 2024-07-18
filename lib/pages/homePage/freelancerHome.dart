@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/homePage/allProjects.dart';
 import 'package:tanzify_app/pages/homePage/bestMatch.dart';
+import 'package:tanzify_app/pages/projects/addNew.dart';
 import 'package:tanzify_app/pages/searchScreen.dart';
 
 class FreelancerHome extends StatefulWidget {
@@ -43,8 +46,28 @@ class _FreelancerHomeState extends State<FreelancerHome> {
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(top: 10),
-              child: const Text("Projects",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Projects",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                  CircleAvatar(
+                    backgroundColor: Constants.primaryColor,
+                    child: Center(
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.of(context).push(CupertinoPageRoute(
+                                builder: (context) => const AddNewProject()));
+                          },
+                          icon: const Icon(
+                            LineAwesomeIcons.plus_circle_solid,
+                            color: Colors.white,
+                          )),
+                    ),
+                  )
+                ],
+              ),
             ),
             const Divider(color: Constants.borderColor),
             Container(

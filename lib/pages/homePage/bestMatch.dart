@@ -89,10 +89,6 @@ class _BestMatchState extends State<BestMatch> {
         fetchProjects();
       }
     }
-
-    print("=====prifle image");
-    print(userIdString);
-    print("=====end profile image");
   }
 
   @override

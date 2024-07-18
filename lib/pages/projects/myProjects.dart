@@ -24,11 +24,14 @@ class _MyProjectsState extends State<MyProjects> {
   String userIdString = '';
 
   Future<void> loadUserId() async {
-    int? id = await UserService.getUserFromStorage();
-    setState(() {
-      userId = id;
-      userIdString = userId != null ? userId.toString() : '';
-    });
+    final user = await UserService.getUserFromStorage();
+
+    if (user != null) {
+      setState(() {
+        userId = user['id'];
+        userIdString = userId != null ? userId.toString() : '';
+      });
+    }
 
     fetchMyProjects();
   }

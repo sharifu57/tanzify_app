@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tanzify_app/components/icons/simpleIcon.dart';
+import 'package:tanzify_app/pages/navigation/alertPage.dart';
 import 'package:tanzify_app/pages/navigation/homePage.dart';
-import 'package:tanzify_app/pages/navigation/NewProject.dart';
 import 'package:tanzify_app/pages/navigation/profile.dart';
 import 'package:tanzify_app/pages/navigation/proposal.dart';
+import 'package:tanzify_app/services/userService.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -14,6 +15,27 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   int currentPageIndex = 0;
+  int? userId;
+  String userIdString = '';
+  String usertype = '';
+  Map<String, dynamic>? userData;
+
+  Future<void> loadUser() async {
+    final user = await UserService.getUserFromStorage();
+    if (user != null) {
+      setState(() {
+        userData = user;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    loadUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var pages = [
@@ -23,7 +45,7 @@ class _MainAppState extends State<MainApp> {
         });
       }),
       const Proposal(),
-      const NewProject(),
+      const AlertPage(),
       // const AlertPage(),
       const Profile()
     ];

@@ -9,6 +9,7 @@ import 'package:tanzify_app/components/profile/profileWidget.dart';
 import 'package:tanzify_app/components/profile/updateProfile.dart';
 import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:tanzify_app/pages/profile/rating.dart';
 import 'package:tanzify_app/utils/customDialog.dart';
 
 class Profile extends StatefulWidget {
@@ -24,6 +25,7 @@ class _ProfileState extends State<Profile> {
   String? profileImage;
   String? email;
   String? categoryName;
+  double? rating;
   @override
   void initState() {
     getUserFromStorage();
@@ -43,6 +45,7 @@ class _ProfileState extends State<Profile> {
           firstName = userData["first_name"];
           lastName = userData["last_name"];
           profileImage = userData['profile']['profile_image'];
+          rating = double.tryParse(userData['profile']['rate'].toString());
           categoryName = userData['profile']['category']['name'];
           email = userData["email"];
         });
@@ -79,7 +82,11 @@ class _ProfileState extends State<Profile> {
                   style: Theme.of(context).textTheme.headlineSmall),
               Text("$categoryName",
                   style: Theme.of(context).textTheme.bodyMedium),
-              const SizedBox(height: 20),
+              const SizedBox(
+                height: 5,
+              ),
+              if (rating != null) Rating(initialRating: rating!),
+              const SizedBox(height: 10),
               SizedBox(
                 // width: 200,
                 child: ElevatedButton(

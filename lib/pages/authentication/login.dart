@@ -182,16 +182,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             color: Constants.primaryColor, fontSize: 12.sp),
                       ),
                     ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     navigateToPage(pathName: 'register');
-                    //   },
-                    //   child: Text(
-                    //     "Create an account",
-                    //     style: TextStyle(
-                    //         color: Constants.primaryColor, fontSize: 12.sp),
-                    //   ),
-                    // ),
                   ],
                 ),
                 SizedBox(height: 10.h),
