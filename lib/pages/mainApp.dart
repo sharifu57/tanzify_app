@@ -18,6 +18,7 @@ class _MainAppState extends State<MainApp> {
   int? userId;
   String userIdString = '';
   String usertype = '';
+  bool isSuperUser = false;
   Map<String, dynamic>? userData;
 
   Future<void> loadUser() async {
@@ -25,6 +26,12 @@ class _MainAppState extends State<MainApp> {
     if (user != null) {
       setState(() {
         userData = user;
+        userId = userData!['id'];
+        userIdString = userId.toString();
+
+        if (userData!['is_superuser'] == true) {
+          isSuperUser = true;
+        }
       });
     }
   }
@@ -61,51 +68,53 @@ class _MainAppState extends State<MainApp> {
             ),
           ),
         ),
-        child: NavigationBar(
-          height: 55,
-          selectedIndex: currentPageIndex,
-          onDestinationSelected: (int index) {
-            setState(() {
-              currentPageIndex = index;
-            });
-          },
-          destinations: const <Widget>[
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.home,
-                size: 18,
+        child: isSuperUser
+            ? Container()
+            : NavigationBar(
+                height: 55,
+                selectedIndex: currentPageIndex,
+                onDestinationSelected: (int index) {
+                  setState(() {
+                    currentPageIndex = index;
+                  });
+                },
+                destinations: const <Widget>[
+                  NavigationDestination(
+                    selectedIcon: Icon(
+                      Icons.home,
+                      size: 18,
+                    ),
+                    icon: Icon(Icons.home_outlined),
+                    label: 'Home',
+                  ),
+                  NavigationDestination(
+                    selectedIcon: Icon(
+                      Icons.document_scanner_rounded,
+                      size: 18,
+                    ),
+                    icon: SimpleIcon(icon: Icons.document_scanner_outlined),
+                    label: 'Proposals',
+                  ),
+                  NavigationDestination(
+                    selectedIcon: Icon(
+                      Icons.history,
+                      size: 18,
+                    ),
+                    icon: Icon(
+                      Icons.history_sharp,
+                    ),
+                    label: 'Alert',
+                  ),
+                  NavigationDestination(
+                    selectedIcon: Icon(
+                      Icons.person_2,
+                      size: 18,
+                    ),
+                    icon: Icon(Icons.person_2_outlined),
+                    label: 'Profile',
+                  ),
+                ],
               ),
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.document_scanner_rounded,
-                size: 18,
-              ),
-              icon: SimpleIcon(icon: Icons.document_scanner_outlined),
-              label: 'Proposals',
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.history,
-                size: 18,
-              ),
-              icon: Icon(
-                Icons.history_sharp,
-              ),
-              label: 'Alert',
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.person_2,
-                size: 18,
-              ),
-              icon: Icon(Icons.person_2_outlined),
-              label: 'Profile',
-            ),
-          ],
-        ),
       ),
     );
   }
