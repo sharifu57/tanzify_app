@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tanzify_app/components/icons/simpleIcon.dart';
+import 'package:tanzify_app/pages/admin/adminHome.dart';
 import 'package:tanzify_app/pages/navigation/alertPage.dart';
 import 'package:tanzify_app/pages/navigation/homePage.dart';
 import 'package:tanzify_app/pages/navigation/profile.dart';
@@ -29,11 +30,19 @@ class _MainAppState extends State<MainApp> {
         userId = userData!['id'];
         userIdString = userId.toString();
 
+        print("======is this user user?");
+        print(userData!['is_superuser']);
+        print("====end if this is superuser");
+
         if (userData!['is_superuser'] == true) {
           isSuperUser = true;
         }
       });
     }
+
+    print("======is Super User======");
+    print(isSuperUser);
+    print("======User Data======");
   }
 
   @override
@@ -69,7 +78,7 @@ class _MainAppState extends State<MainApp> {
           ),
         ),
         child: isSuperUser
-            ? Container()
+            ? const AdminHomePage()
             : NavigationBar(
                 height: 55,
                 selectedIndex: currentPageIndex,

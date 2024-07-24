@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/data/providers/budgetProvider.dart';
@@ -11,7 +12,20 @@ import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/splashScreen.dart';
 import 'package:tanzify_app/services/dataConnection.dart';
 
-void main() => runApp(const TanzifyApp());
+// void main() => runApp(const TanzifyApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Constants.primaryColor,
+      statusBarColor: Constants.primaryColor));
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const TanzifyApp());
+  });
+}
 
 class TanzifyApp extends StatefulWidget {
   const TanzifyApp({super.key});

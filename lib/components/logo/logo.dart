@@ -5,12 +5,15 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Image.asset(
-        'assets/img/logo.png',
-        fit: BoxFit.contain,
-      ),
-      // child: Text('Logo'),
+    // return Center(
+    //   child: Image.asset(
+    //     'assets/img/logo.png',
+    //     fit: BoxFit.contain,
+    //   ),
+    //   // child: Text('Logo'),
+    // );
+    return const Center(
+      child: Text('Logo')
     );
   }
 }
