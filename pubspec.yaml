@@ -58,6 +58,7 @@ dependencies:
   awesome_dialog: ^3.2.1
   flutter_launcher_icons: ^0.13.1
   flutter_pannable_rating_bar: ^2.7.2+1
+  flutter_quill: ^10.0.9
 
 dev_dependencies:
   flutter_test:

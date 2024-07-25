@@ -15,6 +15,7 @@ class ProjectProvider extends ChangeNotifier {
   List<dynamic> myBids = [];
   List<dynamic> myProjects = [];
   List<dynamic> bidders = [];
+  List<dynamic> systemProjects = [];
 
   ProjectProvider() {
     _dataConnection = DataConnection();
@@ -206,13 +207,10 @@ class ProjectProvider extends ChangeNotifier {
       var response =
           await _dataConnection.fetchData('project_bidders/$projectId/');
 
-      print("=======resp 3");
-      print(response);
+      debugPrint("=======resp");
       if (response['status'] == 200) {
-        print("=======status");
         _isLoading = false;
         bidders = response['data'];
-        print("=======diffffddddd: ${bidders}");
       }
     } catch (e) {
       _isLoading = false;
@@ -220,6 +218,23 @@ class ProjectProvider extends ChangeNotifier {
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  Future<void> getSystemProjects() async {
+    _isLoading = true;
+    try {
+      var response = await _dataConnection.fetchData('system_projects/');
+      print(response);
+      debugPrint("========debug: $response");
+      if (response != null && response['status'] == 200) {
+        _isLoading = false;
+        systemProjects = response['data'];
+      }
+    } catch (e) {
+      debugPrint("=====error: $e");
+      _isLoading = false;
+      _errorMessage = e.toString();
     }
   }
 }
