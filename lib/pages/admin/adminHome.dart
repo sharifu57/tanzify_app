@@ -1,13 +1,11 @@
-// ignore_for_file: avoid_unnecessary_containers
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({super.key});
@@ -49,7 +47,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getUserFromStorage();
     super.initState();
   }
@@ -64,118 +61,205 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
     return SafeArea(
       child: Scaffold(
-          body: SizedBox(
-        height: fullHeight,
-        child: Column(
-          children: [
-            Container(
-                height: fullHeight / 2.3,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                // color: Constants.primaryColor,
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
+        body: SizedBox(
+          height: fullHeight,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    height: fullHeight / 5.5,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                      Constants.primaryColor,
-                      Constants.accentColor
-                    ])),
-                child: Container(
-                    child: Column(
-                  children: [
-                    SizedBox(
-                      height: 40.h,
+                        colors: [Constants.primaryColor, Constants.accentColor],
+                      ),
                     ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 40.h),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
                             children: [
-                              Container(
-                                child: const Text(
-                                  "Welcome",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Welcome",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 10),
                                   ),
-                                ),
+                                  Text(
+                                    '${(firstName ?? '').isNotEmpty ? firstName!.toUpperCase() : ''} ${(lastName ?? '').isNotEmpty ? lastName!.toUpperCase() : ''}',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
                               ),
+                              const Spacer(), // Add a spacer to push the profile image to the right
                               Container(
-                                child: Text(
-                                  '${(firstName ?? '').isNotEmpty ? firstName!.toUpperCase() : ''} ${(lastName ?? '').isNotEmpty ? lastName!.toUpperCase() : ''}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
+                                padding: const EdgeInsets.all(1),
+                                child: profileImage != null
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(profileImage!),
+                                      )
+                                    : CircleAvatar(
+                                        backgroundColor: Constants.accentColor,
+                                        child: email != null
+                                            ? Text(
+                                                email![0].toUpperCase(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall
+                                                    ?.copyWith(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                    ),
+                                              )
+                                            : Text(
+                                                '${(firstName ?? '').isNotEmpty ? firstName![0].toUpperCase() : ''}${(lastName ?? '').isNotEmpty ? lastName![0].toUpperCase() : ''}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall
+                                                    ?.copyWith(
+                                                        color: Colors.white),
+                                              ),
+                                      ),
                               ),
                             ],
                           ),
-                          const Spacer(), // Add a spacer to push the profile image to the right
-                          Container(
-                            padding: const EdgeInsets.all(1),
-                            child: profileImage != null
-                                ? CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(profileImage!),
-                                  )
-                                : CircleAvatar(
-                                    backgroundColor: Constants.accentColor,
-                                    child: email != null
-                                        ? Text(email![0].toUpperCase(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 12))
-                                        : Text(
-                                            '${(firstName ?? '').isNotEmpty ? firstName![0].toUpperCase() : ''}${(lastName ?? '').isNotEmpty ? lastName![0].toUpperCase() : ''}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(
-                                                  color: Colors.white,
-                                                ),
-                                          ),
-                                  ),
-                          ),
-                        ],
+                        ),
+                        SizedBox(height: 20.h),
+                        Container(
+                          child: Text("One"),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: fullHeight / 5.5 - 40, // Adjust this value as needed
+                left: 20,
+                right: 20,
+                child: Column(
+                  children: [
+                    Card(
+                      elevation: 3,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Projects Analytics',
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Annual analysis",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w300),
+                                    )
+                                  ],
+                                ),
+                                const Text('Filter'),
+                              ],
+                            ),
+                            SizedBox(height: 15.h),
+                            SizedBox(
+                              height: 200, // Adjust the height as needed
+                              child: _buildChart(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
                     Container(
-                      alignment: Alignment.center,
-                      child: Chip(
-                        elevation: 20,
-                        padding: EdgeInsets.all(8),
-                        shadowColor: Colors.black,
-                        avatar: const CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              "https://pbs.twimg.com/profile_images/1304985167476523008/QNHrwL2q_400x400.jpg"), //NetworkImage
-                        ), //CircleAvatar
-                        label: Column(
-                          children: [
-                            const Text(
-                              'System Projects',
-                            ),
-                            Text(
-                              "${projects.length}",
-                            )
-                          ],
-                        ), //Text
+                      padding: EdgeInsets.only(top: 15.h),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                  flex: 5,
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Total Users',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall
+                                            ?.copyWith(
+                                              fontSize: 11.sp,
+                                            ),
+                                      ),
+                                    ),
+                                  )),
+                              Expanded(
+                                  flex: 5,
+                                  child: Container(
+                                    child: Card(
+                                      child: Text('One'),
+                                    ),
+                                  )),
+                            ],
+                          )
+                        ],
                       ),
                     )
                   ],
-                ))),
-            Expanded(child: Container())
-          ],
+                ),
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
+  }
+
+  Widget _buildChart() {
+    return BarChart(
+      BarChartData(
+        barGroups: _getData(),
+        titlesData: const FlTitlesData(
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(showTitles: true),
+          ),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(showTitles: true),
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<BarChartGroupData> _getData() {
+    return [
+      BarChartGroupData(x: 0, barRods: [BarChartRodData(fromY: 0, toY: 8)]),
+      BarChartGroupData(x: 1, barRods: [BarChartRodData(fromY: 0, toY: 10)]),
+      BarChartGroupData(x: 2, barRods: [BarChartRodData(fromY: 0, toY: 14)]),
+      BarChartGroupData(x: 3, barRods: [BarChartRodData(fromY: 0, toY: 15)]),
+      BarChartGroupData(x: 4, barRods: [BarChartRodData(fromY: 0, toY: 13)]),
+      BarChartGroupData(x: 5, barRods: [BarChartRodData(fromY: 0, toY: 10)]),
+    ];
   }
 }

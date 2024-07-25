@@ -225,8 +225,7 @@ class ProjectProvider extends ChangeNotifier {
     _isLoading = true;
     try {
       var response = await _dataConnection.fetchData('system_projects/');
-      print(response);
-      debugPrint("========debug: $response");
+
       if (response != null && response['status'] == 200) {
         _isLoading = false;
         systemProjects = response['data'];

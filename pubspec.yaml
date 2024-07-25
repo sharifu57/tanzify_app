@@ -59,6 +59,8 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_pannable_rating_bar: ^2.7.2+1
   flutter_quill: ^10.0.9
+  fl_chart: ^0.68.0
+  flutter_charts: ^0.5.2
 
 dev_dependencies:
   flutter_test:
@@ -93,10 +95,10 @@ flutter:
     - assets/clip/
     - assets/img/flag.png
 
-flutter_icons:
-  android: true
-  ios: true
-  image_path: "assets/img/icon.png"
+# flutter_icons:
+#   android: true
+#   ios: true
+#   image_path: "assets/img/icon.png"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
