@@ -16,7 +16,7 @@ class StatusWidget extends StatelessWidget {
     switch (status) {
       case "0":
         icon = Icons.verified_user_outlined;
-        message = "Submitted";
+        message = "New";
         color = Constants.successColor;
         size = size;
       case "1":

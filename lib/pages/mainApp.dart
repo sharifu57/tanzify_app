@@ -30,19 +30,11 @@ class _MainAppState extends State<MainApp> {
         userId = userData!['id'];
         userIdString = userId.toString();
 
-        print("======is this user user?");
-        print(userData!['is_superuser']);
-        print("====end if this is superuser");
-
         if (userData!['is_superuser'] == true) {
           isSuperUser = true;
         }
       });
     }
-
-    print("======is Super User======");
-    print(isSuperUser);
-    print("======User Data======");
   }
 
   @override

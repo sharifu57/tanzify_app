@@ -222,18 +222,16 @@ class ProjectProvider extends ChangeNotifier {
   }
 
   Future<void> getSystemProjects() async {
-    _isLoading = true;
+    startLoading();
     try {
       var response = await _dataConnection.fetchData('system_projects/');
-
-      if (response != null && response['status'] == 200) {
-        _isLoading = false;
+      if (response != null) {
         systemProjects = response['data'];
       }
     } catch (e) {
-      debugPrint("=====error: $e");
-      _isLoading = false;
       _errorMessage = e.toString();
+    } finally {
+      stopLoading();
     }
   }
 }

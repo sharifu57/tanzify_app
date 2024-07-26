@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:tanzify_app/components/containers/statusWidget.dart';
+import 'package:tanzify_app/components/profile/profileWidget.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
+import 'package:tanzify_app/data/providers/userProvider.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -21,34 +26,54 @@ class _AdminHomePageState extends State<AdminHomePage> {
   String? email;
 
   void getUserFromStorage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? user = prefs.getString('user');
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? user = prefs.getString('user');
 
-    if (user != null) {
-      final userData = jsonDecode(user);
-      final dynamic userIdData = userData["id"];
+      if (user != null) {
+        final userData = jsonDecode(user);
+        final dynamic userIdData = userData["id"];
 
-      if (userIdData != null) {
-        setState(() {
-          firstName = userData["first_name"];
-          lastName = userData["last_name"];
-          profileImage = userData['profile']['profile_image'];
-          email = userData["email"];
-        });
+        if (userIdData != null) {
+          setState(() {
+            firstName = userData["first_name"];
+            lastName = userData["last_name"];
+            profileImage = userData['profile']['profile_image'];
+            email = userData["email"];
+          });
+        }
       }
+      await getProjects();
+      await getUsers();
+    } catch (e) {
+      debugPrint("Error loading user from storage: $e");
     }
-    getProjects();
   }
 
   Future<void> getProjects() async {
-    await Provider.of<ProjectProvider>(context, listen: false)
-        .getSystemProjects();
+    try {
+      print("____init load");
+      await Provider.of<ProjectProvider>(context, listen: false)
+          .getSystemProjects();
+    } catch (e) {
+      debugPrint("Error loading projects: $e");
+    }
+  }
+
+  Future<void> getUsers() async {
+    try {
+      await Provider.of<UserProvider>(context, listen: false).getUsers();
+    } catch (e) {
+      debugPrint("Error loading users: $e");
+    }
   }
 
   @override
   void initState() {
-    getUserFromStorage();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getUserFromStorage();
+    });
   }
 
   @override
@@ -58,6 +83,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
         designSize: const Size(360, 690), minTextAdapt: true);
     final projectProvider = Provider.of<ProjectProvider>(context);
     final projects = projectProvider.systemProjects;
+    final userProvider = Provider.of<UserProvider>(context);
+    final users = userProvider.sysUsers;
 
     return SafeArea(
       child: Scaffold(
@@ -135,9 +162,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           ),
                         ),
                         SizedBox(height: 20.h),
-                        Container(
-                          child: Text("One"),
-                        )
                       ],
                     ),
                   ),
@@ -185,7 +209,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             SizedBox(height: 15.h),
                             SizedBox(
                               height: 200, // Adjust the height as needed
-                              child: _buildChart(),
+                              child: _buildChart(projects),
                             ),
                           ],
                         ),
@@ -201,31 +225,226 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               Expanded(
                                   flex: 5,
                                   child: Card(
+                                    elevation: 3,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Total Users',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall
-                                            ?.copyWith(
-                                              fontSize: 11.sp,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'System Users',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall
+                                                ?.copyWith(),
+                                          ),
+                                          Container(
+                                            padding:
+                                                const EdgeInsets.only(top: 25),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Total",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall
+                                                      ?.copyWith(),
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "${users.length}",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge
+                                                          ?.copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                    ),
+                                                    const Icon(
+                                                      LineAwesomeIcons
+                                                          .arrow_up_solid,
+                                                      size: 15,
+                                                      color:
+                                                          Constants.accentColor,
+                                                    )
+                                                  ],
+                                                )
+                                              ],
                                             ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                   )),
                               Expanded(
                                   flex: 5,
-                                  child: Container(
-                                    child: Card(
-                                      child: Text('One'),
+                                  child: Card(
+                                    elevation: 3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'All Projects',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall
+                                                ?.copyWith(),
+                                          ),
+                                          Container(
+                                            padding:
+                                                const EdgeInsets.only(top: 25),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Total",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall
+                                                      ?.copyWith(),
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "${projects.length}",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge
+                                                          ?.copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                    ),
+                                                    const Icon(
+                                                      LineAwesomeIcons
+                                                          .wolf_pack_battalion,
+                                                      size: 15,
+                                                      color:
+                                                          Constants.accentColor,
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   )),
                             ],
                           )
                         ],
                       ),
-                    )
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 15.h),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Recent Projects',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  debugPrint("See All Buttons");
+                                },
+                                child: Text(
+                                  'See All',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Constants.primaryColor),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                              height: 200,
+                              child: Skeletonizer(
+                                enabled: projectProvider.isLoading,
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: projects.isEmpty
+                                        ? 0
+                                        : (projects.length >= 3
+                                            ? 3
+                                            : projects.length),
+                                    itemBuilder: (context, index) {
+                                      // Adjust the index to get the last three projects
+                                      int adjustedIndex =
+                                          projects.length - 1 - index;
+                                      return Container(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 5),
+                                        child: Card(
+                                            elevation: 3,
+                                            child: InkWell(
+                                              splashColor:
+                                                  Constants.primaryColor,
+                                              onTap: () {
+                                                debugPrint("____clicked_");
+                                              },
+                                              child: ListTile(
+                                                leading: Container(
+                                                  width: 35,
+                                                  height: 35,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    color: Colors.black
+                                                        .withOpacity(0.1),
+                                                  ),
+                                                  child: const Icon(
+                                                    LineAwesomeIcons
+                                                        .wolf_pack_battalion,
+                                                    color:
+                                                        Constants.primaryColor,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                                title: Text(
+                                                    "${projects[adjustedIndex]['title']}"),
+                                                trailing: SizedBox(
+                                                  width:
+                                                      70, // Adjust the width as needed
+                                                  child: Center(
+                                                    child: StatusWidget(
+                                                        status:
+                                                            "${projects[adjustedIndex]['status']}"),
+                                                  ),
+                                                ),
+                                              ),
+                                            )),
+                                      );
+                                    }),
+                              )),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -236,10 +455,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
     );
   }
 
-  Widget _buildChart() {
+  Widget _buildChart(List<dynamic> projects) {
     return BarChart(
       BarChartData(
-        barGroups: _getData(),
+        barGroups: _getData(projects),
         titlesData: const FlTitlesData(
           leftTitles: AxisTitles(
             sideTitles: SideTitles(showTitles: true),
@@ -252,14 +471,21 @@ class _AdminHomePageState extends State<AdminHomePage> {
     );
   }
 
-  List<BarChartGroupData> _getData() {
-    return [
-      BarChartGroupData(x: 0, barRods: [BarChartRodData(fromY: 0, toY: 8)]),
-      BarChartGroupData(x: 1, barRods: [BarChartRodData(fromY: 0, toY: 10)]),
-      BarChartGroupData(x: 2, barRods: [BarChartRodData(fromY: 0, toY: 14)]),
-      BarChartGroupData(x: 3, barRods: [BarChartRodData(fromY: 0, toY: 15)]),
-      BarChartGroupData(x: 4, barRods: [BarChartRodData(fromY: 0, toY: 13)]),
-      BarChartGroupData(x: 5, barRods: [BarChartRodData(fromY: 0, toY: 10)]),
-    ];
+  List<BarChartGroupData> _getData(List<dynamic> projects) {
+    List<BarChartGroupData> barChartGroups = [];
+
+    for (int i = 0; i < projects.length; i++) {
+      final project = projects[i];
+      final String amountStr = project['amount'] ?? '10.0';
+      final double value = double.tryParse(amountStr) ??
+          10.0; // Replace 'someValue' with the relevant key
+
+      barChartGroups.add(
+        BarChartGroupData(
+            x: i, barRods: [BarChartRodData(fromY: 0, toY: value)]),
+      );
+    }
+
+    return barChartGroups;
   }
 }
