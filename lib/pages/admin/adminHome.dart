@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -9,6 +10,7 @@ import 'package:tanzify_app/components/containers/statusWidget.dart';
 import 'package:tanzify_app/components/profile/profileWidget.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/data/providers/userProvider.dart';
+import 'package:tanzify_app/pages/admin/assessProject.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -406,6 +408,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                   Constants.primaryColor,
                                               onTap: () {
                                                 debugPrint("____clicked_");
+                                                Navigator.of(context).push(
+                                                    CupertinoPageRoute(
+                                                        builder: (context) =>
+                                                            AssessProject(
+                                                              projectId: projects[
+                                                                          index]
+                                                                      ['id']
+                                                                  .toString(),
+                                                              title: projects[
+                                                                      index]
+                                                                  ['title'],
+                                                            )));
                                               },
                                               child: ListTile(
                                                 leading: Container(
