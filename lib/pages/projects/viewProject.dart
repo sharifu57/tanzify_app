@@ -23,7 +23,6 @@ class ViewProject extends StatefulWidget {
 class _ViewProjectState extends State<ViewProject> {
   @override
   Widget build(BuildContext context) {
-    final double fullHeight = MediaQuery.of(context).size.height;
     final double fullWidth = MediaQuery.of(context).size.width;
     final projectProvider = Provider.of<ProjectProvider>(context);
     final isLoading = projectProvider.isLoading;

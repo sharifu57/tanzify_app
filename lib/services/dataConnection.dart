@@ -18,9 +18,16 @@ class DataConnection with ChangeNotifier {
     ));
   }
 
-  Future<dynamic> fetchData(String endpoint) async {
+  Map<String, dynamic> headers = {
+    'Authorization': 'Bearer access_token',
+    'Content-Type': 'application/json',
+  };
+
+  Future<dynamic> fetchData(String endpoint,
+      {Map<String, dynamic>? headers}) async {
     try {
-      final response = await dio.get(endpoint);
+      final response =
+          await dio.get(endpoint, options: Options(headers: headers));
 
       return response.data;
     } catch (e) {
@@ -28,10 +35,11 @@ class DataConnection with ChangeNotifier {
     }
   }
 
-  Future<Response> postData(
-      String endpoint, Map<String, dynamic> payload) async {
+  Future<Response> postData(String endpoint, Map<String, dynamic> payload,
+      {Map<String, dynamic>? headers}) async {
     try {
-      Response response = await dio.post(endpoint, data: payload);
+      Response response = await dio.post(endpoint,
+          data: payload, options: Options(headers: headers));
       return response;
     } catch (e) {
       rethrow;

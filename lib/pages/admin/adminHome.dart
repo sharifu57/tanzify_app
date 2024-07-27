@@ -45,8 +45,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
           });
         }
       }
-      await getProjects();
-      await getUsers();
     } catch (e) {
       debugPrint("Error loading user from storage: $e");
     }
@@ -54,7 +52,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   Future<void> getProjects() async {
     try {
-      print("____init load");
       await Provider.of<ProjectProvider>(context, listen: false)
           .getSystemProjects();
     } catch (e) {
@@ -75,6 +72,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getUserFromStorage();
+      getProjects();
+      getUsers();
     });
   }
 
@@ -407,19 +406,29 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                               splashColor:
                                                   Constants.primaryColor,
                                               onTap: () {
-                                                debugPrint("____clicked_");
-                                                Navigator.of(context).push(
-                                                    CupertinoPageRoute(
-                                                        builder: (context) =>
-                                                            AssessProject(
-                                                              projectId: projects[
-                                                                          index]
-                                                                      ['id']
-                                                                  .toString(),
-                                                              title: projects[
-                                                                      index]
-                                                                  ['title'],
-                                                            )));
+                                                Navigator.of(context).push(CupertinoPageRoute(
+                                                    builder: (context) => AssessProject(
+                                                        projectId:
+                                                            projects[index]['id']
+                                                                .toString(),
+                                                        projectCreated:
+                                                            projects[index]
+                                                                    ['created']
+                                                                .toString(),
+                                                        title: projects[index]
+                                                            ['title'],
+                                                        projectDescription:
+                                                            projects[index]
+                                                                ['description'],
+                                                        duration: projects[index]
+                                                                ['duration'] ??
+                                                            {},
+                                                        bids:
+                                                            projects[index]['bids'] ?? [],
+                                                        budget: projects[index]['budget'] ?? {},
+                                                        category: projects[index]['category'] ?? {},
+                                                        skills: projects[index]['skills'] ?? [],
+                                                        freelancer: projects[index]['created_by'] ?? {})));
                                               },
                                               child: ListTile(
                                                 leading: Container(
