@@ -1,9 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:tanzify_app/components/button/elevatedButton.dart';
+import 'package:tanzify_app/components/snackBar/failedSnackBar.dart';
+import 'package:tanzify_app/components/snackBar/successSnackBar.dart';
+import 'package:tanzify_app/data/providers/projectProvider.dart';
+import 'package:tanzify_app/pages/admin/adminHome.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/profile/rating.dart';
+import 'package:tanzify_app/utils/customDialog.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class AssessProject extends StatefulWidget {
@@ -11,6 +20,7 @@ class AssessProject extends StatefulWidget {
   final String title;
   final String projectCreated;
   final String projectDescription;
+  final String projectStatus;
   final List bids;
   final Map<String, dynamic> budget;
   final Map<String, dynamic> category;
@@ -28,7 +38,8 @@ class AssessProject extends StatefulWidget {
       required this.category,
       required this.skills,
       required this.duration,
-      required this.freelancer});
+      required this.freelancer,
+      required this.projectStatus});
 
   @override
   State<AssessProject> createState() => _AssessProjectState();
@@ -37,14 +48,23 @@ class AssessProject extends StatefulWidget {
 class _AssessProjectState extends State<AssessProject> {
   double? rating;
   String? _dropDownValue;
+  final Map<String, dynamic> statusOptions = {
+    "Approve": "1",
+    "Reject": "2",
+    "Return": "3"
+  };
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print("=======init");
-    print(widget.freelancer['profile']?['rate']);
-    print("------end init");
-
     // rating = double.tryParse(widget.freelancer['profile']['rate']);
+    final projectProvider = Provider.of<ProjectProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 00.0,
@@ -94,26 +114,30 @@ class _AssessProjectState extends State<AssessProject> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(timeago.format(DateTime.parse(widget.projectCreated))),
-                    //
-                    DropdownButton(
-                      icon: const Icon(Icons.filter_list),
-                      value: _dropDownValue,
-                      onChanged: dropDownCallBack(_dropDownValue),
-                      items: const [
-                        DropdownMenuItem(
-                          value: 0,
-                          child: Text("All Bids"),
-                        ),
-                        DropdownMenuItem(
-                          value: 1,
-                          child: Text("Accepted Bids"),
-                        ),
-                        DropdownMenuItem(
-                          value: 2,
-                          child: Text("Declined Bids"),
-                        ),
-                      ],
-                    )
+                    // DropdownButton<String>(
+                    //   value: _dropDownValue,
+                    //   hint: const Text("Action"),
+                    //   items: <String>['Approve', 'Reject'].map((String value) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: value,
+                    //       child: Text(value),
+                    //     );
+                    //   }).toList(),
+                    //   onChanged: (String? newValue) {
+                    //     setState(() {
+                    //       _dropDownValue = newValue!;
+                    //     });
+                    //   },
+                    // ),
+                    if (widget.projectStatus == "0")
+                      ActionChip(
+                        elevation: 2,
+                        backgroundColor: Colors.grey[200],
+                        label: const Text("Action"),
+                        onPressed: () {
+                          _showStatusBottomSheet(context, projectProvider);
+                        },
+                      )
                   ],
                 ),
               ),
@@ -285,5 +309,113 @@ class _AssessProjectState extends State<AssessProject> {
         _dropDownValue = selectedValue;
       });
     }
+  }
+
+  void _showStatusBottomSheet(
+      BuildContext context, ProjectProvider projectProvider) {
+    final Map<String, IconData> statusIcons = {
+      "1": Icons.check_circle_outline,
+      "2": Icons.cancel_outlined,
+      "3": Icons.refresh_outlined,
+    };
+
+    final Map<String, Color> statusColor = {
+      "1": Colors.green,
+      "2": Colors.red,
+      "3": Colors.orange
+    };
+
+    final Map<String, dynamic> statusMessage = {
+      "1": "Are you sure you want to Approve this project?",
+      "2": "Are you sure you want to cancel this project?",
+      "3": "Returning this project?"
+    };
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        final statusEntries = statusOptions.entries.toList();
+
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.3, // Adjusted height
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Change Status',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: statusEntries.length,
+                  itemBuilder: (context, index) {
+                    final entry = statusEntries[index];
+                    final status = entry.key;
+                    final value = entry.value;
+
+                    // Determine the icon based on the status value
+                    final icon = statusIcons[value] ?? Icons.help_outline;
+                    final color = statusColor[value];
+                    final message = statusMessage[value] ?? '';
+                    return ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(status),
+                          Icon(icon, color: color),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pop(context); // Close the bottom sheet
+                        _updateStatus(value, message,
+                            projectProvider); // Handle status update
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _updateStatus(
+      String? value, String? message, ProjectProvider projectProvider) {
+    print("======value ${value}");
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomDialog(
+              message: '$message',
+              onOkPressed: () {
+                projectProvider
+                    .updateProject(widget.projectId, value.toString())
+                    .then((success) => {
+                          if (success)
+                            {
+                              SuccessSnackBar(
+                                  message: '$projectProvider.successMessage'),
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                  builder: (context) => const AdminHomePage()))
+                            }
+                          else
+                            {
+                              FailedSnackBar(
+                                  message: '$projectProvider.errorMessage')
+                            }
+                        });
+              },
+              onCancelPressed: () {
+                Navigator.pop(context);
+              },
+              type: 1);
+        });
   }
 }

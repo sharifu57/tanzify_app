@@ -234,4 +234,26 @@ class ProjectProvider extends ChangeNotifier {
       stopLoading();
     }
   }
+
+  Future<bool> updateProject(String projectId, String projectStatus) async {
+    startLoading();
+    try {
+      var response = await _dataConnection
+          .updateData('update_project_status/$projectId}/$projectStatus}/');
+      if (response.data['status'] == 200) {
+        debugPrint("-----success");
+        _successMessage = response.data['message'];
+        return true;
+      } else {
+        debugPrint("-----fail");
+        _errorMessage = response.data['message'];
+        return false;
+      }
+    } on DioException catch (e) {
+      _errorMessage =
+          "Network error: ${e.response?.data['message'] ?? e.message}";
+      stopLoading();
+      return false;
+    }
+  }
 }

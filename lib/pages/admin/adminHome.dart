@@ -408,12 +408,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                               onTap: () {
                                                 Navigator.of(context).push(CupertinoPageRoute(
                                                     builder: (context) => AssessProject(
-                                                        projectId:
-                                                            projects[index]['id']
-                                                                .toString(),
+                                                        projectId: projects[index]['id']
+                                                            .toString(),
                                                         projectCreated:
-                                                            projects[index]
-                                                                    ['created']
+                                                            projects[index]['created']
+                                                                .toString(),
+                                                        projectStatus:
+                                                            projects[index]['status']
                                                                 .toString(),
                                                         title: projects[index]
                                                             ['title'],
@@ -423,8 +424,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                         duration: projects[index]
                                                                 ['duration'] ??
                                                             {},
-                                                        bids:
-                                                            projects[index]['bids'] ?? [],
+                                                        bids: projects[index]['bids'] ?? [],
                                                         budget: projects[index]['budget'] ?? {},
                                                         category: projects[index]['category'] ?? {},
                                                         skills: projects[index]['skills'] ?? [],

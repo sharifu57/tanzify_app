@@ -6,7 +6,7 @@ class DataConnection with ChangeNotifier {
   bool isProduction = false;
 
   // static const String httpBase = 'http://109.199.108.165';
-  static const String httpBase = 'http://192.168.1.111:8005';
+  static const String httpBase = 'http://192.168.1.231:8005';
 
   static const String connectionUrl = "$httpBase/API/V1/";
 
@@ -40,6 +40,17 @@ class DataConnection with ChangeNotifier {
     try {
       Response response = await dio.post(endpoint,
           data: payload, options: Options(headers: headers));
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> updateData(String endpoint,
+      {Map<String, dynamic>? headers}) async {
+    try {
+      Response response =
+          await dio.put(endpoint, options: Options(headers: headers));
       return response;
     } catch (e) {
       rethrow;
