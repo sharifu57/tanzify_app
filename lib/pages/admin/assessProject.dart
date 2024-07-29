@@ -36,6 +36,7 @@ class AssessProject extends StatefulWidget {
 
 class _AssessProjectState extends State<AssessProject> {
   double? rating;
+  String? _dropDownValue;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +94,26 @@ class _AssessProjectState extends State<AssessProject> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(timeago.format(DateTime.parse(widget.projectCreated))),
-                    const ActionChip(label: Text('Action'))
+                    //
+                    DropdownButton(
+                      icon: const Icon(Icons.filter_list),
+                      value: _dropDownValue,
+                      onChanged: dropDownCallBack(_dropDownValue),
+                      items: const [
+                        DropdownMenuItem(
+                          value: 0,
+                          child: Text("All Bids"),
+                        ),
+                        DropdownMenuItem(
+                          value: 1,
+                          child: Text("Accepted Bids"),
+                        ),
+                        DropdownMenuItem(
+                          value: 2,
+                          child: Text("Declined Bids"),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -257,5 +277,13 @@ class _AssessProjectState extends State<AssessProject> {
         )),
       ),
     );
+  }
+
+  dropDownCallBack(String? selectedValue) {
+    if (selectedValue is String) {
+      setState(() {
+        _dropDownValue = selectedValue;
+      });
+    }
   }
 }
