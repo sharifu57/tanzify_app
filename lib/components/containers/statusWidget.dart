@@ -21,17 +21,46 @@ class StatusWidget extends StatelessWidget {
         size = size;
       case "1":
         icon = Icons.verified_user_outlined;
-        message = "Received";
+        message = "pending";
         color = Constants.successColor;
         size = size;
         break;
       case "2":
         icon = Icons.cancel_outlined;
-        message = "Cancelled";
+        message = "in Review";
         color = Constants.errorColor;
         size = size;
         break;
-      // Add more cases as needed
+      case "3":
+        icon = Icons.cancel_outlined;
+        message = "Approved";
+        color = Constants.primaryColor;
+        size = size;
+        break;
+      case "4":
+        icon = Icons.cancel_outlined;
+        message = "Rejected";
+        color = Constants.primaryColor;
+        size = size;
+        break;
+      case "5":
+        icon = Icons.cancel_outlined;
+        message = "On Going";
+        color = Constants.primaryColor;
+        size = size;
+        break;
+      case "6":
+        icon = Icons.cancel_outlined;
+        message = "Completed";
+        color = Constants.primaryColor;
+        size = size;
+        break;
+      case "7":
+        icon = Icons.cancel_outlined;
+        message = "Closed";
+        color = Constants.errorColor;
+        size = size;
+        break; // Add more cases as needed
       default:
         icon = Icons.help_outline;
         message = "Unknown";

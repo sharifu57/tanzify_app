@@ -11,6 +11,7 @@ import 'package:tanzify_app/components/profile/profileWidget.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/data/providers/userProvider.dart';
 import 'package:tanzify_app/pages/admin/assessProject.dart';
+import 'package:tanzify_app/pages/admin/seeAllProjects.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -369,6 +370,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               TextButton(
                                 onPressed: () {
                                   debugPrint("See All Buttons");
+                                  Navigator.of(context).push(CupertinoPageRoute(
+                                      builder: (context) => SeeAllProjects()));
                                 },
                                 child: Text(
                                   'See All',

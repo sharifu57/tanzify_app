@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:tanzify_app/components/button/elevatedButton.dart';
 import 'package:tanzify_app/components/snackBar/failedSnackBar.dart';
+import 'package:tanzify_app/components/snackBar/snackbar_utils.dart';
 import 'package:tanzify_app/components/snackBar/successSnackBar.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/admin/adminHome.dart';
@@ -129,7 +130,7 @@ class _AssessProjectState extends State<AssessProject> {
                     //     });
                     //   },
                     // ),
-                    if (widget.projectStatus == "0")
+                    if (widget.projectStatus == "3")
                       ActionChip(
                         elevation: 2,
                         backgroundColor: Colors.grey[200],
@@ -400,15 +401,38 @@ class _AssessProjectState extends State<AssessProject> {
                     .then((success) => {
                           if (success)
                             {
-                              SuccessSnackBar(
-                                  message: '$projectProvider.successMessage'),
+                              // SuccessSnackBar(
+                              //     message: '$projectProvider.successMessage'),
+                              // Navigator.of(context).push(CupertinoPageRoute(
+                              //     builder: (context) => const AdminHomePage()))
+
+                              showSnackBar(
+                                context,
+                                SnackBar(
+                                  content: Text(
+                                      projectProvider.successMessage ??
+                                          'Status updated successfully'),
+                                  backgroundColor: Colors.green,
+                                ),
+                                // Navigator.of(context).push(CupertinoPageRoute(
+                                //     builder: (context) => const AdminHomePage()))
+                              ),
+                              Navigator.pop(context),
+
                               Navigator.of(context).push(CupertinoPageRoute(
                                   builder: (context) => const AdminHomePage()))
                             }
                           else
                             {
-                              FailedSnackBar(
-                                  message: '$projectProvider.errorMessage')
+                              showSnackBar(
+                                context,
+                                SnackBar(
+                                  content: Text(projectProvider.errorMessage ??
+                                      'Status updated successfully'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              ),
+                              Navigator.pop(context)
                             }
                         });
               },

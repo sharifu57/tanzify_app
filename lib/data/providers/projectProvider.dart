@@ -227,6 +227,7 @@ class ProjectProvider extends ChangeNotifier {
       var response = await _dataConnection.fetchData('system_projects/');
       if (response != null) {
         systemProjects = response['data'];
+        stopLoading();
       }
     } catch (e) {
       _errorMessage = e.toString();
@@ -237,19 +238,29 @@ class ProjectProvider extends ChangeNotifier {
 
   Future<bool> updateProject(String projectId, String projectStatus) async {
     startLoading();
+    print("Project ID: $projectId");
+    print("Project Status: $projectStatus");
+
+    String projectStatusString = projectStatus.toString();
     try {
       var response = await _dataConnection
-          .updateData('update_project_status/$projectId}/$projectStatus}/');
+          .updateData('update_project_status/$projectId/$projectStatusString/');
+
+      print("Response: $response");
+
       if (response.data['status'] == 200) {
-        debugPrint("-----success");
+        print("Update successful");
         _successMessage = response.data['message'];
         return true;
       } else {
-        debugPrint("-----fail");
+        print("Update failed");
         _errorMessage = response.data['message'];
         return false;
       }
     } on DioException catch (e) {
+      print("====error");
+      print("${e.response}");
+      print("=====end error");
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
