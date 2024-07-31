@@ -226,7 +226,8 @@ class ProjectProvider extends ChangeNotifier {
     try {
       var response = await _dataConnection.fetchData('system_projects/');
       if (response != null) {
-        systemProjects = response['data'];
+        systemProjects = response['results'];
+
         stopLoading();
       }
     } catch (e) {
@@ -246,25 +247,63 @@ class ProjectProvider extends ChangeNotifier {
       var response = await _dataConnection
           .updateData('update_project_status/$projectId/$projectStatusString/');
 
-      print("Response: $response");
-
       if (response.data['status'] == 200) {
-        print("Update successful");
         _successMessage = response.data['message'];
         return true;
       } else {
-        print("Update failed");
         _errorMessage = response.data['message'];
         return false;
       }
     } on DioException catch (e) {
-      print("====error");
-      print("${e.response}");
-      print("=====end error");
       _errorMessage =
           "Network error: ${e.response?.data['message'] ?? e.message}";
       stopLoading();
       return false;
+    }
+  }
+
+  Future<void> fetchMoreProjects(int pageSize, int currentPage) async {
+    _isLoading = true;
+    notifyListeners();
+
+    print("======pagination");
+    print(currentPage);
+    print(pageSize);
+    print("system_projects?page=$currentPage&limit=$pageSize");
+    print("=======end pagination");
+
+    try {
+      var response = await _dataConnection
+          .fetchData('system_projects/?page=$currentPage&page_size=$pageSize');
+      if (response != null) {
+        var results = response['data'];
+
+        if (results is List) {
+          var newProjects = results
+              .map((e) {
+                if (e is Map<String, dynamic>) {
+                  try {
+                    return ProjectModal.fromJson(e);
+                  } catch (e) {
+                    return null; // Filter out invalid elements
+                  }
+                } else {
+                  return null; // Filter out invalid elements
+                }
+              })
+              .where((e) => e != null)
+              .cast<ProjectModal>()
+              .toList();
+
+          systemProjects.addAll(newProjects);
+          notifyListeners();
+        }
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }

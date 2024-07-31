@@ -52,9 +52,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 
   Future<void> getProjects() async {
+    print("-----here1");
     try {
+      print("=====hre 2");
       await Provider.of<ProjectProvider>(context, listen: false)
           .getSystemProjects();
+      print("=----here 3");
     } catch (e) {
       debugPrint("Error loading projects: $e");
     }
