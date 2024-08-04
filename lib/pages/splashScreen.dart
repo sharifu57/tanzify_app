@@ -58,8 +58,8 @@ Widget _buildSplashScreen() {
         children: [
           Expanded(
             child: Container(
-                height: 200,
-                width: 200,
+                height: 150,
+                width: 150,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(30),

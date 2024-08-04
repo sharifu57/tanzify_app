@@ -207,7 +207,6 @@ class ProjectProvider extends ChangeNotifier {
       var response =
           await _dataConnection.fetchData('project_bidders/$projectId/');
 
-      debugPrint("=======resp");
       if (response['status'] == 200) {
         _isLoading = false;
         bidders = response['data'];

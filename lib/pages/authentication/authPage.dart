@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
+import 'package:tanzify_app/components/logo/logoFlat.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/pages/authentication/components/onBoardScreen.dart';
 import 'package:tanzify_app/pages/authentication/login.dart';
@@ -53,7 +54,7 @@ class _AuthPageState extends State<AuthPage> {
                     SizedBox(
                       height: fullHeight / 4,
                       child: const Center(
-                          child: SizedBox(width: 150, child: AppLogo())),
+                          child: SizedBox(width: 100, child: LogoFlat())),
                     ),
                     Expanded(
                       child: Container(

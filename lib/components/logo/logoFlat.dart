@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AppLogo extends StatelessWidget {
-  const AppLogo({super.key});
+class LogoFlat extends StatelessWidget {
+  const LogoFlat({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Image.asset(
-        'assets/img/logo.png',
+        'assets/img/1x/logo.png',
         fit: BoxFit.contain,
       ),
       // child: Text('Logo'),
