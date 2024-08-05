@@ -159,7 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
         // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: MediaQuery.of(context).size.height * .2),
-          const SizedBox(width: 150, child: AppLogo()),
+          const SizedBox(width: 80, child: AppLogo()),
           SizedBox(
             height: 30.h,
           ),

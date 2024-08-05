@@ -7,7 +7,7 @@ class AppLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Image.asset(
-        'assets/img/logo.png',
+        'assets/img/logo/logo.png',
         fit: BoxFit.contain,
       ),
       // child: Text('Logo'),

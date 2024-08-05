@@ -52,9 +52,9 @@ class _AuthPageState extends State<AuthPage> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: fullHeight / 4,
+                      height: fullHeight / 3.2,
                       child: const Center(
-                          child: SizedBox(width: 100, child: LogoFlat())),
+                          child: SizedBox(width: 300, child: LogoFlat())),
                     ),
                     Expanded(
                       child: Container(

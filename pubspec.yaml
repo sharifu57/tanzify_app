@@ -94,7 +94,9 @@ flutter:
   assets:
     - assets/img/
     - assets/clip/
+    - assets/img/logo/
     - assets/img/flag.png
+    - assets/img/1x/
 
 flutter_icons:
   android: true
