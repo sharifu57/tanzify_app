@@ -114,7 +114,7 @@ class AuthProvider with ChangeNotifier {
       devLog("Error: ${e.response}");
 
       _errorMessage =
-          "Error: ${e.response?.data['message'] ?? "Internal server error"}";
+          "Error: ${e.response?.data?['message'] ?? "Internal server error"}";
       stopLoading();
       return false;
     }
