@@ -27,6 +27,11 @@ class UserProvider extends ChangeNotifier {
   Future<void> getUsers() async {
     try {
       var response = await _dataConnection.fetchData('users/');
+      // var response = await Dio().get("http://85.190.243.96:8000/API/V1/users/")
+
+      print("=======response user =====00");
+      print(response);
+      print("=======end response =====00");
 
       if (response != null) {
         sysUsers = response['data'];

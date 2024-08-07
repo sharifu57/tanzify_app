@@ -15,4 +15,17 @@ class UserService {
 
     return null;
   }
+
+  static Future<String?> getUserbearerToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? bearerToken = prefs.getString("token");
+
+    if (bearerToken != null) {
+      String bearerTokenData = bearerToken;
+
+      return bearerTokenData;
+    }
+
+    return null;
+  }
 }

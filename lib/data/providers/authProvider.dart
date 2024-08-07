@@ -22,11 +22,13 @@ class AuthProvider with ChangeNotifier {
   Map<String, dynamic>? _userData;
   String? _accessToken;
   String? _refreshToken;
+  String? _bearerToken;
   String? _expiresAt;
 
   Map<String, dynamic>? get userData => _userData;
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
+  String? get bearerToken => _bearerToken;
   String? get expiresAt => _expiresAt;
 
   AuthProvider() {
@@ -85,6 +87,15 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<void> saveUserData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+        'user', _userData != null ? json.encode(_userData) : '');
+    await prefs.setString('accessToken', _accessToken ?? '');
+    await prefs.setString('refreshToken', _refreshToken ?? '');
+    await prefs.setString('token', _bearerToken ?? '');
+  }
+
   Future<bool> login(String email, String password) async {
     startLoading();
     try {
@@ -94,12 +105,15 @@ class AuthProvider with ChangeNotifier {
 
       if (response.data['status'] == 200) {
         var data = response.data;
+
         _userData = data['data'];
         _accessToken = data['data']['profile']['user_access_token'];
 
         _refreshToken = data['refresh_token'];
-        // _expiresAt = DateTime.now()
-        //     .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
+        _bearerToken = data['token'];
+
+        _expiresAt = DateTime.now()
+            .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
 
         saveUserData();
         stopLoading();
@@ -110,7 +124,6 @@ class AuthProvider with ChangeNotifier {
         return false;
       }
     } on DioException catch (e) {
-      devLog("========no data available");
       devLog("Error: ${e.response}");
 
       _errorMessage =
@@ -144,24 +157,18 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> saveUserData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-        'user', _userData != null ? json.encode(_userData) : '');
-    await prefs.setString('accessToken', _accessToken ?? '');
-    await prefs.setString('refreshToken', _refreshToken ?? '');
-  }
-
   Future<void> logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('user');
     await prefs.remove('access_token');
     await prefs.remove('refresh_token');
+    await prefs.remove('token');
 
     _userData = null;
     _accessToken = null;
     _refreshToken = null;
     _expiresAt = null;
+    _bearerToken = null;
     notifyListeners();
   }
 
