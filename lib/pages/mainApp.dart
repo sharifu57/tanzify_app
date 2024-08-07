@@ -55,8 +55,8 @@ class _MainAppState extends State<MainApp> {
                 currentPageIndex = page;
               });
             }),
+            const AdminNotification(),
             const AdminProfile(),
-            const AdminNotification()
           ]
         : [
             HomePage(goToPage: (page) {

@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/profile/imageProfile.dart';
 import 'package:tanzify_app/components/profile/profileWidget.dart';
 import 'package:tanzify_app/components/profile/updateProfile.dart';
+import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/authentication/login.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/profile/rating.dart';
@@ -158,6 +159,7 @@ class _ProfileState extends State<Profile> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('user');
     await prefs.clear();
+    AuthProvider().logout();
     // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacement(
         CupertinoPageRoute(builder: (context) => const LoginPage()));
