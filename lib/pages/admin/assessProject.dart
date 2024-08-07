@@ -10,7 +10,7 @@ import 'package:tanzify_app/components/snackBar/failedSnackBar.dart';
 import 'package:tanzify_app/components/snackBar/snackbar_utils.dart';
 import 'package:tanzify_app/components/snackBar/successSnackBar.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
-import 'package:tanzify_app/pages/admin/adminHome.dart';
+import 'package:tanzify_app/pages/admin/navigation/adminHome.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/profile/rating.dart';
 import 'package:tanzify_app/utils/customDialog.dart';
@@ -414,13 +414,11 @@ class _AssessProjectState extends State<AssessProject> {
                                           'Status updated successfully'),
                                   backgroundColor: Colors.green,
                                 ),
-                                // Navigator.of(context).push(CupertinoPageRoute(
-                                //     builder: (context) => const AdminHomePage()))
                               ),
                               Navigator.pop(context),
 
-                              Navigator.of(context).push(CupertinoPageRoute(
-                                  builder: (context) => const AdminHomePage()))
+                              // Navigator.of(context).push(CupertinoPageRoute(
+                              //     builder: (context) => const AdminHomePage()))
                             }
                           else
                             {

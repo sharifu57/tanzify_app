@@ -5,7 +5,7 @@ class DataConnection with ChangeNotifier {
   late Dio dio;
   bool isProduction = false;
 
-  static const String httpBase = 'http://85.190.243.96';
+  static const String httpBase = 'http://85.190.243.96:8000';
   // static const String httpBase = 'http://172.23.176.1:8005';
 
   static const String connectionUrl = "$httpBase/API/V1/";

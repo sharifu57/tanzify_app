@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tanzify_app/components/icons/simpleIcon.dart';
-import 'package:tanzify_app/pages/admin/adminHome.dart';
+import 'package:tanzify_app/pages/admin/navigation/adminHome.dart';
+import 'package:tanzify_app/pages/admin/navigation/adminNotification.dart';
+import 'package:tanzify_app/pages/admin/navigation/adminProfile.dart';
 import 'package:tanzify_app/pages/navigation/alertPage.dart';
 import 'package:tanzify_app/pages/navigation/homePage.dart';
 import 'package:tanzify_app/pages/navigation/profile.dart';
@@ -46,17 +48,26 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    var pages = [
-      HomePage(goToPage: (page) {
-        setState(() {
-          currentPageIndex = page;
-        });
-      }),
-      const Proposal(),
-      const AlertPage(),
-      // const AlertPage(),
-      const Profile()
-    ];
+    var pages = isSuperUser
+        ? [
+            AdminHomePage(goToPage: (page) {
+              setState(() {
+                currentPageIndex = page;
+              });
+            }),
+            const AdminProfile(),
+            const AdminNotification()
+          ]
+        : [
+            HomePage(goToPage: (page) {
+              setState(() {
+                currentPageIndex = page;
+              });
+            }),
+            const Proposal(),
+            const AlertPage(),
+            const Profile()
+          ];
     return Scaffold(
       body: pages[currentPageIndex],
       // floatingActionButton:
@@ -70,7 +81,42 @@ class _MainAppState extends State<MainApp> {
           ),
         ),
         child: isSuperUser
-            ? const AdminHomePage()
+            ?
+            //  const AdminHomePage()
+            NavigationBar(
+                height: 55,
+                selectedIndex: currentPageIndex,
+                onDestinationSelected: (int index) {
+                  setState(() {
+                    currentPageIndex = index;
+                  });
+                },
+                destinations: const <Widget>[
+                    NavigationDestination(
+                      selectedIcon: Icon(
+                        Icons.home,
+                        size: 18,
+                      ),
+                      icon: Icon(Icons.home_outlined),
+                      label: 'Home',
+                    ),
+                    NavigationDestination(
+                      selectedIcon: Icon(
+                        Icons.notifications,
+                        size: 18,
+                      ),
+                      icon: Icon(Icons.notifications_none_outlined),
+                      label: 'Notifications',
+                    ),
+                    NavigationDestination(
+                      selectedIcon: Icon(
+                        Icons.person_2,
+                        size: 18,
+                      ),
+                      icon: Icon(Icons.person_2_outlined),
+                      label: 'Profile',
+                    )
+                  ])
             : NavigationBar(
                 height: 55,
                 selectedIndex: currentPageIndex,

@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tanzify_app/components/containers/statusWidget.dart';
-import 'package:tanzify_app/components/profile/profileWidget.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/data/providers/userProvider.dart';
 import 'package:tanzify_app/pages/admin/assessProject.dart';
@@ -16,7 +15,7 @@ import 'package:tanzify_app/pages/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({super.key});
+  const AdminHomePage({super.key, required Null Function(dynamic page) goToPage});
 
   @override
   State<AdminHomePage> createState() => _AdminHomePageState();
@@ -52,12 +51,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 
   Future<void> getProjects() async {
-    print("-----here1");
     try {
-      print("=====hre 2");
       await Provider.of<ProjectProvider>(context, listen: false)
           .getSystemProjects();
-      print("=----here 3");
     } catch (e) {
       debugPrint("Error loading projects: $e");
     }
