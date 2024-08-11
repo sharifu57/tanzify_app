@@ -9,7 +9,7 @@ class UserService {
 
     if (user != null) {
       final userData = jsonDecode(user);
-
+      
       return userData;
     }
 

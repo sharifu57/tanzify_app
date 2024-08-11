@@ -112,8 +112,8 @@ class AuthProvider with ChangeNotifier {
         _refreshToken = data['refresh_token'];
         _bearerToken = data['token'];
 
-        _expiresAt = DateTime.now()
-            .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
+        // _expiresAt = DateTime.now()
+        //     .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
 
         saveUserData();
         stopLoading();
