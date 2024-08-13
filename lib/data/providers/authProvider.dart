@@ -106,16 +106,29 @@ class AuthProvider with ChangeNotifier {
       if (response.data['status'] == 200) {
         var data = response.data;
 
+        print("=====login response");
+        print(data);
+        print("=====end login response");
+
         _userData = data['data'];
-        _accessToken = data['data']['profile']['user_access_token'];
+        // _accessToken = data['data']['profile']['user_access_token'];
 
-        _refreshToken = data['refresh_token'];
-        _bearerToken = data['token'];
+        // _refreshToken = data['refresh_token'];
+        // _bearerToken = data['token'];
 
-        // _expiresAt = DateTime.now()
-        //     .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
+        // // _expiresAt = DateTime.now()
+        // //     .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
 
-        saveUserData();
+        // try new implementation
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString(
+            'user', _userData != null ? json.encode(_userData) : '');
+        await prefs.setString('refreshToken', data['refresh_token']);
+        await prefs.setString('token', data['token']);
+
+        // end try new implementation
+        // saveUserData();
         stopLoading();
         return true;
       } else {

@@ -10,7 +10,7 @@ class DataConnection with ChangeNotifier {
   bool _isInitialized = false;
 
   static const String httpBase = 'http://85.190.243.96:8000';
-  // static const String httpBase = 'http://172.23.176.1:8005';
+  // static const String httpBase = 'http://192.168.0.166:8000';
 
   static const String connectionUrl = "$httpBase/API/V1/";
 
@@ -27,6 +27,9 @@ class DataConnection with ChangeNotifier {
 
   Future<void> _initialize() async {
     final bearerToken = await UserService.getUserbearerToken();
+    print("========beader token");
+    print(bearerToken);
+    print("======end print token");
 
     if (bearerToken != null) {
       accessToken = bearerToken;
@@ -42,6 +45,10 @@ class DataConnection with ChangeNotifier {
   }
 
   Map<String, dynamic> _getHeaders() {
+    print("=======accessToken");
+    print(accessToken);
+    print("--======end accessToken");
+
     return {
       'Authorization': 'Bearer $accessToken',
       'Content-Type': 'application/json',

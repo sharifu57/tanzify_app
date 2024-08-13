@@ -36,8 +36,8 @@ class _ImageProfileState extends State<ImageProfile> {
         setState(() {
           firstName = userData["first_name"];
           lastName = userData["last_name"];
-          profileImage = userData['profile']['profile_image'];
-          categoryName = userData['profile']['category']['name'];
+          profileImage = userData['profile']?['profile_image'];
+          categoryName = userData['profile']?['category']?['name'];
           email = userData["email"];
         });
       }

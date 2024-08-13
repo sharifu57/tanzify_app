@@ -4,9 +4,6 @@ import 'package:tanzify_app/services/dataConnection.dart';
 
 class UserProvider extends ChangeNotifier {
   Dio dio = Dio();
-  bool _isLoading = false;
-  String _errorMessage = "";
-  String _successMessage = "";
   List<dynamic> sysUsers = [];
   late DataConnection _dataConnection = DataConnection();
 
@@ -15,19 +12,17 @@ class UserProvider extends ChangeNotifier {
   }
 
   void startLoading() {
-    _isLoading = true;
     notifyListeners();
   }
 
   void stopLoading() {
-    _isLoading = false;
     notifyListeners();
   }
 
   Future<void> getUsers() async {
     try {
       var response = await _dataConnection.fetchData('users/');
-      // var response = await Dio().get("http://85.190.243.96:8000/API/V1/users/")
+      // var response = await Dio().get("http://85.190.243.96:8000/API/V1/users/");
 
       print("=======response user =====00");
       print(response);

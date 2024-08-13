@@ -56,7 +56,7 @@ class _MainAppState extends State<MainApp> {
               });
             }),
             const AdminNotification(),
-            const AdminProfile(),
+            const Profile(),
           ]
         : [
             HomePage(goToPage: (page) {

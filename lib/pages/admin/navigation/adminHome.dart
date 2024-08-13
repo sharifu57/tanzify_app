@@ -15,7 +15,8 @@ import 'package:tanzify_app/pages/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({super.key, required Null Function(dynamic page) goToPage});
+  const AdminHomePage(
+      {super.key, required Null Function(dynamic page) goToPage});
 
   @override
   State<AdminHomePage> createState() => _AdminHomePageState();
@@ -120,12 +121,22 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 10),
                                   ),
-                                  Text(
-                                    '${(firstName ?? '').isNotEmpty ? firstName!.toUpperCase() : ''} ${(lastName ?? '').isNotEmpty ? lastName!.toUpperCase() : ''}',
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                  Container(
+                                    child: (email?? '').isEmpty
+                                        ? Text(
+                                            '${(firstName ?? '').isNotEmpty ? firstName!.toUpperCase() : ''} ${(lastName ?? '').isNotEmpty ? lastName!.toUpperCase() : ''}',
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500),
+                                          )
+                                        : Text(
+                                            (email?? '').toUpperCase(),
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                  )
                                 ],
                               ),
                               const Spacer(), // Add a spacer to push the profile image to the right
