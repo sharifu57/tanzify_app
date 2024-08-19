@@ -55,15 +55,6 @@ class _VerificationPageState extends State<VerificationPage> {
     Color accentYellowColor = const Color(0xFFFFB612);
     Color accentOrangeColor = const Color(0xFFEA7A3B);
 
-    // otpTextStyles = [
-    //   createStyle(accentPurpleColor),
-    //   createStyle(accentYellowColor),
-    //   createStyle(accentDarkGreenColor),
-    //   createStyle(accentOrangeColor),
-    //   createStyle(accentPinkColor),
-    //   createStyle(accentPurpleColor),
-    // ];
-
     TextStyle? createStyle(Color color) {
       ThemeData theme = Theme.of(context);
       return null;
@@ -77,7 +68,7 @@ class _VerificationPageState extends State<VerificationPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: MediaQuery.of(context).size.height * .2),
-          const AppLogo(),
+          const SizedBox(width: 80, child: AppLogo()),
           SizedBox(
             height: 40.h,
           ),

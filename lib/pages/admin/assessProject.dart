@@ -11,6 +11,7 @@ import 'package:tanzify_app/components/snackBar/snackbar_utils.dart';
 import 'package:tanzify_app/components/snackBar/successSnackBar.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
 import 'package:tanzify_app/pages/admin/navigation/adminHome.dart';
+import 'package:tanzify_app/pages/admin/seeAllProjects.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/profile/rating.dart';
 import 'package:tanzify_app/utils/customDialog.dart';
@@ -50,8 +51,8 @@ class _AssessProjectState extends State<AssessProject> {
   double? rating;
   String? _dropDownValue;
   final Map<String, dynamic> statusOptions = {
-    "Approve": "1",
-    "Reject": "2",
+    "Approve": "3",
+    "Reject": "4",
     "Return": "3"
   };
 
@@ -115,22 +116,7 @@ class _AssessProjectState extends State<AssessProject> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(timeago.format(DateTime.parse(widget.projectCreated))),
-                    // DropdownButton<String>(
-                    //   value: _dropDownValue,
-                    //   hint: const Text("Action"),
-                    //   items: <String>['Approve', 'Reject'].map((String value) {
-                    //     return DropdownMenuItem<String>(
-                    //       value: value,
-                    //       child: Text(value),
-                    //     );
-                    //   }).toList(),
-                    //   onChanged: (String? newValue) {
-                    //     setState(() {
-                    //       _dropDownValue = newValue!;
-                    //     });
-                    //   },
-                    // ),
-                    if (widget.projectStatus == "3")
+                    if (widget.projectStatus != "3")
                       ActionChip(
                         elevation: 2,
                         backgroundColor: Colors.grey[200],
@@ -398,41 +384,30 @@ class _AssessProjectState extends State<AssessProject> {
               onOkPressed: () {
                 projectProvider
                     .updateProject(widget.projectId, value.toString())
-                    .then((success) => {
-                          if (success)
-                            {
-                              // SuccessSnackBar(
-                              //     message: '$projectProvider.successMessage'),
-                              // Navigator.of(context).push(CupertinoPageRoute(
-                              //     builder: (context) => const AdminHomePage()))
-
-                              showSnackBar(
-                                context,
-                                SnackBar(
-                                  content: Text(
-                                      projectProvider.successMessage ??
-                                          'Status updated successfully'),
-                                  backgroundColor: Colors.green,
-                                ),
-                              ),
-                              Navigator.pop(context),
-
-                              // Navigator.of(context).push(CupertinoPageRoute(
-                              //     builder: (context) => const AdminHomePage()))
-                            }
-                          else
-                            {
-                              showSnackBar(
-                                context,
-                                SnackBar(
-                                  content: Text(projectProvider.errorMessage ??
-                                      'Status updated successfully'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              ),
-                              Navigator.pop(context)
-                            }
-                        });
+                    .then((success) async {
+                  if (success) {
+                    showSnackBar(
+                      context,
+                      SnackBar(
+                        content: Text(projectProvider.successMessage ??
+                            'Status updated successfully'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                    await projectProvider.getSystemProjects();
+                    Navigator.pop(context);
+                  } else {
+                    showSnackBar(
+                      context,
+                      SnackBar(
+                        content: Text(projectProvider.errorMessage ??
+                            'Status updated successfully'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                    Navigator.pop(context);
+                  }
+                });
               },
               onCancelPressed: () {
                 Navigator.pop(context);

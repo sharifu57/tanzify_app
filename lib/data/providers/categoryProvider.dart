@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tanzify_app/models/category/categoryModal.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';
@@ -24,8 +25,8 @@ class CategoryProvider with ChangeNotifier {
 
     _isLoading = true;
     try {
-      var response = await _dataConnection.fetchData('categories/');
-      
+      var response =
+          await _dataConnection.fetchData('categories/', includeToken: false);
 
       print("=======******=====");
       print(response);
@@ -45,12 +46,25 @@ class CategoryProvider with ChangeNotifier {
   }
 
   Future<List<SkillModel>> getSkillsBycategoryId(String categoryId) async {
+    print("========selected category");
+    print(categoryId);
+    print("=======end of selected category");
+
     try {
-      var response = await _dataConnection.fetchData('skills/$categoryId/');
+      var response = await _dataConnection.fetchData('skills/$categoryId/',
+          includeToken: true);
+
+      print("========skills response");
+      print(response);
+      print("========end of skills selected");
 
       if (response != null) {
         var skills =
             (response as List).map((e) => SkillModel.fromJson(e)).toList();
+
+        print("=========print skills========");
+        print(skills);
+        print("=====******end skills======");
 
         return skills;
       }

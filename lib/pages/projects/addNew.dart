@@ -236,17 +236,6 @@ class _AddNewProjectState extends State<AddNewProject> {
                             content: _skills.isNotEmpty
                                 ? Column(
                                     children: _skills.map((skill) {
-                                      // return CheckboxListTile(
-                                      //   title: Text(skill.name),
-                                      //   value: _selectedSkills[skill.id],
-                                      //   onChanged: (bool? value) {
-                                      //     setState(() {
-                                      //       _selectedSkills[skill.id] =
-                                      //           value ?? false;
-                                      //     });
-                                      //   },
-                                      // );
-
                                       return CheckboxListTile(
                                         title: Text(skill.name),
                                         value: _selectedSkillIds

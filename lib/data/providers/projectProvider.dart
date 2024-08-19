@@ -186,7 +186,8 @@ class ProjectProvider extends ChangeNotifier {
   Future<bool> createProject(Map<String, dynamic> payload) async {
     startLoading();
     try {
-      var response = await _dataConnection.postData("create_project/", payload);
+      var response = await _dataConnection.postData("create_project/", payload,
+          includeToken: true);
       if (response.data['status'] == 201) {
         stopLoading();
         _successMessage = response.data['message'];

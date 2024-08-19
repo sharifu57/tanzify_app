@@ -21,16 +21,11 @@ class DataConnection with ChangeNotifier {
       receiveTimeout: const Duration(seconds: 3),
     ));
 
-    // Initialize and fetch the user data from local storage
     _initialize();
   }
 
   Future<void> _initialize() async {
     final bearerToken = await UserService.getUserbearerToken();
-    print("========beader token");
-    print(bearerToken);
-    print("======end print token");
-
     if (bearerToken != null) {
       accessToken = bearerToken;
     }
@@ -39,51 +34,50 @@ class DataConnection with ChangeNotifier {
   }
 
   Future<void> _ensureInitialized() async {
-    while (_isInitialized) {
+    while (!_isInitialized) {
       await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 
-  Map<String, dynamic> _getHeaders() {
-    print("=======accessToken");
-    print(accessToken);
-    print("--======end accessToken");
-
-    return {
-      'Authorization': 'Bearer $accessToken',
+  Map<String, dynamic> _getHeaders({bool includeToken = true}) {
+    final headers = {
       'Content-Type': 'application/json',
     };
+    if (includeToken && accessToken != null) {
+      headers['Authorization'] = 'Bearer $accessToken';
+    }
+    return headers;
   }
 
-  Future<dynamic> fetchData(String endpoint) async {
+  Future<dynamic> fetchData(String endpoint, {bool includeToken = true}) async {
     await _ensureInitialized();
-
     try {
-      final response =
-          await dio.get(endpoint, options: Options(headers: _getHeaders()));
-
+      final response = await dio.get(endpoint,
+          options: Options(headers: _getHeaders(includeToken: includeToken)));
       return response.data;
     } catch (e) {
       return null;
     }
   }
 
-  Future<Response> postData(
-      String endpoint, Map<String, dynamic> payload) async {
+  Future<Response> postData(String endpoint, Map<String, dynamic> payload,
+      {bool includeToken = true}) async {
     await _ensureInitialized();
     try {
       Response response = await dio.post(endpoint,
-          data: payload, options: Options(headers: _getHeaders()));
+          data: payload,
+          options: Options(headers: _getHeaders(includeToken: includeToken)));
       return response;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<Response> updateData(String endpoint) async {
+  Future<Response> updateData(String endpoint,
+      {bool includeToken = true}) async {
     try {
-      Response response =
-          await dio.put(endpoint, options: Options(headers: _getHeaders()));
+      Response response = await dio.put(endpoint,
+          options: Options(headers: _getHeaders(includeToken: includeToken)));
       return response;
     } catch (e) {
       rethrow;
