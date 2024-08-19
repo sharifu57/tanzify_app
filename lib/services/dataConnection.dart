@@ -7,6 +7,7 @@ class DataConnection with ChangeNotifier {
   bool isProduction = false;
   late Map<String, dynamic>? userData;
   String? accessToken;
+  String? refreshToken;
   bool _isInitialized = false;
 
   static const String httpBase = 'http://85.190.243.96:8000';
@@ -24,10 +25,44 @@ class DataConnection with ChangeNotifier {
     _initialize();
   }
 
+  Future<void> _refreshToken() async {
+    try {
+      final response =
+          await dio.post('api/token/refresh/', data: {'refresh': refreshToken});
+
+      if (response.statusCode == 200) {
+        accessToken = response.data['access_token'];
+        refreshToken = response.data['refresh_token'];
+        await UserService.saveUserBearerToken(accessToken);
+        await UserService.saveUserRefreshToken(refreshToken);
+        notifyListeners();
+      }
+    } catch (e) {}
+  }
+
+  Future<Response> _retryRequest(
+      Future<Response> Function() requestFunction) async {
+    try {
+      return await requestFunction();
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await _refreshToken(); // Try to refresh the token
+        return await requestFunction(); // Retry the original request
+      } else {
+        rethrow;
+      }
+    }
+  }
+
   Future<void> _initialize() async {
     final bearerToken = await UserService.getUserbearerToken();
+    final userRefreshToken = await UserService.getUserRefreshToken();
     if (bearerToken != null) {
       accessToken = bearerToken;
+    }
+
+    if (userRefreshToken != null) {
+      refreshToken = userRefreshToken;
     }
     _isInitialized = true;
     notifyListeners();
@@ -51,26 +86,21 @@ class DataConnection with ChangeNotifier {
 
   Future<dynamic> fetchData(String endpoint, {bool includeToken = true}) async {
     await _ensureInitialized();
-    try {
+    return await _retryRequest(() async {
       final response = await dio.get(endpoint,
           options: Options(headers: _getHeaders(includeToken: includeToken)));
       return response.data;
-    } catch (e) {
-      return null;
-    }
+    });
   }
 
   Future<Response> postData(String endpoint, Map<String, dynamic> payload,
       {bool includeToken = true}) async {
     await _ensureInitialized();
-    try {
-      Response response = await dio.post(endpoint,
+    return await _retryRequest(() async {
+      return await dio.post(endpoint,
           data: payload,
           options: Options(headers: _getHeaders(includeToken: includeToken)));
-      return response;
-    } catch (e) {
-      rethrow;
-    }
+    });
   }
 
   Future<Response> updateData(String endpoint,
