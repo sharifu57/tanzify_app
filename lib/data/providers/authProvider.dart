@@ -106,10 +106,6 @@ class AuthProvider with ChangeNotifier {
       if (response.data['status'] == 200) {
         var data = response.data;
 
-        print("=====login response");
-        print(data);
-        print("=====end login response");
-
         _userData = data['data'];
         // _accessToken = data['data']['profile']['user_access_token'];
 

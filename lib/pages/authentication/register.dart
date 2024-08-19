@@ -124,6 +124,10 @@ class _RegisterPageState extends State<RegisterPage> {
     final fullHeight = MediaQuery.of(context).size.height;
     final authProvider = Provider.of<AuthProvider>(context);
 
+    print("================categories");
+    print(categories);
+    print("================end categories");
+
     ScreenUtil.init(context,
         designSize: const Size(360, 690), minTextAdapt: true);
 
@@ -262,18 +266,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       onSaved: (value) => _phoneNumber = value!,
                     ),
                     SizedBox(height: 15.h),
-                    // CustomInputForm(
-                    //   labelText: "Password",
-                    //   hintText: "Enter your password",
-                    //   hintStyle: TextStyle(
-                    //       color: Constants.primaryColor, fontSize: 10.sp),
-                    //   controller: passwordController,
-                    //   keyBoardInputType: TextInputType.visiblePassword,
-                    //   obscureText: true,
-                    //   icon: Icons.fingerprint,
-                    //   validator: validatePassword,
-                    //   onSaved: (value) => _password = value!,
-                    // ),
+
                     CustomInputForm(
                       labelText: "Password",
                       hintText: "Enter your password",

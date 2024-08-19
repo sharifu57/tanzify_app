@@ -122,7 +122,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                         color: Colors.white, fontSize: 10),
                                   ),
                                   Container(
-                                    child: (email?? '').isEmpty
+                                    child: (email ?? '').isEmpty
                                         ? Text(
                                             '${(firstName ?? '').isNotEmpty ? firstName!.toUpperCase() : ''} ${(lastName ?? '').isNotEmpty ? lastName!.toUpperCase() : ''}',
                                             style: const TextStyle(
@@ -130,7 +130,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                 fontWeight: FontWeight.w500),
                                           )
                                         : Text(
-                                            (email?? '').toUpperCase(),
+                                            (email ?? '').toUpperCase(),
                                             style: const TextStyle(
                                                 fontSize: 12,
                                                 color: Colors.white,

@@ -20,9 +20,16 @@ class CategoryProvider with ChangeNotifier {
   List<SkillModel> get skillList => skills;
 
   Future<void> getCategories() async {
+    print("=========print categoryList========");
+
     _isLoading = true;
     try {
       var response = await _dataConnection.fetchData('categories/');
+      
+
+      print("=======******=====");
+      print(response);
+      print("=====******======");
 
       if (response != null) {
         categories =
