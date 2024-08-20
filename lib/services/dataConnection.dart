@@ -27,24 +27,33 @@ class DataConnection with ChangeNotifier {
 
   Future<void> _refreshToken() async {
     try {
-      final response =
-          await dio.post('api/token/refresh/', data: {'refresh': refreshToken});
+      final response = await dio.post('$httpBase/api/token/refresh/',
+          data: {'refresh': refreshToken});
+      print(response.data['access']);
 
-      if (response.statusCode == 200) {
-        accessToken = response.data['access_token'];
-        refreshToken = response.data['refresh_token'];
+      if (response.data['access'] || response.statusCode == 200) {
+        accessToken = response.data['access'];
+        refreshToken = response.data['refresh'];
         await UserService.saveUserBearerToken(accessToken);
         await UserService.saveUserRefreshToken(refreshToken);
         notifyListeners();
       }
-    } catch (e) {}
+    } catch (e) {
+      print("=======Error Response: ${e}");
+    }
   }
 
   Future<Response> _retryRequest(
       Future<Response> Function() requestFunction) async {
     try {
+      print("=====retyr connection");
       return await requestFunction();
     } on DioError catch (e) {
+      print("=====error connection");
+      print(e.response);
+      print(e.response?.statusCode);
+      print(e.response?.data);
+      print("=======end print error response");
       if (e.response?.statusCode == 401) {
         await _refreshToken(); // Try to refresh the token
         return await requestFunction(); // Retry the original request
@@ -57,6 +66,12 @@ class DataConnection with ChangeNotifier {
   Future<void> _initialize() async {
     final bearerToken = await UserService.getUserbearerToken();
     final userRefreshToken = await UserService.getUserRefreshToken();
+
+    print("===========token n refresh token===========");
+    print(bearerToken);
+    print(userRefreshToken);
+    print("===========end token n refresh token===========");
+
     if (bearerToken != null) {
       accessToken = bearerToken;
     }

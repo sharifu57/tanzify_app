@@ -37,10 +37,17 @@ class ProjectProvider extends ChangeNotifier {
   }
 
   Future<void> getProjects(int userCategory) async {
+    print("========best match");
+    print(userCategory);
+    print("========end best match");
     _isLoading = true;
     try {
-      var response =
-          await _dataConnection.fetchData('get_match_projects/$userCategory/');
+      var response = await _dataConnection
+          .fetchData('get_match_projects/$userCategory/', includeToken: true);
+
+      print("====response here");
+      print(response);
+      print("=======end response");
 
       if (response != null) {
         var results = response['results'];
@@ -76,6 +83,7 @@ class ProjectProvider extends ChangeNotifier {
       _isLoading = false;
       // print("Error during parsing projects: $e");
       _errorMessage = e.toString();
+      print("Error during parsing projects: $e");
       notifyListeners();
     }
   }

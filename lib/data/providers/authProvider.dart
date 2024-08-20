@@ -107,6 +107,10 @@ class AuthProvider with ChangeNotifier {
         var data = response.data;
 
         _userData = data['data'];
+        print("======data");
+        print(data['refresh_token']);
+        print(data['token']);
+        print("=======end data");
         // _accessToken = data['data']['profile']['user_access_token'];
 
         // _refreshToken = data['refresh_token'];
