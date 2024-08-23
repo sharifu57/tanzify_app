@@ -149,22 +149,29 @@ class AuthProvider with ChangeNotifier {
   Future<bool> register(Map<String, dynamic> payload) async {
     startLoading();
 
-    try {
-      var response = await _dataConnection.postData('register/', payload);
+    if (payload['is_accepted_term'] == true) {
+      try {
+        var response = await _dataConnection.postData('register/', payload,
+            includeToken: false);
 
-      if (response.statusCode == 201) {
-        stopLoading();
-        _successMessage = "${response.data['message']}";
-        return true;
-      } else {
+        if (response.statusCode == 201) {
+          stopLoading();
+          _successMessage = "${response.data['message']}";
+          return true;
+        } else {
+          _errorMessage =
+              "Failed to register: ${response.data['message'] ?? 'Unknown error'}";
+          stopLoading();
+          return false;
+        }
+      } on DioException catch (e) {
         _errorMessage =
-            "Failed to register: ${response.data['message'] ?? 'Unknown error'}";
+            "Network error: ${e.response?.data['message'] ?? e.message}";
         stopLoading();
         return false;
       }
-    } on DioException catch (e) {
-      _errorMessage =
-          "Network error: ${e.response?.data['message'] ?? e.message}";
+    } else {
+      _errorMessage = "Please accept the terms and conditions";
       stopLoading();
       return false;
     }

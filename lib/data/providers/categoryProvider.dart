@@ -25,8 +25,7 @@ class CategoryProvider with ChangeNotifier {
 
     _isLoading = true;
     try {
-      var response =
-          await _dataConnection.fetchData('categories/', includeToken: false);
+      var response = await _dataConnection.fetchData('categories/');
 
       print("=======******=====");
       print(response);
@@ -51,8 +50,9 @@ class CategoryProvider with ChangeNotifier {
     print("=======end of selected category");
 
     try {
-      var response = await _dataConnection.fetchData('skills/$categoryId/',
-          includeToken: true);
+      var response = await _dataConnection.fetchData(
+        'skills/$categoryId/',
+      );
 
       print("========skills response");
       print(response);

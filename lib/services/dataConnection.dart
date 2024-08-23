@@ -101,11 +101,20 @@ class DataConnection with ChangeNotifier {
 
   Future<dynamic> fetchData(String endpoint, {bool includeToken = true}) async {
     await _ensureInitialized();
-    return await _retryRequest(() async {
-      final response = await dio.get(endpoint,
-          options: Options(headers: _getHeaders(includeToken: includeToken)));
-      return response.data;
-    });
+    // return await _retryRequest(() async {
+    //   final response = await dio.get(endpoint,
+    //       options: Options(headers: _getHeaders(includeToken: includeToken)));
+    //   return response.data;
+    // });
+    final response = await dio.get(endpoint,
+        options: Options(headers: _getHeaders(includeToken: includeToken)));
+    return response.data;
+  }
+
+  Future<dynamic> fetchData1(String endpoint) async {
+    final response = await dio.get(endpoint);
+
+    return response.data;
   }
 
   Future<Response> postData(String endpoint, Map<String, dynamic> payload,

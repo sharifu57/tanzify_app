@@ -1,33 +1,10 @@
-//   // Widget _submitButton() {
-//   //   return Container(
-//   //     width: MediaQuery.of(context).size.width,
-//   //     padding: const EdgeInsets.symmetric(vertical: 15),
-//   //     alignment: Alignment.center,
-//   //     decoration: BoxDecoration(
-//   //         borderRadius: const BorderRadius.all(Radius.circular(5)),
-//   //         boxShadow: <BoxShadow>[
-//   //           BoxShadow(
-//   //               color: Colors.grey.shade200,
-//   //               offset: Offset(2, 4),
-//   //               blurRadius: 5,
-//   //               spreadRadius: 2)
-//   //         ],
-//   //         gradient: const LinearGradient(
-//   //             begin: Alignment.centerLeft,
-//   //             end: Alignment.centerRight,
-//   //             colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-//   //     child: Text(
-//   //       'Register Now',
-//   //       style: TextStyle(fontSize: 20, color: Colors.white),
-//   //     ),
-//   //   );
-//   // }
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
 import 'package:tanzify_app/components/containers/bazierContainer.dart';
 import 'package:tanzify_app/components/form/customInputForm.dart';
+import 'package:tanzify_app/components/form/radioButtonInputForm.dart';
 import 'package:tanzify_app/components/form/selectInputForm.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
@@ -62,13 +39,14 @@ class _RegisterPageState extends State<RegisterPage> {
   String _password = "";
   String _phoneNumber = "";
   String _category = "";
+  bool? _isAcceptedTerm;
 
   CategoryModel? selectedCategory;
   String _selectedItem = "1";
 
   void handleSelectedItemChange(String? value) {
     setState(() {
-      _selectedItem = value ?? "1"; // Assuming "1" is a safe default
+      _selectedItem = value ?? "1";
     });
   }
 
@@ -159,8 +137,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return SingleChildScrollView(
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: MediaQuery.of(context).size.height * .2),
           const SizedBox(width: 80, child: AppLogo()),
@@ -266,7 +242,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       onSaved: (value) => _phoneNumber = value!,
                     ),
                     SizedBox(height: 15.h),
-
                     CustomInputForm(
                       labelText: "Password",
                       hintText: "Enter your password",
@@ -309,12 +284,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       onSaved: (value) => _password = value!,
                     ),
                     SizedBox(height: 15.h),
-                    if (errorMessage.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(errorMessage,
-                            style: const TextStyle(color: Colors.red)),
-                      ),
+                    // if (errorMessage.isNotEmpty)
+                    //   Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: Text(errorMessage,
+                    //         style: const TextStyle(color: Colors.red)),
+                    //   ),
                     if (categories.isNotEmpty)
                       CustomSelectForm(
                         categories: categories.map((e) => e.name).toList(),
@@ -329,31 +304,28 @@ class _RegisterPageState extends State<RegisterPage> {
                         onSaved: (value) => _category = value!,
                       ),
                     SizedBox(height: 10.h),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     Expanded(
-                    //       flex: 5,
-                    //       child: RadioButtonFormInput(
-                    //         onSelectedItemChanged: handleSelectedItemChange,
-                    //         title: 'Freelancer',
-                    //         groupValue: _selectedItem,
-                    //         value: '1',
-                    //         onSaved: (value) => _selectedItem = value!,
-                    //       ),
-                    //     ),
-                    //     Expanded(
-                    //       flex: 5,
-                    //       child: RadioButtonFormInput(
-                    //         onSelectedItemChanged: handleSelectedItemChange,
-                    //         title: 'Employer',
-                    //         groupValue: _selectedItem,
-                    //         value: '2',
-                    //         onSaved: (value) => _selectedItem = value!,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _isAcceptedTerm ?? false,
+                          onChanged: (value) {
+                            setState(() {
+                              _isAcceptedTerm = value!;
+                            });
+                          },
+                        ),
+                        Row(
+                          children: [
+                            const Text("I have read"),
+                            TextButton(
+                                onPressed: () {
+                                  _showTermsAndCondition(context);
+                                },
+                                child: const Text('Policy Terms'))
+                          ],
+                        )
+                      ],
+                    )
                   ],
                 )),
           ),
@@ -384,6 +356,36 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     );
+  }
+
+  void _showTermsAndCondition(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              "Terms and conditions",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 17),
+            ),
+            content: const SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(""),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   String? validatePhoneNumber(String? phoneNumber) {
@@ -443,20 +445,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     'password': passwordController.text.trim(),
                     'category': selectedCategory?.id,
                     'userType': _selectedItem,
+                    'is_accepted_term': _isAcceptedTerm
                   };
 
                   authProvider.register(payload).then((success) => {
                         if (success)
-                          // {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //     SnackBar(
-                          //         backgroundColor: Colors.green,
-                          //         content: Text(authProvider.errorMessage)),
-                          //   ),
-                          //   Navigator.of(context).push(CupertinoPageRoute(
-                          //       builder: (context) => VerificationPage(
-                          //           email: emailController.text.trim())))
-                          // }
                           {
                             showCustomDialog(
                               context,
@@ -475,11 +468,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           }
                         else
                           {
-                            // ScaffoldMessenger.of(context).showSnackBar(
-                            //   SnackBar(
-                            //       backgroundColor: Colors.red,
-                            //       content: Text(authProvider.errorMessage)),
-                            // )
                             showCustomDialog(
                               context,
                               CustomDialog(

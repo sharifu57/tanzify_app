@@ -42,8 +42,8 @@ class ProjectProvider extends ChangeNotifier {
     print("========end best match");
     _isLoading = true;
     try {
-      var response = await _dataConnection
-          .fetchData('get_match_projects/$userCategory/', includeToken: true);
+      var response =
+          await _dataConnection.fetchData('get_match_projects/$userCategory/');
 
       print("====response here");
       print(response);
@@ -108,12 +108,10 @@ class ProjectProvider extends ChangeNotifier {
                   try {
                     return ProjectModal.fromJson(e);
                   } catch (e) {
-                    // print("Error parsing project: $e");
-                    return null; // Filter out invalid elements
+                    return null;
                   }
                 } else {
-                  // print("Element is not a Map<String, dynamic>: $e");
-                  return null; // Filter out invalid elements
+                  return null;
                 }
               })
               .where((e) => e != null)
