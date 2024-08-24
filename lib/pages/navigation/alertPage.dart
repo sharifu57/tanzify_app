@@ -10,6 +10,10 @@ class AlertPage extends StatefulWidget {
 class _AlertPageState extends State<AlertPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: const Center(
+        child: Text("Comming Soon....."),
+      ),
+    );
   }
 }

@@ -314,16 +314,18 @@ class _RegisterPageState extends State<RegisterPage> {
                             });
                           },
                         ),
-                        Row(
-                          children: [
-                            const Text("I have read"),
-                            TextButton(
-                                onPressed: () {
-                                  _showTermsAndCondition(context);
-                                },
-                                child: const Text('Policy Terms'))
-                          ],
-                        )
+                        // Row(
+                        //   children: [
+                        //     const Text("I have read"),
+                        //     TextButton(
+                        //         onPressed: () {
+                        //           _showTermsAndCondition(context);
+                        //         },
+                        //         child: const Text('Policy Terms'))
+                        //   ],
+                        // )
+
+                        const Text("I have accepted terms and conditions")
                       ],
                     )
                   ],
@@ -368,11 +370,14 @@ class _RegisterPageState extends State<RegisterPage> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 17),
             ),
-            content: const SingleChildScrollView(
+            content: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(""),
+                  Text(
+                    _getLongText(),
+                    style: TextStyle(),
+                  )
                 ],
               ),
             ),
@@ -386,6 +391,12 @@ class _RegisterPageState extends State<RegisterPage> {
             ],
           );
         });
+  }
+
+  String _getLongText() {
+    return '''
+    text hrtr
+    ''';
   }
 
   String? validatePhoneNumber(String? phoneNumber) {

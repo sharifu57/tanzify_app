@@ -37,17 +37,10 @@ class ProjectProvider extends ChangeNotifier {
   }
 
   Future<void> getProjects(int userCategory) async {
-    print("========best match");
-    print(userCategory);
-    print("========end best match");
     _isLoading = true;
     try {
       var response =
           await _dataConnection.fetchData('get_match_projects/$userCategory/');
-
-      print("====response here");
-      print(response);
-      print("=======end response");
 
       if (response != null) {
         var results = response['results'];

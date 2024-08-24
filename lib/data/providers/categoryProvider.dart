@@ -21,15 +21,9 @@ class CategoryProvider with ChangeNotifier {
   List<SkillModel> get skillList => skills;
 
   Future<void> getCategories() async {
-    print("=========print categoryList========");
-
     _isLoading = true;
     try {
       var response = await _dataConnection.fetchData('categories/');
-
-      print("=======******=====");
-      print(response);
-      print("=====******======");
 
       if (response != null) {
         categories =
@@ -50,9 +44,8 @@ class CategoryProvider with ChangeNotifier {
     print("=======end of selected category");
 
     try {
-      var response = await _dataConnection.fetchData(
-        'skills/$categoryId/',
-      );
+      var response = await _dataConnection.fetchData('skills/$categoryId/',
+          includeToken: true);
 
       print("========skills response");
       print(response);
@@ -70,6 +63,7 @@ class CategoryProvider with ChangeNotifier {
       }
       return [];
     } catch (e) {
+      print("======failed to get skills");
       _errorMessage = e.toString();
       notifyListeners();
       return [];
