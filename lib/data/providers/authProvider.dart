@@ -107,19 +107,6 @@ class AuthProvider with ChangeNotifier {
         var data = response.data;
 
         _userData = data['data'];
-        print("======data");
-        print(data['refresh_token']);
-        print(data['token']);
-        print("=======end data");
-        // _accessToken = data['data']['profile']['user_access_token'];
-
-        // _refreshToken = data['refresh_token'];
-        // _bearerToken = data['token'];
-
-        // // _expiresAt = DateTime.now()
-        // //     .add(Duration(seconds: int.parse(data?['expires_at']))) as String?;
-
-        // try new implementation
 
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(
@@ -127,8 +114,6 @@ class AuthProvider with ChangeNotifier {
         await prefs.setString('refreshToken', data['refresh_token']);
         await prefs.setString('token', data['token']);
 
-        // end try new implementation
-        // saveUserData();
         stopLoading();
         return true;
       } else {
