@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tanzify_app/components/icons/simpleIcon.dart';
 import 'package:tanzify_app/pages/admin/navigation/adminHome.dart';
 import 'package:tanzify_app/pages/admin/navigation/adminNotification.dart';
-import 'package:tanzify_app/pages/admin/navigation/adminProfile.dart';
 import 'package:tanzify_app/pages/navigation/alertPage.dart';
 import 'package:tanzify_app/pages/navigation/homePage.dart';
 import 'package:tanzify_app/pages/navigation/profile.dart';

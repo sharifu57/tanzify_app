@@ -39,7 +39,7 @@ class DataConnection with ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      print("=======Error Response: ${e}");
+      print("=======Error Response: $e");
     }
   }
 
@@ -48,7 +48,7 @@ class DataConnection with ChangeNotifier {
     try {
       print("=====retyr connection");
       return await requestFunction();
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print("=====error connection");
       print(e.response);
       print(e.response?.statusCode);

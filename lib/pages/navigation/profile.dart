@@ -2,14 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tanzify_app/components/appBar/appBar.dart';
 import 'package:tanzify_app/components/profile/imageProfile.dart';
 import 'package:tanzify_app/components/profile/profileWidget.dart';
 import 'package:tanzify_app/components/profile/updateProfile.dart';
-import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/data/providers/authProvider.dart';
 import 'package:tanzify_app/pages/admin/userManagement/users.dart';
 import 'package:tanzify_app/pages/authentication/login.dart';
@@ -68,13 +66,13 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
-        appBar: CustomAppBar(),
+        appBar: const CustomAppBar(),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                Center(child: const ImageProfile()),
+                const Center(child: ImageProfile()),
                 const SizedBox(height: 10),
                 Container(
                   child: (email ?? '').isEmpty

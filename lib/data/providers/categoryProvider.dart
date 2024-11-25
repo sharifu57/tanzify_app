@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tanzify_app/models/category/categoryModal.dart';
 import 'package:tanzify_app/models/skill/skillModal.dart';

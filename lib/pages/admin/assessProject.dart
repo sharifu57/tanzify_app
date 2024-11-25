@@ -1,17 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import 'package:tanzify_app/components/button/elevatedButton.dart';
-import 'package:tanzify_app/components/snackBar/failedSnackBar.dart';
 import 'package:tanzify_app/components/snackBar/snackbar_utils.dart';
-import 'package:tanzify_app/components/snackBar/successSnackBar.dart';
 import 'package:tanzify_app/data/providers/projectProvider.dart';
-import 'package:tanzify_app/pages/admin/navigation/adminHome.dart';
-import 'package:tanzify_app/pages/admin/seeAllProjects.dart';
 import 'package:tanzify_app/pages/constants.dart';
 import 'package:tanzify_app/pages/profile/rating.dart';
 import 'package:tanzify_app/utils/customDialog.dart';
@@ -374,7 +366,7 @@ class _AssessProjectState extends State<AssessProject> {
 
   void _updateStatus(
       String? value, String? message, ProjectProvider projectProvider) {
-    print("======value ${value}");
+    print("======value $value");
 
     showDialog(
         context: context,

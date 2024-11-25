@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +65,7 @@ class _UsersState extends State<Users> {
     final users = userProvider.sysUsers;
 
     if (users.isEmpty) {
-      return Center(
+      return const Center(
         child: Text("No users found"),
       );
     }

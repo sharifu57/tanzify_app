@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:tanzify_app/components/button/formButton.dart';
 import 'package:tanzify_app/components/containers/bazierContainer.dart';
 import 'package:tanzify_app/components/form/customInputForm.dart';
-import 'package:tanzify_app/components/form/radioButtonInputForm.dart';
 import 'package:tanzify_app/components/form/selectInputForm.dart';
 import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
@@ -376,14 +375,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   Text(
                     _getLongText(),
-                    style: TextStyle(),
+                    style: const TextStyle(),
                   )
                 ],
               ),
             ),
             actions: <Widget>[
               TextButton(
-                child: Text('Close'),
+                child: const Text('Close'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tanzify_app/components/logo/logo.dart';
 import 'package:tanzify_app/components/logo/logoFlat.dart';
 import 'package:tanzify_app/components/spinners/spinkit.dart';
 import 'package:tanzify_app/pages/authentication/components/onBoardScreen.dart';

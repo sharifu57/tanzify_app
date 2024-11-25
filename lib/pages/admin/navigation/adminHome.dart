@@ -381,7 +381,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 onPressed: () {
                                   debugPrint("See All Buttons");
                                   Navigator.of(context).push(CupertinoPageRoute(
-                                      builder: (context) => SeeAllProjects()));
+                                      builder: (context) => const SeeAllProjects()));
                                 },
                                 child: Text(
                                   'See All',
